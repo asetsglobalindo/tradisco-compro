@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap");
+
+html {
+  font-size: 14px;
+  font-family: "Epilogue", sans-serif !important;
+  color: #262626;
+}
+
+@layer components {
+  .title-1 {
+    @apply text-4xl lg:text-6xl font-semibold;
+  }
+  .title-2 {
+    @apply text-3xl lg:text-5xl font-semibold;
+  }
+  .title-3 {
+    @apply text-2xl lg:text-4xl font-semibold;
+  }
+  .title-4 {
+    @apply text-lg lg:text-2xl font-semibold;
+  }
+}
+
