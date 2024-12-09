@@ -55,53 +55,53 @@ const HomeLocator = () => {
   }
   return (
     <section
-      className="mt-32"
+      className="mt-16 lg:mt-32"
       style={{background: "url(/texture/grid.png)", backgroundRepeat: "no-repeat", backgroundSize: "100% 550px"}}
     >
-      <section className="container pt-24 flex space-x-8">
-        <section className="w-5/12 mt-16">
+      <section className="container pt-16 lg:pt-24 flex flex-col lg:flex-row lg:space-x-8">
+        <section className="w-full lg:w-5/12 lg:mt-16">
           <div className="">
             <span className="title-4 font-normal text-green">Outlet Locator</span>
             <h1 className="text-white title-2 leading-snug mt-4">
               Find Your <br /> Nearest Outlet
             </h1>
           </div>
-          <section>
+          <section className="relative">
             <div
               className={cn(
                 {
                   "overflow-hidden": !locationSuggestion?.length,
                 },
-                "flex bg-white items-center justify-center  w-full px-4 z-[9999] rounded-[20px] mt-8 relative"
+                "flex bg-white items-center justify-center  w-full px-4 z-40 rounded-[15px] lg:rounded-[20px] mt-4 lg:mt-8 relative"
               )}
             >
-              <img className="w-6 h-6 mr-4" src="/icons/search-locator.png" alt="" />
+              <img className="h-4 w-4 lg:w-6 lg:h-6 mr-4" src="/icons/search-locator.png" alt="" />
               <div className="w-full">
                 <input
                   value={value}
                   onChange={(e) => {
                     setValue(e.target.value);
                   }}
-                  className="text-lg h-[70px] outline-none bg-transparent w-full  max-w-[95%] "
+                  className="lg:text-lg h-14 lg:h-[70px] outline-none bg-transparent w-full max-w-[95%] "
                   type="text"
                   placeholder="Enter Location"
                 />
               </div>
               {isLoadingSuggestion ? (
-                <div className="w-[52px] h-[52px] flex justify-center items-center">
+                <div className="h-4 w-4  flex justify-center items-center">
                   <Loader2Icon className="animate-spin " />
                 </div>
               ) : (
-                <img src="/icons/search-btn.png" alt="" />
+                <img className="h-10 w-10 lg:w-[52px] lg:h-[52px]" src="/icons/search-btn.png" alt="" />
               )}
             </div>
             <div
               className={cn(
                 {
-                  "h-0 -mt-11": !locationSuggestion?.length,
+                  "h-0": !locationSuggestion?.length,
                   "bg-white scale-y-0 shadow-md": locationSuggestion?.length,
                 },
-                "w-full transition-all px-8 pb-4 pt-8 scale-y-100 -mt-7 rounded-b-[20px] duration-500 overflow-hidden "
+                "w-full transition-all px-8 pb-4 pt-8 scale-y-100  rounded-b-[20px] -mt-4 duration-500 overflow-hidden absolute z-[35]"
               )}
             >
               <ul className={cn({"border-t border-black/20": locationSuggestion?.length})}>
@@ -112,7 +112,7 @@ const HomeLocator = () => {
                       setValue(d.name + " " + d.address);
                     }}
                     key={index}
-                    className="text-base text-black/50 pt-4 line-clamp-1 cursor-pointer hover:text-black hover:underline"
+                    className="lg:text-base text-black/50 pt-4 line-clamp-1 cursor-pointer hover:text-black hover:underline"
                   >
                     {d.name} {d.address}
                   </li>
@@ -121,7 +121,7 @@ const HomeLocator = () => {
             </div>
           </section>
         </section>
-        <section className="w-7/12">
+        <section className="w-full lg:w-7/12 mt-8">
           <MapContainer
             ref={(map) => {
               if (map) {
@@ -129,7 +129,7 @@ const HomeLocator = () => {
               }
             }}
             center={[0.7893, 113.9213]}
-            className="max-h-[650px] rounded-[20px]"
+            className="max-h-[400px] lg:max-h-[650px] rounded-[20px] z-[30]"
             zoom={6}
           >
             <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />

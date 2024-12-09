@@ -5,6 +5,9 @@ import {useState} from "react";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
 import uiStore from "@/app/store/uiStore";
+import {Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger} from "./ui/drawer";
+import {X} from "lucide-react";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./ui/accordion";
 
 const routes = [
   {
@@ -122,6 +125,49 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
   );
 };
 
+const NavItemMobile: React.FC<{data: Route; index: number}> = ({data, index}) => {
+  return (
+    <AccordionItem value={`route-${index}`} key={`${data.name}-${index}`} className="nav-mobile-accordion-item">
+      <AccordionTrigger className="text-center flex justify-center flex-none mx-auto relative">
+        {data.sub_routes.length ? (
+          <div className="w-fit flex justify-center items-center relative">
+            <span className="text-center ">{data.name}</span>
+          </div>
+        ) : (
+          <a href={data.href} className="w-full">
+            {data.name}
+          </a>
+        )}
+
+        {data.sub_routes.length ? (
+          <svg
+            className={"w-4 transition-all absolute  -right-5"}
+            width="9"
+            height="5"
+            viewBox="0 0 9 5"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.70665 0.430832H4.33207H1.29332C0.773319 0.430832 0.513319 1.05917 0.881653 1.4275L3.68749 4.23333C4.13707 4.68291 4.86832 4.68291 5.3179 4.23333L6.38499 3.16625L8.12374 1.4275C8.48665 1.05917 8.22665 0.430832 7.70665 0.430832Z"
+              fill="black"
+            />
+          </svg>
+        ) : null}
+      </AccordionTrigger>
+      <AccordionContent>
+        <section className="flex flex-col space-y-4 text-center">
+          {data.sub_routes.map((route) => (
+            <a key={route.name} href={route.href} className="hover:text-green-light hover:underline">
+              {route.name}
+            </a>
+          ))}
+        </section>
+      </AccordionContent>
+    </AccordionItem>
+  );
+};
+
 const Header = () => {
   const ui = uiStore((state) => state);
 
@@ -129,23 +175,15 @@ const Header = () => {
     <header
       className={cn(
         {
-          "text-white": ui.headerColor === "white",
-          "text-black": ui.headerColor === "black",
+          "text-white border-white/40": ui.headerColor === "white",
+          "text-black border-black/40 bg-white": ui.headerColor === "black",
         },
-        "h-20 fixed top-0 w-full pt-4 z-[999]"
+        "h-20 fixed top-0 w-full pt-4 z-50  border-b pb-4"
       )}
     >
       <section className="container ">
-        <section
-          className={cn(
-            {
-              "border-white/40": ui.headerColor === "white",
-              "border-black/40": ui.headerColor === "black",
-            },
-            "flex items-center relative w-full border-b pb-4"
-          )}
-        >
-          <nav className="w-full">
+        <section className={cn({}, "items-center flex justify-between relative w-full ")}>
+          <nav className="w-full hidden lg:block">
             <ul className="flex w-full space-x-8">
               {routes.map((route) => (
                 <li key={route.name} className="flex">
@@ -158,6 +196,39 @@ const Header = () => {
           <Link href="/">
             <img className="w-40" src={ui.headerColor === "white" ? "/logo/logo-white.png" : "/logo/logo.png"} alt="" />
           </Link>
+
+          <Drawer direction="right" handleOnly>
+            <DrawerTrigger className="lg:hidden">
+              <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"
+                  stroke={ui.headerColor}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </DrawerTrigger>
+            <DrawerContent className="h-full rounded-none p-6">
+              {/* required by compoenent */}
+              <DrawerTitle className="hidden">Nav Mobile</DrawerTitle>
+
+              {/* close */}
+              <section className="flex justify-between items-center">
+                <img className="w-40" src={"/logo/logo.png"} alt="" />
+                <DrawerClose>
+                  <X />
+                </DrawerClose>
+              </section>
+
+              {/* actual navigation */}
+              <Accordion className="mt-16" type="single" collapsible>
+                {routes.map((route, index) => (
+                  <NavItemMobile data={route} index={index} key={route.name} />
+                ))}
+              </Accordion>
+            </DrawerContent>
+          </Drawer>
         </section>
       </section>
     </header>

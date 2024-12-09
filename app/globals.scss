@@ -82,11 +82,34 @@
   display: none !important;
 }
 
+.hide-default-scrollbar {
+  overflow: auto; /* Ensure scrolling is still functional */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hides scrollbar for Internet Explorer and Edge */
+
+  &::-webkit-scrollbar {
+    /* Hides scrollbar for Webkit browsers (Chrome, Safari) */
+    display: none;
+  }
+}
+.nav-mobile-accordion-item {
+  button {
+    text-align: center;
+    .lucide {
+      display: none;
+    }
+  }
+}
+
 .news-card {
   background: linear-gradient(73.38deg, rgba(0, 0, 0, 0.8) 11.57%, rgba(0, 0, 0, 0.2) 86.46%);
 }
 
 .bussiness-card {
   background: linear-gradient(90.55deg, rgba(18, 18, 18, 0.82) 0.55%, rgba(45, 45, 45, 0) 100.75%);
+}
+
+.bussiness-card-active {
+  background: linear-gradient(90.55deg, rgba(0, 92, 171, 0.82) 0.55%, rgba(0, 37, 69, 0) 100.75%);
 }
 

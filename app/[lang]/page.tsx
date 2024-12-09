@@ -1,83 +1,19 @@
 import HomeBanner from "@/components/HomeBanner";
+import HomeBussiness from "@/components/HomeBussiness";
 import HomeGrowth from "@/components/HomeGrowth";
 import HomeLocator from "@/components/HomeLocator";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Pertamina Retail",
+};
 
 export default function Home() {
   return (
     <section>
       <HomeBanner />
       {/* our bussiness */}
-      <section className="relative mt-32">
-        {/* heading */}
-        <section className="container">
-          <h1 className="title-3 text-center">
-            Our <span className="text-green-light">Bussines</span>
-          </h1>
-        </section>
-
-        {/* main bussiness */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 container mt-8">
-          {Array(2)
-            .fill(0)
-            .map((_, index) => (
-              <section key={index} className="relative rounded-2xl h-full max-h-[200px]  overflow-hidden ">
-                <img className="blur-[2px] object-cover w-full" src="/temp/our-bussines.png" alt="" />
-                <span className="absolute z-10 top-1/2 left-10 title-4 text-white">NONFUEL</span>
-                <div className="absolute top-0 left-0 w-full h-full bussiness-card"></div>
-              </section>
-            ))}
-        </section>
-
-        <section className="container mt-8">
-          <Carousel>
-            <CarouselContent>
-              {Array(8)
-                .fill(0)
-                .map((_, index) => (
-                  <CarouselItem key={index} className="basis-1/3">
-                    <section className="relative rounded-2xl news-card overflow-hidden  flex items-end justify-end transition-all">
-                      <img className="blur-[2px] aspect-square object-cover" src="/temp/our-bussines.png" alt="" />
-
-                      {/* content */}
-                      <section className="absolute z-20 text-white px-8 py-8 transition-all flex flex-col">
-                        {/* category */}
-                        <span className="text-green-light">Bright Wash</span>
-                        {/* title */}
-                        <h1 className="mt-2 text-lg font-semibold max-w-[70%] ">
-                          Revitalize Your Vehicle with Bright Wash
-                        </h1>
-                        <button className="flex space-x-1  border-green-light bg-green-light w-fit border px-6 py-3 rounded-full items-center mt-4">
-                          <span>Learn More</span>
-                          <svg
-                            width="16"
-                            height="17"
-                            viewBox="0 0 16 17"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M3.21216 8.63376H12.721M12.721 8.63376L9.1552 4.51709M12.721 8.63376L9.1552 12.7504"
-                              stroke="white"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </button>
-                      </section>
-
-                      {/* background shade */}
-                      <div className="absolute top-0 left-0 w-full h-full news-card"></div>
-                    </section>
-                  </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </section>
-      </section>
+      <HomeBussiness />
 
       <HomeLocator />
 
@@ -85,16 +21,25 @@ export default function Home() {
       <HomeGrowth />
 
       {/* News */}
-      <section className="relative mt-32">
+      <section className="relative mt-16 lg:mt-32">
         {/* heading */}
         <section className="container flex justify-between items-center">
           <h1 className="title-3">
-            Lastest <span className="text-green-lighter">News</span>
+            Lastest <span className="text-green-light">News</span>
           </h1>
 
-          <button className="flex border-green border px-8 py-4 rounded-full items-center">
+          <button className="flex border-green group hover:bg-green-light transition-all hover:text-white border px-8 py-4 rounded-full items-center">
             <span className="leading-none">See More</span>
-            <img src="/icons/arrow-button-right.svg" alt="" />
+            <svg width="25" height="14" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M19.4766 7.77772H5.97656C5.55656 7.77772 5.22656 7.4355 5.22656 6.99995C5.22656 6.56439 5.55656 6.22217 5.97656 6.22217H19.4766C19.8966 6.22217 20.2266 6.56439 20.2266 6.99995C20.2266 7.4355 19.8966 7.77772 19.4766 7.77772Z"
+                fill="currentColor"
+              />
+              <path
+                d="M15.7266 13.2221C15.6282 13.2234 15.5307 13.2033 15.4403 13.1631C15.3498 13.1229 15.2685 13.0635 15.2016 12.9888C14.9016 12.6777 14.9016 12.1955 15.2016 11.8844L19.9266 6.98436L15.2016 2.08436C14.9016 1.77325 14.9016 1.29103 15.2016 0.979915C15.5016 0.668804 15.9666 0.668804 16.2666 0.979915L21.5166 6.42436C21.8166 6.73547 21.8166 7.21769 21.5166 7.5288L16.2666 12.9732C16.1166 13.1288 15.9216 13.2066 15.7416 13.2066L15.7266 13.2221Z"
+                fill="currentColor"
+              />
+            </svg>
           </button>
         </section>
 
