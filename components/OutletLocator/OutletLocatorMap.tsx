@@ -21,14 +21,16 @@ const OutletLocatorMap = () => {
 
   const {data: locationData} = useQuery({
     queryKey: ["outlet-locator"],
-    queryFn: async () => await getLocation({limit: 99999999}),
+    queryFn: async () => await getLocation({limit: 99999999, setInitial: true}),
   });
 
   const getLocation = async ({limit, search, setInitial}: {limit: number; search?: string; setInitial?: boolean}) => {
     try {
-      const query: {page: number; limit: number; query?: string} = {
+      const query: {page: number; limit: number; query?: string; lat: number | null; long: number | null} = {
         page: 1,
         limit: limit,
+        lat: null,
+        long: null,
       };
 
       if (search) {
@@ -106,13 +108,20 @@ const OutletLocatorMap = () => {
           </section>
 
           {/* suggestion */}
-          {suggestion?.length > 0 && !isLoadingSuggestion && value.length ? (
+          {suggestion?.length > 0 && !isLoadingSuggestion ? (
             <ScrollArea className="h-[520px]">
               {suggestion?.map((item) => (
                 <section key={item._id} className="flex space-x-2 items-start py-4 px-4 border-b border-black/20">
                   <img className="w-[18px]" src="/icons/green-pinpoint.svg" alt="pinpoint" />
                   <div>
-                    <h1 className="font-semibold">{item.name}</h1>
+                    <button
+                      onClick={() => {
+                        map?.flyTo([+item.lat, +item.long], 15);
+                        setValue(item.name);
+                      }}
+                    >
+                      <h1 className="font-semibold hover:underline text-left">{item.name}</h1>
+                    </button>
                     <span className="inline-block mt-2">{item.address}</span>
                     {item.vr_url ? (
                       <a href={item.vr_url} target="_blank" rel="noreferrer">

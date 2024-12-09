@@ -29,9 +29,11 @@ const HomeLocator = () => {
 
   const getLocation = async (limit: number = 5, search?: string) => {
     try {
-      const query: {page: number; limit: number; query?: string} = {
+      const query: {page: number; limit: number; query?: string; lat: number | null; long: number | null} = {
         page: 1,
         limit: limit,
+        lat: null,
+        long: null,
       };
 
       if (search) {
@@ -84,7 +86,7 @@ const HomeLocator = () => {
                   }}
                   className="lg:text-lg h-14 lg:h-[70px] outline-none bg-transparent w-full max-w-[95%] "
                   type="text"
-                  placeholder="Enter Location"
+                  placeholder="Search your location"
                 />
               </div>
               {isLoadingSuggestion ? (
