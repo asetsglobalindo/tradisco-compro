@@ -153,7 +153,7 @@ const OutletLocatorMap = () => {
                 setMap(map);
               }
             }}
-            center={[0.7893, 113.9213]}
+            center={[-4.775231, 109.042028]}
             className="max-h-[500px] lg:max-h-[600px] h-full rounded-[10px]"
             zoom={6}
           >

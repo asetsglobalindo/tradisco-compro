@@ -130,7 +130,7 @@ const HomeLocator = () => {
                 setMap(map);
               }
             }}
-            center={[0.7893, 113.9213]}
+            center={[-4.775231, 109.042028]}
             className="max-h-[400px] lg:max-h-[650px] rounded-[20px] z-[30]"
             zoom={6}
           >
