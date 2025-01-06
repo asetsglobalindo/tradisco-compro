@@ -1,0 +1,58 @@
+import ApiService from "@/lib/ApiService";
+import {ContentType} from "@/types/indes";
+import moment from "moment";
+import {notFound} from "next/navigation";
+import React from "react";
+
+const getData = async (slug: string) => {
+  try {
+    const response = await ApiService.get("/content/body/" + slug);
+
+    if (response.data.status !== 200) {
+      throw new Error(response.data.message || response.data.err);
+    }
+
+    // make sure its type only for news (2)
+    if (response.data.data.type !== 2) {
+      throw new Error("Data not found");
+    }
+
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    notFound();
+  }
+};
+
+const page = async (params: any) => {
+  const {slug} = params.params;
+  const data: ContentType = await getData(slug);
+
+  console.log(data);
+
+  return (
+    <section className="mt-36 container">
+      <h1 className="title-2 xl:mx-36 text-center">{data.title}</h1>
+
+      <section className="relative mt-8">
+        {data.images.slice(0, 1).map((img) => (
+          <picture key={img._id}>
+            <source media="(min-width:650px)" srcSet={img.images[0].url} />
+            <img className="w-full" src={img.images[0].url} alt="Flowers" />
+          </picture>
+        ))}
+      </section>
+
+      <section className="xl:mx-36">
+        <p className="text-end font-medium mt-4">
+          <span className="text-green-light">{data.category_id.name}</span> /{" "}
+          {moment(data.created_at).format("YYYY-MM-DD")}
+        </p>
+        <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
+      </section>
+    </section>
+  );
+};
+
+export default page;
+

@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from "axios";
+import JSCookie from "js-cookie";
 // import Cookies from "js-cookie";
 
 interface DynamicObject {
@@ -102,7 +103,6 @@ const ApiService: ApiServiceObject = {
 api.interceptors.response.use(
   (res) => {
     if (res.data.status === 403) {
-      // Cookies.remove("token");
     }
 
     return res;
@@ -114,51 +114,23 @@ api.interceptors.response.use(
 
 api.interceptors.request.use(
   async (config: any) => {
-    // let useOrganization = Boolean(config.headers.useOrganization);
-    // let useToken = Boolean(config.headers.useToken);
+    let lang = "en";
+    const isServer = typeof window === "undefined";
 
-    // const isServer = typeof window === "undefined";
+    if (isServer) {
+      const {cookies} = await import("next/headers");
+      const selectedLangCookie = (await cookies()).get("lang")?.value;
+      if (selectedLangCookie) {
+        lang = selectedLangCookie;
+      }
+    } else {
+      const selectedLangCookie = JSCookie.get("lang");
+      if (selectedLangCookie) {
+        lang = selectedLangCookie;
+      }
+    }
 
-    // if (isServer) {
-    //   // check if in header there is useOrganization
-    //   if (config.method === "get" || config.method === "delete") {
-    //     useOrganization = Boolean(config.headers.useOrganization);
-    //   } else {
-    //     useOrganization = config.useOrganization;
-    //   }
-
-    //   // check if in header there is useAuthorization
-    //   if (config.method === "get" || config.method === "delete") {
-    //     useToken = Boolean(config.headers.useToken);
-    //   } else {
-    //     useToken = config.useToken;
-    //   }
-    // }
-
-    // if (isServer) {
-    //   const {cookies} = await import("next/headers");
-    //   if (useOrganization) {
-    //     const organizationCookie = cookies().get("organization")?.value;
-    //     config.headers.organizationid = organizationCookie;
-    //   }
-    //   if (useToken) {
-    //     const tokenCookie = cookies().get("token")?.value;
-    //     config.headers.Authorization = tokenCookie;
-    //   }
-    // } else {
-    //   if (useOrganization) {
-    //     const organizationCredentials = await getOrganizationCredentials();
-    //     if (!organizationCredentials) {
-    //       throw new Error("Invalid organization credentials");
-    //     }
-    //     config.headers.organizationid = organizationCredentials;
-    //   }
-
-    //   if (useToken) {
-    //     const token = Cookies.get("token");
-    //     config.headers.Authorization = token;
-    //   }
-    // }
+    config.headers["accept-language"] = lang;
 
     return config;
   },

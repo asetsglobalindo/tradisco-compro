@@ -2,45 +2,31 @@
 import React from "react";
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "./ui/carousel";
 import {cn} from "@/lib/utils";
+import {HomeType} from "@/types/indes";
 
-const data = [
-  {
-    title: "FUEL",
-    img: "/temp/fuel.png",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    images: ["/temp/fuel-1.png", "/temp/fuel-2.png", "/temp/our-bussines.png"],
-  },
-  {
-    title: "NONFUEL",
-    img: "/temp/our-bussines.png",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-    images: ["/temp/fuel-1.png", "/temp/fuel-2.png", "/temp/our-bussines.png"],
-  },
-];
+const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
+  const [selectedCategory, setSelectedCategory] = React.useState(data.section2.tab[0].title);
 
-const HomeBussiness = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState(data[0].title);
+  console.log(data);
 
   return (
     <section className="relative mt-16 lg:mt-32">
       {/* heading */}
       <section className="container">
-        <h1 className="title-3 text-center">
-          Our <span className="text-green-light">Bussines</span>
-        </h1>
+        <h1 className="title-3 text-center">{data.section2.title}</h1>
       </section>
 
       {/* main bussiness */}
       <section className="overflow-x-auto md:overflow-x-visible md:overflow-y-visible hide-default-scrollbar container mt-8">
         <section className="grid grid-cols-2 gap-4 lg:gap-8 w-[600px] md:w-full">
-          {data.map((d, index) => (
+          {data.section2.tab.map((d, index) => (
             <section
               onClick={() => setSelectedCategory(d.title)}
               key={index}
               className="relative h-full max-h-[200px] group cursor-pointer"
             >
               <div className="overflow-hidden w-full h-full relative rounded-2xl">
-                <img className="blur-[2px] object-cover w-full" src={d.img} alt="" />
+                <img className="blur-[2px] object-cover w-full" src={d.image.images[0].url} alt="" />
                 <span className="absolute z-10 top-1/2 left-10 title-4 text-white">{d.title}</span>
                 <div
                   className={cn(
@@ -72,22 +58,25 @@ const HomeBussiness = () => {
       <section className="container mt-8 md:mt-16">
         <Carousel>
           <CarouselContent>
-            {data
+            {data.section2.tab
               .find((d) => d.title === selectedCategory)
-              ?.images.map((d, index) => (
+              ?.content.map((d, index) => (
                 <CarouselItem key={index} className="w-full md:basis-1/3">
-                  <section className="relative rounded-2xl news-card overflow-hidden group flex items-end justify-end transition-all">
-                    <img className="blur-[2px] aspect-square object-cover" src={d} alt="" />
+                  <section className="relative group rounded-2xl news-card group  overflow-hidden group flex items-end justify-end transition-all">
+                    <img
+                      className="blur-[2px] aspect-square object-cover"
+                      src={d.thumbnail_images[0].images[0].url}
+                      alt=""
+                    />
 
+                    <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
                     {/* content */}
-                    <section className="absolute z-20 group-hover:hidden text-white px-8 py-8 transition-all flex flex-col">
+                    <section className="absolute z-20 text-white px-8 py-8 transition-all flex flex-col">
                       {/* category */}
-                      <span className="text-green-light">Bright Wash</span>
+                      <span className="text-green-light group-hover:text-white">{d.small_text}</span>
                       {/* title */}
-                      <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%] ">
-                        Revitalize Your Vehicle with Bright Wash
-                      </h1>
-                      <button className="flex space-x-1  border-green-light bg-green-light w-fit border px-6 py-3 rounded-full items-center mt-4">
+                      <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%] ">{d.title}</h1>
+                      <button className="flex space-x-1 shadow-sm  group-hover:border-white border-green-light bg-green-light w-fit border px-6 py-3 rounded-full items-center mt-4">
                         <span>Learn More</span>
                         <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -99,19 +88,6 @@ const HomeBussiness = () => {
                           />
                         </svg>
                       </button>
-                    </section>
-
-                    {/* background shade */}
-                    <div className="absolute top-0  left-0 w-full h-full news-card bg-red-50"></div>
-
-                    {/* hover effect */}
-                    <section className="hidden group-hover:flex absolute z-30 bg-green/50 h-full justify-center text-white px-8 py-8 transition-all  flex-col">
-                      {/* category */}
-                      <span className="text-white text-center">Bright Wash</span>
-                      {/* title */}
-                      <h1 className="mt-2 text-lg font-semibold text-center mx-auto lg:max-w-[70%] ">
-                        Revitalize Your Vehicle with Bright Wash
-                      </h1>
                     </section>
                   </section>
                 </CarouselItem>

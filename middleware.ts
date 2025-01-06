@@ -3,15 +3,11 @@ import type {NextRequest} from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  const locale = request.cookies.get("locale") || "en";
-  const url = request.nextUrl;
+  const response = NextResponse.next();
+  const languageValue = request.cookies.get("lang")?.value || "en";
 
-  if (!url.pathname.startsWith(`/${locale}`)) {
-    url.pathname = `/${locale}${url.pathname}`;
-    return NextResponse.redirect(url);
-  }
-
-  return NextResponse.next();
+  response.cookies.set("lang", languageValue);
+  return response;
 }
 
 // See "Matching Paths" below to learn more

@@ -1,29 +1,11 @@
 "use client";
 import {cn} from "@/lib/utils";
+import {HomeType} from "@/types/indes";
 import React from "react";
 
-const business_data = [
-  {
-    title: "Growth Revenue",
-    body: "A positive revenue growth trend in Pertamina Retail over five years often indicates increased production, rising oil and gas prices, efficient operations, or strategic investments. However, the industry is facing increasing pressure to address environmental and social concerns. By integrating ESG factors into their operations, companies can not only meet regulatory requirements and satisfy investor expectations but also enhance their reputation, attract responsible investors, and mitigate risks associated with climate change and social challenges.",
-    img: "/temp/growth-revenue-1.png",
-    color: "#80DC2B",
-  },
-  {
-    title: "Outlet Growth",
-    body: "A positive revenue growth trend in Pertamina Retail over five years often indicates increased production, rising oil and gas prices, efficient operations, or strategic investments. However, the industry is facing increasing pressure to address environmental and social concerns. By integrating ESG factors into their operations, companies can not only meet regulatory requirements and satisfy investor expectations but also enhance their reputation, attract responsible investors, and mitigate risks associated with climate change and social challenges.",
-    img: "/temp/growth-revenue-2.png",
-    color: "#e1222b",
-  },
-  {
-    title: "Decarbonization Activities",
-    body: "A positive revenue growth trend in Pertamina Retail over five years often indicates increased production, rising oil and gas prices, efficient operations, or strategic investments. However, the industry is facing increasing pressure to address environmental and social concerns. By integrating ESG factors into their operations, companies can not only meet regulatory requirements and satisfy investor expectations but also enhance their reputation, attract responsible investors, and mitigate risks associated with climate change and social challenges.",
-    img: "/temp/growth-revenue-1.png",
-    color: "#025cab",
-  },
-];
-
-const HomeGrowth = () => {
+const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
+  const baseColor = ["#80DC2B", "#e1222b", "#025cab"];
+  const colorOption = [...baseColor, ...baseColor, ...baseColor];
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   return (
@@ -31,7 +13,7 @@ const HomeGrowth = () => {
       <section className="container">
         <section className="max-w-full overflow-x-scroll lg:overflow-hidden hide-default-scrollbar">
           <ul className="flex text-center w-[640px]  lg:w-[800px]  mx-auto text-base relative border-b-4 pb-4 lg:pb-6 border-[#EAEAEA]">
-            {business_data.map((tab, index) => (
+            {data.section4.map((tab, index) => (
               <li
                 key={tab.title}
                 className={cn(
@@ -48,8 +30,8 @@ const HomeGrowth = () => {
 
             <div
               style={{
-                left: `${(activeIndex * 100) / business_data.length}%`,
-                backgroundColor: business_data[activeIndex].color,
+                left: `${(activeIndex * 100) / data.section4?.length}%`,
+                backgroundColor: colorOption[activeIndex],
               }}
               className="h-1 w-1/3 absolute -bottom-1 transition-all duration-500"
             ></div>
@@ -66,20 +48,13 @@ const HomeGrowth = () => {
           "container flex gap-8 mt-8 lg:mt-16 flex-col "
         )}
       >
-        <img className="lg:w-1/2" src={business_data[activeIndex].img} alt="" />
+        <img className="lg:w-1/2" src={data.section4[activeIndex].image.images[0].url} alt="" />
         <div className="lg:w-1/2">
-          <h1 className="title-3">
-            {business_data[activeIndex].title.split(" ")[0]}{" "}
-            <span className="text-green-light">{business_data[activeIndex].title.split(" ")[1]}</span>
-          </h1>
-          <p className="mt-4">
-            A positive revenue growth trend in Pertamina Retail over five years often indicates increased production,
-            rising oil and gas prices, efficient operations, or strategic investments. However, the industry is facing
-            increasing pressure to address environmental and social concerns. By integrating ESG factors into their
-            operations, companies can not only meet regulatory requirements and satisfy investor expectations but also
-            enhance their reputation, attract responsible investors, and mitigate risks associated with climate change
-            and social challenges.
-          </p>
+          <h1 className="title-3">{data.section4[activeIndex].title}</h1>
+          <p
+            className="mt-8 text-justify"
+            dangerouslySetInnerHTML={{__html: data.section4[activeIndex].description}}
+          ></p>
         </div>
       </section>
     </section>

@@ -5,13 +5,13 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import L from "leaflet";
 import {useQuery} from "react-query";
 import ApiService from "@/lib/ApiService";
-import {LocationType} from "@/types/indes";
+import {HomeType, LocationType} from "@/types/indes";
 import {useDebounce} from "use-debounce";
 import {Loader2Icon} from "lucide-react";
 import LefleatMapIcon from "@/lib/LefleatIcon";
 import MapPopup from "./MapPopup";
 
-const HomeLocator = () => {
+const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
   const [map, setMap] = useState<L.Map | null>(null);
   const [value, setValue] = useState<string>("");
   const [locationQuery] = useDebounce(value, 1000);
@@ -63,10 +63,8 @@ const HomeLocator = () => {
       <section className="container pt-16 lg:pt-24 flex flex-col lg:flex-row lg:space-x-8">
         <section className="w-full lg:w-5/12 lg:mt-16">
           <div className="">
-            <span className="title-4 font-normal text-green">Outlet Locator</span>
-            <h1 className="text-white title-2 leading-snug mt-4">
-              Find Your <br /> Nearest Outlet
-            </h1>
+            <span className="title-4 font-normal text-green">{data.section3.small_text}</span>
+            <h1 className="text-white title-2 leading-snug mt-4 max-w-[400px]">{data.section3.title}</h1>
           </div>
           <section className="relative">
             <div
