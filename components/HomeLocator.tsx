@@ -60,7 +60,7 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
       className="mt-16 lg:mt-32"
       style={{background: "url(/texture/grid.png)", backgroundRepeat: "no-repeat", backgroundSize: "100% 550px"}}
     >
-      <section className="container pt-16 lg:pt-24 flex flex-col lg:flex-row lg:space-x-8">
+      <section className="container pt-16 lg:pt-24 flex flex-col lg:flex-row lg:space-x-16">
         <section className="w-full lg:w-5/12 lg:mt-16">
           <div className="">
             <span className="title-4 font-normal text-green">{data.section3.small_text}</span>
@@ -129,7 +129,7 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
               }
             }}
             center={[-4.775231, 109.042028]}
-            className="max-h-[400px] lg:max-h-[650px] rounded-[20px] z-[30]"
+            className="lg:max-h-[650px] rounded-[20px] z-[30]"
             zoom={6}
           >
             <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />

@@ -10,6 +10,8 @@ import moment from "moment";
 // Import Swiper styles
 import "swiper/css";
 import Link from "next/link";
+import {Button} from "@/components/ui/button";
+import {ArrowRight} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Pertamina Retail",
@@ -49,19 +51,10 @@ export default async function Home() {
           <h1 className="title-3">{content.section5.title}</h1>
 
           <Link href={content.section5.button_route}>
-            <button className="flex border-green group hover:bg-green-light transition-all hover:text-white border px-8 py-4 rounded-full items-center">
-              <span className="leading-none">{content.section5.button_name}</span>
-              <svg width="25" height="14" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M19.4766 7.77772H5.97656C5.55656 7.77772 5.22656 7.4355 5.22656 6.99995C5.22656 6.56439 5.55656 6.22217 5.97656 6.22217H19.4766C19.8966 6.22217 20.2266 6.56439 20.2266 6.99995C20.2266 7.4355 19.8966 7.77772 19.4766 7.77772Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M15.7266 13.2221C15.6282 13.2234 15.5307 13.2033 15.4403 13.1631C15.3498 13.1229 15.2685 13.0635 15.2016 12.9888C14.9016 12.6777 14.9016 12.1955 15.2016 11.8844L19.9266 6.98436L15.2016 2.08436C14.9016 1.77325 14.9016 1.29103 15.2016 0.979915C15.5016 0.668804 15.9666 0.668804 16.2666 0.979915L21.5166 6.42436C21.8166 6.73547 21.8166 7.21769 21.5166 7.5288L16.2666 12.9732C16.1166 13.1288 15.9216 13.2066 15.7416 13.2066L15.7266 13.2221Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+            <Button variant={"outline"} rounded size={"lg"}>
+              <span>{content.section5.button_name}</span>
+              <ArrowRight />
+            </Button>
           </Link>
         </section>
 
@@ -84,9 +77,11 @@ export default async function Home() {
                 <p className="mt-4 line-clamp-3">{data.small_text}</p>
                 <span className="text-xs mt-8 inline-block">{moment(data.created_at).format("DD/MMMM/YYYY")}</span>
 
-                <button className="flex border-green-lighter border px-6 py-3 rounded-full items-center mt-8">
-                  <span className="leading-none">See More</span>
-                </button>
+                <div className="mt-8">
+                  <Button variant="outline" className="group-hover:border-white hover:border-white" rounded size={"lg"}>
+                    See More
+                  </Button>
+                </div>
               </section>
 
               {/* background shade */}

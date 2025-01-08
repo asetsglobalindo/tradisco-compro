@@ -3,6 +3,8 @@ import React from "react";
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "./ui/carousel";
 import {cn} from "@/lib/utils";
 import {HomeType} from "@/types/indes";
+import {Button} from "./ui/button";
+import {ArrowRight} from "lucide-react";
 
 const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
   const [selectedCategory, setSelectedCategory] = React.useState(data.section2.tab[0].title);
@@ -76,18 +78,15 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                       <span className="text-green-light group-hover:text-white">{d.small_text}</span>
                       {/* title */}
                       <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%] ">{d.title}</h1>
-                      <button className="flex space-x-1 shadow-sm  group-hover:border-white border-green-light bg-green-light w-fit border px-6 py-3 rounded-full items-center mt-4">
+
+                      <Button
+                        rounded
+                        size="lg"
+                        className="w-fit mt-4 shadow-sm group-hover:border-white group-hover:border box-border"
+                      >
                         <span>Learn More</span>
-                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M3.21216 8.63376H12.721M12.721 8.63376L9.1552 4.51709M12.721 8.63376L9.1552 12.7504"
-                            stroke="white"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
+                        <ArrowRight color="white" />
+                      </Button>
                     </section>
                   </section>
                 </CarouselItem>

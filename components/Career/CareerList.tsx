@@ -6,9 +6,11 @@ import ApiService from "@/lib/ApiService";
 import {ContentType} from "@/types/indes";
 import moment from "moment";
 import Link from "next/link";
-import {Loader2} from "lucide-react";
+import {ArrowUpRight, Loader2, Search} from "lucide-react";
+import {Input} from "../ui/input";
+import {Button} from "../ui/button";
 
-const NewsList = () => {
+const CareerList = () => {
   const limit = 12;
   const lang = JSCookie.get("lang") || "en";
   const [isNoData, setIsNoData] = React.useState(false);
@@ -17,9 +19,8 @@ const NewsList = () => {
   const [results, setResults] = React.useState<ContentType[]>([]);
 
   const {isLoading} = useQuery({
-    queryKey: ["news", lang, page],
+    queryKey: ["career", lang, page],
     queryFn: async () => await getContent(),
-    enabled: !!lang,
   });
 
   const getContent = async () => {
@@ -28,7 +29,7 @@ const NewsList = () => {
         limit: limit,
         page: page,
         active_status: true,
-        type: "news",
+        type: "career",
         show_single_language: "yes",
       };
 
@@ -49,33 +50,31 @@ const NewsList = () => {
   };
 
   if (isNoData) {
-    return <h1 className="text-center">Sorry, no news found</h1>;
+    return <h1 className="text-center">Sorry, no data found</h1>;
   }
 
   return (
-    <React.Fragment>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section className="max-w-[800px] mx-auto">
+      <section>
+        <div className="flex space-x-2">
+          <Input placeholder="Search..." className="w-full max-w-[300px] ml-auto" />
+          <Button>
+            <Search />
+          </Button>
+        </div>
+      </section>
+      <section className="grid grid-cols-1 mx-auto gap-8 mt-8">
         {results?.map((data) => (
           <div key={data._id} className="border">
-            <div className="aspect-video">
-              <img
-                className="aspect-video object-cover w-full h-full"
-                src={data.thumbnail_images[0].images[0].url}
-                alt={data.title}
-              />
-            </div>
-
-            <section className="px-4 pb-4">
-              <div className="flex justify-between items-center mt-2 border-b pb-2">
-                <div className="font-medium leading-none">{moment(data.created_at).format("DD MMMM YYYY")}</div>
+            <section className="px-4 py-4">
+              <div className="flex justify-between">
+                <h1 className="font-semibold title-5">{data.title}</h1>
+                <Link className="flex items-center gap-1 hover:underline" href={`/career/${data.slug}`}>
+                  View Job <ArrowUpRight size={18} />
+                </Link>
               </div>
-
-              <h1 className="mt-4 font-semibold title-5">{data.title}</h1>
-              <p className="mt-2 line-clamp-2 text-xs">{data.small_text}</p>
-
-              <Link className="inline-block underline font-semibold uppercase mt-4" href={`/news/${data.slug}`}>
-                Read More
-              </Link>
+              <p className="mt-4">{data.small_text}</p>
+              <div className="text-xs mt-4">Date : {moment(data.created_at).format("DD MMMM YYYY")}</div>
             </section>
           </div>
         ))}
@@ -91,9 +90,9 @@ const NewsList = () => {
           </button>
         ) : null}
       </section>
-    </React.Fragment>
+    </section>
   );
 };
 
-export default NewsList;
+export default CareerList;
 

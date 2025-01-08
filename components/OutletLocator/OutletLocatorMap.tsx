@@ -82,7 +82,7 @@ const OutletLocatorMap = () => {
 
   return (
     <section>
-      <section className="  flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
+      <section className=" flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
         <section className="lg:w-5/12 ">
           {/* searchbar */}
           <section className="flex space-x-2 bg-[#FAFAFA] p-4">
@@ -154,7 +154,7 @@ const OutletLocatorMap = () => {
               }
             }}
             center={[-4.775231, 109.042028]}
-            className="max-h-[500px] lg:max-h-[600px] h-full rounded-[10px]"
+            className="max-h-[500px] lg:max-h-[600px] h-full rounded-[10px] z-20"
             zoom={6}
           >
             <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />

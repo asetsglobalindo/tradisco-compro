@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useEffect} from "react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {useState} from "react";
 import Link from "next/link";
@@ -13,6 +13,7 @@ import ApiService from "@/lib/ApiService";
 import {HeaderItemType} from "@/types/indes";
 import JSCookie from "js-cookie";
 import {UpdateLangPreference} from "@/app/action";
+import {usePathname} from "next/navigation";
 
 type Route = {
   name: string;
@@ -31,7 +32,7 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
 
   // for non sub routes
   if (!data.sub_routes.length) {
-    return <a href={data.href}>{data.name}</a>;
+    return <Link href={data.href}>{data.name}</Link>;
   }
 
   return (
@@ -65,9 +66,9 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
         </div>
         <section className="flex flex-col w-fit space-y-2">
           {data.sub_routes.map((route) => (
-            <a key={route.name} href={route.href} className="hover:text-green-light hover:underline">
+            <Link key={route.name} href={route.href} className="hover:text-green-light hover:underline">
               {route.name}
-            </a>
+            </Link>
           ))}
         </section>
       </PopoverContent>
@@ -84,9 +85,9 @@ const NavItemMobile: React.FC<{data: Route; index: number}> = ({data, index}) =>
             <span className="text-center ">{data.name}</span>
           </div>
         ) : (
-          <a href={data.href} className="w-full">
+          <Link href={data.href} className="w-full">
             {data.name}
-          </a>
+          </Link>
         )}
 
         {data.sub_routes.length ? (
@@ -108,9 +109,9 @@ const NavItemMobile: React.FC<{data: Route; index: number}> = ({data, index}) =>
       <AccordionContent>
         <section className="flex flex-col space-y-4 text-center">
           {data.sub_routes.map((route) => (
-            <a key={route.name} href={route.href} className="hover:text-green-light hover:underline">
+            <Link key={route.name} href={route.href} className="hover:text-green-light hover:underline">
               {route.name}
-            </a>
+            </Link>
           ))}
         </section>
       </AccordionContent>
@@ -193,6 +194,8 @@ const LanguageSwitcher = () => {
 const Header = () => {
   const lang = JSCookie.get("lang") || "en";
   const ui = uiStore((state) => state);
+  const path = usePathname();
+
   const {data: header} = useQuery({
     queryKey: ["header", lang],
     queryFn: async () => await getHeader(),
@@ -212,83 +215,96 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    ui.setHeaderColor("black");
+  }, [path]);
+
   return (
-    <header
-      className={cn(
-        {
-          "text-white border-white/40": ui.headerColor === "white",
-          "text-black border-black/40 bg-white": ui.headerColor === "black",
-        },
-        "h-20 fixed top-0 w-full pt-4 z-50  border-b pb-4"
-      )}
-    >
-      <section className="container ">
-        <section className={cn({}, "items-center flex justify-between relative w-full ")}>
-          <nav className="w-full hidden lg:block">
-            <ul className="flex w-full space-x-8 items-center mt-4">
-              {header?.map((route) => (
-                <li key={route.name} className="flex leading-none">
-                  <NavItem
-                    data={{
-                      name: route.name,
-                      href: route.route,
-                      sub_routes: route.childs.map((child) => ({name: child.name, href: child.route})),
-                    }}
-                  />
-                </li>
-              ))}
-
-              <LanguageSwitcher />
-            </ul>
-          </nav>
-
-          <Link href="/">
-            <img className="w-40" src={ui.headerColor === "white" ? "/logo/logo-white.png" : "/logo/logo.png"} alt="" />
-          </Link>
-
-          <Drawer direction="right" handleOnly>
-            <DrawerTrigger className="lg:hidden">
-              <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"
-                  stroke={ui.headerColor}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </DrawerTrigger>
-            <DrawerContent className="h-full rounded-none p-6">
-              {/* required by compoenent */}
-              <DrawerTitle className="hidden">Nav Mobile</DrawerTitle>
-
-              {/* close */}
-              <section className="flex justify-between items-center">
-                <img className="w-40" src={"/logo/logo.png"} alt="" />
-                <DrawerClose>
-                  <X />
-                </DrawerClose>
-              </section>
-
-              {/* actual navigation */}
-              <Accordion className="mt-16" type="single" collapsible>
-                {header?.map((route, index) => (
-                  <NavItemMobile
-                    key={route._id}
-                    index={index}
-                    data={{
-                      name: route.name,
-                      href: route.route,
-                      sub_routes: route.childs.map((child) => ({name: child.name, href: child.route})),
-                    }}
-                  />
+    <React.Fragment>
+      <header
+        className={cn(
+          {
+            "text-white border-white/40": ui.headerColor === "white",
+            "text-black border-black/40 bg-white": ui.headerColor === "black",
+          },
+          "h-20 fixed top-0 w-full pt-4 z-50  border-b pb-4"
+        )}
+      >
+        <section className="container ">
+          <section className={cn({}, "items-center flex justify-between relative w-full ")}>
+            <nav className="w-full hidden lg:block">
+              <ul className="flex w-full space-x-8 items-center mt-4">
+                {header?.map((route) => (
+                  <li key={route.name} className="flex leading-none">
+                    <NavItem
+                      data={{
+                        name: route.name,
+                        href: route.route,
+                        sub_routes: route.childs.map((child) => ({name: child.name, href: child.route})),
+                      }}
+                    />
+                  </li>
                 ))}
-              </Accordion>
-            </DrawerContent>
-          </Drawer>
+
+                <LanguageSwitcher />
+              </ul>
+            </nav>
+
+            <Link href="/">
+              <img
+                className="w-40"
+                src={ui.headerColor === "white" ? "/logo/logo-white.png" : "/logo/logo.png"}
+                alt=""
+              />
+            </Link>
+
+            <Drawer direction="right" handleOnly>
+              <DrawerTrigger className="lg:hidden">
+                <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"
+                    stroke={ui.headerColor}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </DrawerTrigger>
+              <DrawerContent className="h-full rounded-none p-6">
+                {/* required by compoenent */}
+                <DrawerTitle className="hidden">Nav Mobile</DrawerTitle>
+
+                {/* close */}
+                <section className="flex justify-between items-center">
+                  <img className="w-40" src={"/logo/logo.png"} alt="" />
+                  <DrawerClose>
+                    <X />
+                  </DrawerClose>
+                </section>
+
+                {/* actual navigation */}
+                <Accordion className="mt-16" type="single" collapsible>
+                  {header?.map((route, index) => (
+                    <NavItemMobile
+                      key={route._id}
+                      index={index}
+                      data={{
+                        name: route.name,
+                        href: route.route,
+                        sub_routes: route.childs.map((child) => ({name: child.name, href: child.route})),
+                      }}
+                    />
+                  ))}
+                </Accordion>
+              </DrawerContent>
+            </Drawer>
+          </section>
         </section>
-      </section>
-    </header>
+      </header>
+
+      {/* header spacer */}
+      {ui.headerColor === "black" ? <div className="h-20 w-full" /> : null}
+    </React.Fragment>
   );
 };
 

@@ -1,5 +1,5 @@
 import BannerSingle from "@/components/BannerSingle";
-import NewsList from "@/components/News/NewsList";
+import CareerList from "@/components/Career/CareerList";
 import ApiService from "@/lib/ApiService";
 import {ContentType} from "@/types/indes";
 import {notFound} from "next/navigation";
@@ -11,7 +11,7 @@ const getData = async () => {
       limit: 1,
       page: 1,
       active_status: true,
-      type: "news_page",
+      type: "career_page",
       show_single_language: "yes",
     };
 
@@ -40,14 +40,15 @@ const page = async () => {
       <section className="relative">
         <BannerSingle data={data.banner} />
 
-        <h1 className="title-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">{data.title}</h1>
+        <section className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[800px] text-white text-center">
+          <h1 className="title-2">{data.title}</h1>
+          <div className="mt-4 text-base" dangerouslySetInnerHTML={{__html: data.description}}></div>
+        </section>
       </section>
 
       <section className="container">
-        <div className="mt-16" dangerouslySetInnerHTML={{__html: data.description}}></div>
-
         <section className="mt-16">
-          <NewsList />
+          <CareerList />
         </section>
       </section>
     </section>

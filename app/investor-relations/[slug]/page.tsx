@@ -1,35 +1,34 @@
+import BannerSingle from "@/components/BannerSingle";
 import ApiService from "@/lib/ApiService";
+import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
 import {notFound} from "next/navigation";
 import React from "react";
 
-const getData = async (type: string) => {
+const getData = async (slug: string) => {
   try {
-    const enum_type = ["sustainability_report", "annual_report"];
-    type = type.toLocaleLowerCase().replace("-", "_");
-    if (!enum_type.includes(type)) {
-      throw new Error("Data not found");
-    }
+    // its type for [annual_report , sustainability_report, procuremenet_report]
+    const enum_type = [
+      CONTENT_TYPE.getTypeNumber(CONTENT_TYPE.ANNUAL_REPORT),
+      CONTENT_TYPE.getTypeNumber(CONTENT_TYPE.SUSTAINABILITY_REPORT),
+      CONTENT_TYPE.getTypeNumber(CONTENT_TYPE.PROCUREMENT_REPORT),
+    ];
 
-    const params = {
-      limit: 1,
-      page: 1,
-      active_status: true,
-      type: type,
-      show_single_language: "yes",
-    };
+    console.log(enum_type);
 
-    const response = await ApiService.get("/content", params);
+    const response = await ApiService.get("/content/body/" + slug);
 
     if (response.data.status !== 200) {
       throw new Error(response.data.message || response.data.err);
     }
 
-    if (!response.data.data.length) {
+    const result: ContentType = response.data.data;
+
+    if (!enum_type.find((x) => x === result.type)) {
       throw new Error("Data not found");
     }
 
-    return response.data.data[0];
+    return result;
   } catch (error) {
     console.log(error);
     notFound();
@@ -37,19 +36,13 @@ const getData = async (type: string) => {
 };
 
 const page = async (params: any) => {
-  const {slug} = params.params;
+  const {slug} = await params.params;
   const data: ContentType = await getData(slug);
 
   return (
     <section>
       <section className="relative">
-        {data.banner.slice(0, 1).map((img) => (
-          <picture key={img._id}>
-            <source media="(min-width:650px)" srcSet={img.images[0].url} />
-            <img className="w-full" src={img.images_mobile[0].url} alt="Flowers" />
-          </picture>
-        ))}
-
+        <BannerSingle data={data.banner} />
         <h1 className="title-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">{data.title}</h1>
       </section>
 
