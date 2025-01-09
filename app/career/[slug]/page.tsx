@@ -1,8 +1,23 @@
 import ApiService from "@/lib/ApiService";
 import {ContentType} from "@/types/indes";
 import moment from "moment";
+import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
+
+export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
+  const {slug} = await params;
+  const result: ContentType = await getData(slug);
+
+  return {
+    title: result.meta_title,
+    description: result.meta_description,
+    openGraph: {
+      title: result.meta_title,
+      description: result.meta_description,
+    },
+  };
+}
 
 const getData = async (slug: string) => {
   try {

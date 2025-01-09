@@ -2,8 +2,22 @@ import BannerSingle from "@/components/BannerSingle";
 import CareerList from "@/components/Career/CareerList";
 import ApiService from "@/lib/ApiService";
 import {ContentType} from "@/types/indes";
+import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const result: ContentType = await getData();
+
+  return {
+    title: result.meta_title,
+    description: result.meta_description,
+    openGraph: {
+      title: result.meta_title,
+      description: result.meta_description,
+    },
+  };
+}
 
 const getData = async () => {
   try {

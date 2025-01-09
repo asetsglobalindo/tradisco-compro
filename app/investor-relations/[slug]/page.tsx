@@ -2,8 +2,23 @@ import BannerSingle from "@/components/BannerSingle";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
+import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
+
+export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
+  const {slug} = await params;
+  const result: ContentType = await getData(slug);
+
+  return {
+    title: result.meta_title,
+    description: result.meta_description,
+    openGraph: {
+      title: result.meta_title,
+      description: result.meta_description,
+    },
+  };
+}
 
 const getData = async (slug: string) => {
   try {
@@ -13,8 +28,6 @@ const getData = async (slug: string) => {
       CONTENT_TYPE.getTypeNumber(CONTENT_TYPE.SUSTAINABILITY_REPORT),
       CONTENT_TYPE.getTypeNumber(CONTENT_TYPE.PROCUREMENT_REPORT),
     ];
-
-    console.log(enum_type);
 
     const response = await ApiService.get("/content/body/" + slug);
 

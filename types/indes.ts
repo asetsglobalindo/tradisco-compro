@@ -48,6 +48,7 @@ export interface HeaderItemType {
 
 interface CategoryContentType {
   name: string;
+  slug: string;
   _id: string;
 }
 
@@ -62,6 +63,8 @@ interface ContentItemType {
 }
 
 export interface ContentType {
+  meta_title: string;
+  meta_description: string;
   title: string;
   _id: string;
   type: number;
@@ -120,6 +123,7 @@ interface NewsContent {
   description: string;
   _id: string;
   order: number;
+  slug: string;
   thumbnail_images: ImageType[] | [];
   category_id: CategoryContentType;
 }

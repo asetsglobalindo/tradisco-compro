@@ -1,20 +1,45 @@
+import BannerSingle from "@/components/BannerSingle";
 import ApiService from "@/lib/ApiService";
+import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
-import moment from "moment";
+import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
 
-const getData = async (slug: string) => {
+export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
+  const {slug} = await params;
+  const result: ContentType = await getData(slug, CONTENT_TYPE.BUSINESS_PAGE, 1);
+
+  return {
+    title: result.meta_title,
+    description: result.meta_description,
+    openGraph: {
+      title: result.meta_title,
+      description: result.meta_description,
+    },
+  };
+}
+
+const getData = async (slug: string, type: string, limit = 9999) => {
   try {
-    const response = await ApiService.get("/content/body/" + slug);
+    const params = {
+      category_slug: slug,
+      active_status: true,
+      sort_at: "order",
+      sort_by: -1,
+      type: type,
+      limit: limit,
+      show_single_language: "yes",
+    };
+
+    const response = await ApiService.get("/content", params);
 
     if (response.data.status !== 200) {
       throw new Error(response.data.message || response.data.err);
     }
 
-    // make sure its type only for news (2)
-    if (response.data.data.type !== 2) {
-      throw new Error("Data not found");
+    if (limit === 1) {
+      return response.data.data[0];
     }
 
     return response.data.data;
@@ -25,28 +50,37 @@ const getData = async (slug: string) => {
 };
 
 const page = async (params: any) => {
-  const {slug} = params.params;
-  const data: ContentType = await getData(slug);
+  const {slug} = await params.params;
+
+  const data: ContentType = await getData(slug, CONTENT_TYPE.BUSINESS_PAGE, 1);
+
+  const bussinessList: ContentType[] | [] = await getData(slug, CONTENT_TYPE.BUSINESS);
 
   return (
-    <section className="mt-36 container">
-      <h1 className="title-2 xl:mx-36 text-center">{data.title}</h1>
-
-      <section className="relative mt-8">
-        {data.images.slice(0, 1).map((img) => (
-          <picture key={img._id}>
-            <source media="(min-width:650px)" srcSet={img.images[0].url} />
-            <img className="w-full" src={img.images[0].url} alt="Flowers" />
-          </picture>
-        ))}
+    <section>
+      <section className="relative">
+        <BannerSingle data={data.banner} />
       </section>
 
-      <section className="xl:mx-36">
-        <p className="text-end font-medium mt-4">
-          <span className="text-green-light">{data.category_id.name}</span> /{" "}
-          {moment(data.created_at).format("YYYY-MM-DD")}
-        </p>
-        <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
+      <section className="container">
+        <section className="mt-16">
+          <h1 className="title-3">{data.title}</h1>
+          <div className="mt-8" dangerouslySetInnerHTML={{__html: data.small_text}}></div>
+        </section>
+
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+          {bussinessList.map((d) => (
+            <div key={d._id} className="relative rounded-2xl overflow-hidden">
+              <img src={d.thumbnail_images[0].images[0].url} alt="" />
+              <div className="absolute px-4 bottom-4 text-white z-10">
+                <h1 className="font-bold text-green-light">{d.title}</h1>
+                <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>
+              </div>
+
+              <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black opacity-60"></div>
+            </div>
+          ))}
+        </section>
       </section>
     </section>
   );

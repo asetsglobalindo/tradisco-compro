@@ -5,11 +5,10 @@ import {cn} from "@/lib/utils";
 import {HomeType} from "@/types/indes";
 import {Button} from "./ui/button";
 import {ArrowRight} from "lucide-react";
+import Link from "next/link";
 
 const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
   const [selectedCategory, setSelectedCategory] = React.useState(data.section2.tab[0].title);
-
-  console.log(data);
 
   return (
     <section className="relative mt-16 lg:mt-32">
@@ -79,14 +78,16 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                       {/* title */}
                       <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%] ">{d.title}</h1>
 
-                      <Button
-                        rounded
-                        size="lg"
-                        className="w-fit mt-4 shadow-sm group-hover:border-white group-hover:border box-border"
-                      >
-                        <span>Learn More</span>
-                        <ArrowRight color="white" />
-                      </Button>
+                      <Link href={"/bussines/" + d.category_id.slug}>
+                        <Button
+                          rounded
+                          size="lg"
+                          className="w-fit mt-4 shadow-sm group-hover:border-white group-hover:border box-border"
+                        >
+                          <span>Learn More</span>
+                          <ArrowRight color="white" />
+                        </Button>
+                      </Link>
                     </section>
                   </section>
                 </CarouselItem>

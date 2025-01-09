@@ -13,9 +13,18 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {ArrowRight} from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Pertamina Retail",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const result: HomeType = await getHomeContent();
+
+  return {
+    title: result.meta_title,
+    description: result.meta_description,
+    openGraph: {
+      title: result.meta_title,
+      description: result.meta_description,
+    },
+  };
+}
 
 const getHomeContent = async () => {
   try {
@@ -78,9 +87,16 @@ export default async function Home() {
                 <span className="text-xs mt-8 inline-block">{moment(data.created_at).format("DD/MMMM/YYYY")}</span>
 
                 <div className="mt-8">
-                  <Button variant="outline" className="group-hover:border-white hover:border-white" rounded size={"lg"}>
-                    See More
-                  </Button>
+                  <Link href={"/news/" + data.slug}>
+                    <Button
+                      variant="outline"
+                      className="group-hover:border-white hover:border-white"
+                      rounded
+                      size={"lg"}
+                    >
+                      See More
+                    </Button>
+                  </Link>
                 </div>
               </section>
 

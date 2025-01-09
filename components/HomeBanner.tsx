@@ -65,10 +65,14 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
               <div className="container text-white">
                 <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
                 <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
-                <Button className="mt-8" size={"lg"} rounded>
-                  <span className="tracking-wider">Learn More</span>
-                  <ArrowRight />
-                </Button>
+                {banner.button_route ? (
+                  <a href={banner.button_route} target="_blank">
+                    <Button className="mt-8" size={"lg"} rounded>
+                      <span className="tracking-wider">Learn More</span>
+                      <ArrowRight />
+                    </Button>
+                  </a>
+                ) : null}
               </div>
             </section>
           </SwiperSlide>
