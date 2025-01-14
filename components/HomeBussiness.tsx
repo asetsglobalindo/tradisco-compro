@@ -6,9 +6,11 @@ import {HomeType} from "@/types/indes";
 import {Button} from "./ui/button";
 import {ArrowRight} from "lucide-react";
 import Link from "next/link";
+import JSCookie from "js-cookie";
 
 const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
-  const [selectedCategory, setSelectedCategory] = React.useState(data.section2.tab[0].title);
+  const [selectedTabID, setSelectedTabID] = React.useState(data.section2.tab[0]._id);
+  const lang = JSCookie.get("lang") || "en";
 
   return (
     <section className="relative mt-16 lg:mt-32">
@@ -22,7 +24,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
         <section className="grid grid-cols-2 gap-4 lg:gap-8 w-[600px] md:w-full">
           {data.section2.tab.map((d, index) => (
             <section
-              onClick={() => setSelectedCategory(d.title)}
+              onClick={() => setSelectedTabID(d._id)}
               key={index}
               className="relative h-full max-h-[200px] group cursor-pointer"
             >
@@ -32,8 +34,8 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                 <div
                   className={cn(
                     {
-                      "bussiness-card-active": d.title === selectedCategory,
-                      "bussiness-card": d.title !== selectedCategory,
+                      "bussiness-card-active": d.title === selectedTabID,
+                      "bussiness-card": d.title !== selectedTabID,
                     },
                     "absolute top-0 left-0 w-full h-full rounded-2xl"
                   )}
@@ -43,8 +45,8 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
               <img
                 className={cn(
                   {
-                    block: d.title === selectedCategory,
-                    hidden: d.title !== selectedCategory,
+                    block: d.title === selectedTabID,
+                    hidden: d.title !== selectedTabID,
                   },
                   "absolute -bottom-7 left-1/2 -translate-x-1/2"
                 )}
@@ -60,7 +62,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
         <Carousel>
           <CarouselContent>
             {data.section2.tab
-              .find((d) => d.title === selectedCategory)
+              .find((d) => d._id === selectedTabID)
               ?.content.map((d, index) => (
                 <CarouselItem key={index} className="w-full md:basis-1/3">
                   <section className="relative group rounded-2xl news-card group  overflow-hidden group flex items-end justify-end transition-all">
@@ -84,7 +86,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                           size="lg"
                           className="w-fit mt-4 shadow-sm group-hover:border-white group-hover:border box-border"
                         >
-                          <span>Learn More</span>
+                          <span>{lang === "en" ? "Learn More" : "Selengkapnya"} </span>
                           <ArrowRight color="white" />
                         </Button>
                       </Link>

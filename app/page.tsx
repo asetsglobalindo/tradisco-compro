@@ -12,6 +12,7 @@ import "swiper/css";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {ArrowRight} from "lucide-react";
+import {cookies} from "next/headers";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: HomeType = await getHomeContent();
@@ -41,6 +42,7 @@ const getHomeContent = async () => {
 
 export default async function Home() {
   const content: HomeType = await getHomeContent();
+  const lang = (await cookies()).get("lang")?.value || "en";
 
   return (
     <section>
@@ -94,7 +96,7 @@ export default async function Home() {
                       rounded
                       size={"lg"}
                     >
-                      See More
+                      {lang === "en" ? "Read More" : "Selengkapnya"}
                     </Button>
                   </Link>
                 </div>

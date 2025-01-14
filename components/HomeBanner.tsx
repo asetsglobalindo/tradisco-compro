@@ -5,6 +5,7 @@ import {useInView} from "react-intersection-observer";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Autoplay, Pagination, Navigation, EffectFade} from "swiper/modules";
 import {HomeType} from "@/types/indes";
+import JSCookie from "js-cookie";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -14,6 +15,7 @@ import {Button} from "./ui/button";
 import {ArrowRight} from "lucide-react";
 
 const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
+  const lang = JSCookie.get("lang") || "en";
   const [activeIndex, setActiveIndex] = React.useState(0);
   const ui = uiStore((state) => state);
   const {ref, inView} = useInView({
@@ -68,7 +70,7 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
                 {banner.button_route ? (
                   <a href={banner.button_route} target="_blank">
                     <Button className="mt-8" size={"lg"} rounded>
-                      <span className="tracking-wider">Learn More</span>
+                      <span className="tracking-wider">{lang === "en" ? "Learn More" : "Selengkapnya"}</span>
                       <ArrowRight />
                     </Button>
                   </a>

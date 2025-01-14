@@ -6,7 +6,7 @@ import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
 
-export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
+export async function generateMetadata({params}: {params: Promise<{slug: string}>}): Promise<Metadata> {
   const {slug} = await params;
   const result: ContentType = await getData(slug);
 
@@ -48,8 +48,9 @@ const getData = async (slug: string) => {
   }
 };
 
-const page = async (params: any) => {
-  const {slug} = await params.params;
+const page = async ({params}: {params: Promise<{slug: string}>}) => {
+  const {slug} = await params;
+
   const data: ContentType = await getData(slug);
 
   return (

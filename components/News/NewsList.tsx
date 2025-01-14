@@ -36,6 +36,8 @@ const NewsList = () => {
 
       if (!response.data.data.length) {
         setIsNoData(true);
+      } else {
+        setIsNoData(false);
       }
 
       setTotalData(response.data.pages.total_data);
@@ -74,7 +76,7 @@ const NewsList = () => {
               <p className="mt-2 line-clamp-2 text-xs">{data.small_text}</p>
 
               <Link className="inline-block underline font-semibold uppercase mt-4" href={`/news/${data.slug}`}>
-                Read More
+                {lang === "en" ? "Read More" : "Baca Selengkapnya"}
               </Link>
             </section>
           </div>
@@ -87,7 +89,8 @@ const NewsList = () => {
             onClick={() => setPage(page + 1)}
             className="bg-green-light flex items-center gap-1 text-white px-6 disabled:bg-green-light/80 py-2 rounded-full"
           >
-            <span>Load More</span> {isLoading ? <Loader2 className="animate-spin" size={16} color="white" /> : null}
+            <span>{lang === "en" ? "Load More" : "Muat Lagi"}</span>{" "}
+            {isLoading ? <Loader2 className="animate-spin" size={16} color="white" /> : null}
           </button>
         ) : null}
       </section>
