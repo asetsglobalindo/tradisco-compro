@@ -1,8 +1,21 @@
+"use client";
+import {cn} from "@/lib/utils";
+import {usePathname} from "next/navigation";
 import React from "react";
 
 const Footer = () => {
+  const path = usePathname();
+  const noMarginPath = ["/about/our-workers"];
+
   return (
-    <footer className="bg-[#171717] text-white mt-48">
+    <footer
+      className={cn(
+        {
+          "mt-48": !noMarginPath.includes(path),
+        },
+        "bg-[#171717] text-white "
+      )}
+    >
       <section className="container pt-16">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="flex flex-col lg:flex-row md:gap-16">

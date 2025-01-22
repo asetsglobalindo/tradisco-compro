@@ -73,6 +73,7 @@ export interface ContentType {
     _id: string;
   };
   small_text: string;
+  small_text2: string;
   slug: string;
   description: string;
   banner: ImageType[] | [];
@@ -102,6 +103,8 @@ export interface ContentType {
   related2: [];
   organization_id: string;
   created_at: string;
+  bottom_button_route: string;
+  bottom_button_name: string;
   created_by: string;
   updated_at: string;
   updated_by: string;
