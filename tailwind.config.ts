@@ -16,6 +16,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        Kalam: ["Kalam", "serif"],
+      },
       colors: {
         green: "#1AAC29",
         "green-light": "#63AE1D",
