@@ -10,7 +10,7 @@ import JSCookie from "js-cookie";
 
 const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
   const [selectedTabID, setSelectedTabID] = React.useState(data.section2.tab[0]._id);
-  const lang = JSCookie.get("lang") || "en";
+  const lang = JSCookie.get("lang") || "id";
 
   return (
     <section className="relative mt-16 lg:mt-32">
@@ -74,7 +74,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
 
                     <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
                     {/* content */}
-                    <section className="absolute z-20 text-white px-8 py-8 transition-all flex flex-col">
+                    <section className="absolute z-20 left-0 text-white px-8 py-8 transition-all flex flex-col">
                       {/* category */}
                       <span className="text-green-light group-hover:text-white">{d.small_text}</span>
                       {/* title */}

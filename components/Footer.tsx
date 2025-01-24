@@ -21,7 +21,7 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row md:gap-16">
             <div className="mb-6 md:mb-0 max-w-[400px]">
               <a href="#" className="flex items-center mb-6 ">
-                <img src="/logo/logo-white.png" className="max-w-[200px]" alt="FlowBite Logo" />
+                <img src="/logo/logo-white-footer.png" className="max-w-[200px]" alt="FlowBite Logo" />
               </a>
               <p>
                 PT Pertamina Retail is a subsidiary of PT Pertamina (Persero) that operates in the retail sector,
@@ -79,6 +79,7 @@ const Footer = () => {
               <div className="max-w-[300px] flex flex-col items-center justify-center space-y-8 lg:mt-8">
                 <img className="max-w-[77px]" src="/icons/call-center.png" alt="" />
                 <img className="max-w-[230px]" src="/icons/pertamina-clean.png" alt="" />
+                <img className="max-w-[230px]" src="/logo/bazma.png" alt="" />
               </div>
             </div>
           </div>

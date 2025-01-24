@@ -15,7 +15,7 @@ import {Button} from "./ui/button";
 import {ArrowRight} from "lucide-react";
 
 const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
-  const lang = JSCookie.get("lang") || "en";
+  const lang = JSCookie.get("lang") || "id";
   const [activeIndex, setActiveIndex] = React.useState(0);
   const ui = uiStore((state) => state);
   const {ref, inView} = useInView({

@@ -60,6 +60,14 @@
   }
 }
 
+.dont-reset {
+  ul,
+  ol {
+    list-style: inherit !important;
+    margin-left: 16px;
+  }
+}
+
 .leaflet-control-container {
   display: none !important;
 }

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const page = async () => {
-  const lang = (await cookies()).get("lang")?.value || "en";
+  const lang = (await cookies()).get("lang")?.value || "id";
 
   return (
     <React.Fragment>

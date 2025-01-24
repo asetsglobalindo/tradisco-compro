@@ -74,6 +74,9 @@ export interface ContentType {
   };
   small_text: string;
   small_text2: string;
+  sub_title1: string;
+  sub_title2: string;
+  sub_title3: string;
   slug: string;
   description: string;
   banner: ImageType[] | [];
@@ -92,11 +95,12 @@ export interface ContentType {
         lists: [];
       }[]
     | [];
-  body2: [];
+  body2: {_id: string; title: string; text: string}[];
   active_status: boolean;
   total_view: number;
   order: number;
   images: ImageType[] | [];
+  images2: ImageType[] | [];
   thumbnail_images: ImageType[] | [];
   thumbnail_images2: ImageType[] | [];
   related: [];
@@ -142,6 +146,11 @@ export interface HomeType {
   section3: {
     small_text: string;
     title: string;
+  };
+  section4a: {
+    description: string;
+    title: string;
+    content: ContentType[] | [];
   };
   section4:
     | {

@@ -10,7 +10,7 @@ import {Loader2} from "lucide-react";
 
 const NewsList = () => {
   const limit = 12;
-  const lang = JSCookie.get("lang") || "en";
+  const lang = JSCookie.get("lang") || "id";
   const [isNoData, setIsNoData] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [totalData, setTotalData] = React.useState(0);

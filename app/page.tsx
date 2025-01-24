@@ -42,7 +42,7 @@ const getHomeContent = async () => {
 
 export default async function Home() {
   const content: HomeType = await getHomeContent();
-  const lang = (await cookies()).get("lang")?.value || "en";
+  const lang = (await cookies()).get("lang")?.value || "id";
 
   return (
     <section>
@@ -54,6 +54,34 @@ export default async function Home() {
 
       {/* growth revenue */}
       <HomeGrowth data={content} />
+
+      <section className="relative mt-16 lg:mt-32 container">
+        <h1 className="title-3 text-center">{content.section4a.title}</h1>
+        <div className="mt-8" dangerouslySetInnerHTML={{__html: content.section4a.description}}></div>
+
+        <section className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-4">
+          {content.section4a.content.map((c) => (
+            <div className="rounded-2xl relative overflow-hidden" key={c._id}>
+              <img src={c?.thumbnail_images[0]?.images[0]?.url} alt="" />
+              <section className="absolute bottom-0 z-20 left-0  px-8 py-8 transition-all flex flex-col">
+                <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
+                <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
+
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <a className="w-full" target="_blank" href={c.bottom_button_route}>
+                    <Button className="w-full">{c.bottom_button_name}</Button>
+                  </a>
+                  <a className="w-full" target="_blank" href={c.sub_title2}>
+                    <Button variant={"outline"} className="w-full text-white border-white">
+                      {c.sub_title1}
+                    </Button>
+                  </a>
+                </div>
+              </section>
+            </div>
+          ))}
+        </section>
+      </section>
 
       {/* News */}
       <section className="relative mt-16 lg:mt-32">

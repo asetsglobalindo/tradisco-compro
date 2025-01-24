@@ -52,8 +52,6 @@ const getData = async () => {
 const page = async () => {
   const data: ContentType = await getData();
 
-  console.log(data);
-
   return (
     <section>
       <section className="relative">
@@ -110,21 +108,21 @@ const page = async () => {
       <section className="mt-16 container">
         <h1 className="title-3 text-green-light text-center">{data.small_text}</h1>
         <section className="container py-16 flex flex-col gap-16">
-          <Carousel>
-            <CarouselContent>
+          <Carousel className="w-full">
+            <CarouselContent className="w-full">
               {data.body
                 .filter((d) => d.type === 2)
                 .map((d) => (
-                  <section key={d._id}>
-                    <CarouselItem key={d._id} className="w-full flex relative items-center">
-                      <img className="absolute" src={d?.images[0]?.images[0]?.url} alt="" />
+                  <CarouselItem key={d._id}>
+                    <section key={d._id} className="flex relative items-center w-full">
+                      <img className="absolute w-[300px]" src={d?.images[0]?.images[0]?.url} alt="" />
                       <div className="bg-[#005CAB] text-white max-w-[85%] ml-auto h-[500px] flex flex-col justify-center pl-[15%] pr-16 rounded-3xl">
                         <div className="text-2xl" dangerouslySetInnerHTML={{__html: d.text}}></div>
                         <h1 className="title-4 mt-8">{d.title}</h1>
                         <p>{d.button_name}</p>
                       </div>
-                    </CarouselItem>
-                  </section>
+                    </section>
+                  </CarouselItem>
                 ))}
             </CarouselContent>
             <CarouselPrevious />

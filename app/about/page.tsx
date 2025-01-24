@@ -1,36 +1,195 @@
+import BannerSingle from "@/components/BannerSingle";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import ApiService from "@/lib/ApiService";
+import CONTENT_TYPE from "@/lib/content-type";
+import {cn} from "@/lib/utils";
+import {ContentType} from "@/types/indes";
+import {CircleArrowDown} from "lucide-react";
+import {Metadata} from "next";
+import {cookies} from "next/headers";
+import {notFound} from "next/navigation";
 import React from "react";
 
-const page = () => {
+export async function generateMetadata(): Promise<Metadata> {
+  const result: ContentType = await getData();
+
+  return {
+    title: result.meta_title,
+    description: result.meta_description,
+    openGraph: {
+      title: result.meta_title,
+      description: result.meta_description,
+    },
+  };
+}
+
+const getData = async () => {
+  try {
+    const params = {
+      limit: 1,
+      page: 1,
+      active_status: true,
+      type: CONTENT_TYPE.ABOUT_PROFILE,
+      show_single_language: "yes",
+    };
+
+    const response = await ApiService.get("/content", params);
+
+    if (response.data.status !== 200) {
+      throw new Error(response.data.message || response.data.err);
+    }
+
+    if (!response.data.data.length) {
+      throw new Error("Data not found");
+    }
+
+    return response.data.data[0];
+  } catch (error) {
+    console.log(error);
+    notFound();
+  }
+};
+
+const page = async () => {
+  const data: ContentType = await getData();
+  const lang = (await cookies()).get("lang")?.value || "id";
+
   return (
-    <React.Fragment>
-      <img className="w-full" src="/temp/banner-about.png" alt="" />
-      <section className="container mt-16">
-        <div className="mt-16">
-          <h1 className="title-3 text-green-light text-center">Introduction</h1>
-          <p className="max-w-[600px] mx-auto text-center mt-8">
-            Sebagai anak Perusahaan Pertamina yang melakukan usaha di bidang ritel khususnya penyaluran bahan bakar di
-            SPBU dan pengelolaan, pengembangan serta pemasaran produk-produk bahan bakar dan non bahan bakar sesuai
-            dengan bisnis yang terkait di dalamnya.
-          </p>
-        </div>
-
-        <img className="w-full mt-16" src="/temp/about-1.png" alt="" />
-
-        <div className="text-center mt-16">
-          <p className="text-[#005CAB] text-lg">MOTO</p>
-          <h1 className="title-3 mt-4  font-Kalam">
-            Satukan Energi <br />
-            <span className="text-green-light">Melayani Negeri (SINERGI)</span>
-          </h1>
-        </div>
-
-        <h1 className="mt-16 title-3">Timeline</h1>
-        <img className="w-full mt-16" src="/temp/about-2.png" alt="" />
-        <h1 className="mt-16 title-3">Struktur Organisasi</h1>
-        <img className="w-full mt-16" src="/temp/about-3.png" alt="" />
-        <img className="w-full mt-16" src="/temp/about-4.png" alt="" />
+    <section>
+      <section className="relative">
+        <BannerSingle data={data.banner} />
       </section>
-    </React.Fragment>
+
+      {/* top */}
+      <section className="container lg:mt-16 mt-8">
+        <section className=" max-w-[900px] mx-auto">
+          <h1 className="title-3 text-center text-green-light">{data.title}</h1>
+          <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
+        </section>
+      </section>
+
+      {/* vision */}
+      <section className="container lg:mt-16 mt-8">
+        <section className="max-w-[900px] mx-auto">
+          <section className="flex flex-col md:flex-row items-center bg-[#005CAB] text-white rounded-2xl overflow-hidden">
+            <div className="md:w-1/2 py-8 md:py-0">
+              <h3 className="title-3 text-center">{data.small_text2}</h3>
+              <p className="text-center mt-4 px-8">{data.bottom_button_name}</p>
+            </div>
+            <div className="md:w-1/2">
+              {data.images.length && <img className="w-full" src={data.images[0].images[0].url} alt="" />}
+            </div>
+          </section>
+        </section>
+      </section>
+
+      <section className="container lg:mt-16 mt-8">
+        <section className="max-w-[900px] mx-auto">
+          <section
+            className="text-white  py-8 px-8 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
+            style={{backgroundImage: `url(${data?.images2[0]?.images[0]?.url})`}}
+          >
+            <h1 className="title-3 text-center">{data.sub_title1}</h1>
+
+            <section className="grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-8 mt-4">
+              {data.body2.map((d, index) => (
+                <div key={d._id} className="relative flex items-center">
+                  <div className="absolute -left-5 bg-green-light rounded-lg flex items-center justify-center h-10 w-10">
+                    {index + 1}
+                  </div>
+                  <div className="bg-white text-black pl-8 py-4 pr-4 h-full rounded-2xl flex items-center">
+                    <div dangerouslySetInnerHTML={{__html: d.text}}></div>
+                  </div>
+                </div>
+              ))}
+            </section>
+          </section>
+        </section>
+      </section>
+
+      {/* motto */}
+      <section className="container lg:mt-16 mt-8 border-b pb-16">
+        <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
+        <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
+      </section>
+
+      {/* timeline */}
+      <section className="container lg:mt-16 mt-8">
+        <h1 className="title-3">Timeline</h1>
+
+        <section className="lg:mt-16 mt-8 flex flex-col gap-8 max-w-[900px] mx-auto">
+          {data.body
+            .filter((d) => d.type === 1)
+            .map((d, index) => (
+              <section key={d._id} className="flex">
+                <section className="lg:grid w-fit grid-cols-2 lg:min-w-40">
+                  <div className="hidden lg:block">
+                    <p className="title-3 text-[#005CAB]">{d.button_name}</p>
+                  </div>
+                  <div className="lg:mx-8 h-full flex justify-center flex-col items-center">
+                    <div className="bg-green-light p-1 rounded-full flex items-center justify-center">
+                      <div className="w-3 h-3 bg-white rounded-full"></div>
+                    </div>
+
+                    <div
+                      className={cn(
+                        {
+                          "opacity-0": index === data.body.filter((d) => d.type === 1).length - 1,
+                        },
+                        "h-full w-[2px] mx-auto bg-[#D9D9D9]"
+                      )}
+                    ></div>
+                  </div>
+                </section>
+                <div className="ml-4 lg:ml-0">
+                  <p className="title-3 lg:hidden text-[#005CAB]">{d.button_name}</p>
+                  <h1 className="title-4 text-[#005CAB] font-bold ">{d.title}</h1>
+                  <div className="mt-4 flex-col md:flex-row flex gap-8">
+                    <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                    <img className="max-w-[250px] object-contain" src={d.images[0].images[0].url} alt="" />
+                  </div>
+                </div>
+              </section>
+            ))}
+        </section>
+      </section>
+
+      <section className="container lg:mt-16 mt-8">
+        <h1 className="title-3 ">{lang === "en" ? "Organizational Structure" : "Struktur Organisasi"}</h1>
+        <img className="mt-8" src={data?.thumbnail_images2[0]?.images[0]?.url} alt="" />
+      </section>
+
+      <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
+        <div className="lg:w-[480px]">
+          <h1 className="title-3">{data.small_text}</h1>
+        </div>
+        <div className="w-full">
+          <Accordion type="single" collapsible className="w-full">
+            {data.body
+              .filter((d) => d.type === 2)
+              .map((d, index) => (
+                <AccordionItem key={d._id} value={"item-" + index}>
+                  <AccordionTrigger className="text-green-light text-left hover:no-underline">
+                    <div className="flex items-center  leading-none">
+                      {d.title} <span className="px-1">|</span>{" "}
+                      <a
+                        className="flex items-center leading-none hover:underline"
+                        href={d.button_route}
+                        target="_blank"
+                      >
+                        <CircleArrowDown className="mr-1" size={18} /> {d.button_name}
+                      </a>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+          </Accordion>
+        </div>
+      </section>
+    </section>
   );
 };
 

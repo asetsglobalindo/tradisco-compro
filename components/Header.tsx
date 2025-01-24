@@ -121,7 +121,7 @@ const NavItemMobile: React.FC<{data: Route; index: number}> = ({data, index}) =>
 
 const LanguageSwitcher = () => {
   const ui = uiStore((state) => state);
-  const lang = JSCookie.get("lang") || "en";
+  const lang = JSCookie.get("lang") || "id";
   const [isOpen, setIsOpen] = useState(false);
 
   const updateLang = (lang: string) => {
@@ -192,7 +192,7 @@ const LanguageSwitcher = () => {
 };
 
 const Header = () => {
-  const lang = JSCookie.get("lang") || "en";
+  const lang = JSCookie.get("lang") || "id";
   const ui = uiStore((state) => state);
   const path = usePathname();
 
