@@ -19,8 +19,6 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
     },
   ];
 
-  console.log(data);
-
   return (
     <section>
       <section className="max-w-full overflow-x-scroll lg:overflow-hidden hide-default-scrollbar">
@@ -85,8 +83,11 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
                       </DrawerClose>
                     </section>
                   </DrawerHeader>
-                  <section className="flex flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 lg:mt-16 lg:mb-48">
-                    <div className="lg:w-[60%] " dangerouslySetInnerHTML={{__html: d.text}}></div>
+                  <section className="flex pb-10 lg:pb-0 flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 lg:mt-16 lg:mb-48">
+                    <div
+                      className="lg:w-[60%] h-full max-h-[300px] lg:max-h-max overflow-y-auto"
+                      dangerouslySetInnerHTML={{__html: d.text}}
+                    ></div>
                     <img className="lg:w-[40%] rounded-2xl" src={d.images[0].images[0].url} alt="" />
                   </section>
                 </div>

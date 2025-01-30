@@ -1,5 +1,6 @@
 "use client";
 import {cn} from "@/lib/utils";
+import Link from "next/link";
 import {usePathname} from "next/navigation";
 import React from "react";
 
@@ -34,19 +35,25 @@ const Footer = () => {
                 <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">Career</h2>
                 <ul className="space-y-2">
                   <li>
-                    <a href="#" className="hover:underline">
-                      Career Development
-                    </a>
+                    <Link href="/career" className="hover:underline">
+                      Career
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link href="/about/hsse" className="hover:underline">
+                      HSSE
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
-                      Job Vacancy
-                    </a>
+                    <Link href="/investor-relations/laporan-tahunan" className="hover:underline">
+                      Annual Report
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
-                      News
-                    </a>
+                    <Link href="/partnership" className="hover:underline">
+                      Partnership
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -62,12 +69,7 @@ const Footer = () => {
                       </span>
                     </a>
                   </li>
-                  <li>
-                    <a href="#" className="hover:underline flex items-start space-x-1">
-                      <img src="/icons/sms.svg" alt="" />
-                      <span>Pertamnianretail@pertamina.com</span>
-                    </a>
-                  </li>
+
                   <li>
                     <a href="#" className="hover:underline flex items-start space-x-1">
                       <img src="/icons/call.svg" alt="" />

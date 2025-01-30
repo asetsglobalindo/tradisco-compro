@@ -97,7 +97,7 @@ const page = async () => {
         {related.map((c) => (
           <div className="rounded-2xl relative overflow-hidden" key={c._id}>
             <img src={c?.thumbnail_images[0]?.images[0]?.url} alt="" />
-            <section className="absolute bottom-0 w-full z-20 left-0  px-8 py-8 transition-all flex flex-col">
+            <section className="absolute bottom-0 w-full z-20 left-0 p-4 md:p-8 transition-all flex flex-col">
               <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
               <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
 

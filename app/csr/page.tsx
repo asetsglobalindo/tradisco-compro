@@ -58,7 +58,7 @@ const page = async () => {
       {/* top */}
       <section className="container lg:mt-16 mt-8">
         <h1 className="title-3 text-center text-green-light">{data.title}</h1>
-        <section className=" max-w-[900px] mx-auto flex gap-8 items-center my-8">
+        <section className=" max-w-[900px] mx-auto flex flex-col md:flex-row gap-8 items-center my-8">
           <div className="md:w-[40%]">
             {data.images.length && <img className="w-full" src={data.images[0].images[0].url} alt="" />}
           </div>
@@ -71,7 +71,7 @@ const page = async () => {
       <section className="container lg:mt-16 mt-8">
         <section className="max-w-[900px] mx-auto">
           <section
-            className="text-white  py-16 px-8 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
+            className="text-white  py-16 px-4 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
             style={{backgroundImage: `url(${data?.thumbnail_images[0]?.images[0]?.url})`}}
           >
             <h1 className="title-3 text-center">{data.sub_title1}</h1>

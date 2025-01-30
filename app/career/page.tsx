@@ -115,7 +115,7 @@ const page = async () => {
                 .map((d) => (
                   <CarouselItem key={d._id}>
                     <section key={d._id} className="flex relative items-center w-full">
-                      <img className="absolute w-[300px]" src={d?.images[0]?.images[0]?.url} alt="" />
+                      <img className="absolute lg:w-[300px]" src={d?.images[0]?.images[0]?.url} alt="" />
                       <div className="bg-[#005CAB] text-white max-w-[85%] ml-auto h-[500px] flex flex-col justify-center pl-[15%] pr-16 rounded-3xl">
                         <div className="text-2xl" dangerouslySetInnerHTML={{__html: d.text}}></div>
                         <h1 className="title-4 mt-8">{d.title}</h1>
@@ -133,8 +133,8 @@ const page = async () => {
 
       <section className="mt-16 container">
         <h1 className="text-center title-3 text-green-light">{data.small_text2}</h1>
-        <section className="flex mt-16 items-center gap-16">
-          <div className="w-1/2">
+        <section className="flex flex-col-reverse lg:flex-row mt-16 items-center gap-16">
+          <div className="lg:w-1/2">
             <div className="text-xl" dangerouslySetInnerHTML={{__html: data.description}}></div>
             <Link href={data.bottom_button_route}>
               <Button
@@ -147,7 +147,7 @@ const page = async () => {
               </Button>
             </Link>
           </div>
-          <img className="w-1/2" src={data.images[0].images[0].url} alt="" />
+          <img className="lg:w-1/2" src={data.images[0].images[0].url} alt="" />
         </section>
       </section>
     </section>
