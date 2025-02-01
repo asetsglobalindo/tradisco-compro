@@ -48,7 +48,7 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
             return '<span class="' + className + '">' + "<em>" + "</em>" + "<i></i>" + "<b></b>" + "</span>";
           },
         }}
-        className="h-screen"
+        className="h-screen md:h-[60vh] lg:h-screen"
         slidesPerView={1}
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
       >

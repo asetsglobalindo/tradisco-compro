@@ -86,7 +86,7 @@ const page = async () => {
           .map((d) => (
             <div className="relative rounded-2xl overflow-hidden" key={d._id}>
               <img src={d.images[0].images[0].url} alt="" />
-              <section className="absolute bottom-0 z-20 left-0  px-8 py-8 transition-all flex flex-col">
+              <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h1>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: d.text}}></div>
               </section>

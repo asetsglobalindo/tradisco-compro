@@ -26,6 +26,15 @@ export interface LocationType {
   publish: number;
 }
 
+export interface HeaderItemChild {
+  name: string;
+  route: string;
+  order: number;
+  images: [];
+  _id: string;
+  childs: HeaderItemChild[] | [];
+}
+
 export interface HeaderItemType {
   name: string;
   _id: string;
@@ -33,15 +42,7 @@ export interface HeaderItemType {
   order: number;
   images: [];
   active_status: boolean;
-  childs:
-    | {
-        name: string;
-        route: string;
-        order: number;
-        images: [];
-        _id: string;
-      }[]
-    | [];
+  childs: HeaderItemChild[] | [];
   contents: [];
   organization_id: string;
 }
@@ -108,6 +109,7 @@ export interface ContentType {
   organization_id: string;
   created_at: string;
   bottom_button_route: string;
+  bottom_text: string;
   bottom_button_name: string;
   created_by: string;
   updated_at: string;

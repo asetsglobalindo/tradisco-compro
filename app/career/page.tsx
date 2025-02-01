@@ -58,10 +58,12 @@ const page = async () => {
         <BannerSingle data={data.banner} />
       </section>
 
-      <section className="container">
-        <h1 className="title-3 text-green-light my-16">{data.title}</h1>
+      <section className=" bg-[#F2F2F2]">
+        <section className="container py-8 xl:py-16">
+          <h1 className="title-3 text-green-light my-16">{data.title}</h1>
+        </section>
       </section>
-      <section className="bg-[#F2F2F2]">
+      {/* <section className="bg-[#F2F2F2]">
         <section className="container py-16 flex flex-col gap-16">
           {data.body
             .filter((d) => d.type === 1)
@@ -78,7 +80,6 @@ const page = async () => {
                           <img className="blur-[2px] aspect-square object-cover" src={img.images[0].url} alt="" />
 
                           <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
-                          {/* content */}
                           <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
                             <h1 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
                               {img.title}
@@ -103,7 +104,7 @@ const page = async () => {
               </section>
             ))}
         </section>
-      </section>
+      </section> */}
 
       <section className="mt-16 container">
         <h1 className="title-3 text-green-light text-center">{data.small_text}</h1>

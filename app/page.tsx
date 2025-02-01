@@ -59,11 +59,11 @@ export default async function Home() {
         <h1 className="title-3 text-center">{content.section4a.title}</h1>
         <div className="mt-8" dangerouslySetInnerHTML={{__html: content.section4a.description}}></div>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-4">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
           {content.section4a.content.map((c) => (
             <div className="rounded-2xl relative overflow-hidden" key={c._id}>
-              <img src={c?.thumbnail_images[0]?.images[0]?.url} alt="" />
-              <section className="absolute bottom-0 z-20 left-0  px-8 py-8 transition-all flex flex-col">
+              <img className="w-full" src={c?.thumbnail_images[0]?.images[0]?.url} alt="" />
+              <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
 

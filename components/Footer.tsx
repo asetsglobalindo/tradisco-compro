@@ -1,6 +1,6 @@
 "use client";
 import {cn} from "@/lib/utils";
-import Link from "next/link";
+// import Link from "next/link";
 import {usePathname} from "next/navigation";
 import React from "react";
 
@@ -31,7 +31,7 @@ const Footer = () => {
               </p>
             </div>
             <div className="flex flex-col md:flex-row gap-8 lg:gap-8">
-              <div className="min-w-fit max-w-[300px] lg:mt-8">
+              {/* <div className="min-w-fit max-w-[300px] lg:mt-8">
                 <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">Career</h2>
                 <ul className="space-y-2">
                   <li>
@@ -56,8 +56,8 @@ const Footer = () => {
                     </Link>
                   </li>
                 </ul>
-              </div>
-              <div className="w-full max-w-[300px] lg:mt-8">
+              </div> */}
+              <div className="w-full lg:mt-8">
                 <h2 className="mb-4 lg:mb-6 font-semibold">Contact Us</h2>
                 <ul className="space-y-2">
                   <li>
@@ -105,14 +105,14 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="sm:flex sm:items-center sm:justify-between mt-24 font-light text-xs text-[#BFBFBF]">
+          {/* <div className="sm:flex sm:items-center sm:justify-between mt-24 font-light text-xs text-[#BFBFBF]">
             <span className="">© 2024 Pertamina Retail. All rights reserved.</span>
             <div className="flex mt-4 space-x-4 sm:justify-center sm:mt-0">
               <a href="#">Privacy Policy</a>
               <a href="#">Term Of Use</a>
               <a href="#">Sitemap</a>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </footer>

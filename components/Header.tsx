@@ -10,29 +10,32 @@ import {X} from "lucide-react";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./ui/accordion";
 import {useQuery} from "react-query";
 import ApiService from "@/lib/ApiService";
-import {HeaderItemType} from "@/types/indes";
+import {HeaderItemChild, HeaderItemType} from "@/types/indes";
 import JSCookie from "js-cookie";
 import {UpdateLangPreference} from "@/app/action";
 import {usePathname} from "next/navigation";
-
-type Route = {
-  name: string;
-  href: string;
-  sub_routes: Omit<Route, "sub_routes">[]; // Recursive type to allow nested sub-routes
-};
 
 const langOptions = [
   {label: "en", value: "en"},
   {label: "id", value: "id"},
 ];
 
-const NavItem: React.FC<{data: Route}> = ({data}) => {
+const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | "right" | "bottom" | "top"}> = ({
+  data,
+  side = "bottom",
+  color,
+}) => {
   const ui = uiStore((state) => state);
   const [isOpen, setIsOpen] = useState(false);
+  const path = usePathname();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [path]);
 
   // for non sub routes
-  if (!data.sub_routes.length) {
-    return <Link href={data.href}>{data.name}</Link>;
+  if (!data.childs.length) {
+    return <Link href={data.route}>{data.name}</Link>;
   }
 
   return (
@@ -40,7 +43,10 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
       <PopoverTrigger className="flex items-center space-x-1">
         <span className="inline-block leading-none">{data.name}</span>
         <svg
-          className={cn({"rotate-180": isOpen}, "w-4 transition-all")}
+          className={cn(
+            {"rotate-180": isOpen && side === "bottom", "rotate-[-90deg]": side === "right"},
+            "w-4 transition-all"
+          )}
           width="9"
           height="5"
           viewBox="0 0 9 5"
@@ -49,12 +55,12 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
         >
           <path
             d="M7.70665 0.430832H4.33207H1.29332C0.773319 0.430832 0.513319 1.05917 0.881653 1.4275L3.68749 4.23333C4.13707 4.68291 4.86832 4.68291 5.3179 4.23333L6.38499 3.16625L8.12374 1.4275C8.48665 1.05917 8.22665 0.430832 7.70665 0.430832Z"
-            fill={ui.headerColor}
+            fill={color || ui.headerColor}
           />
         </svg>
       </PopoverTrigger>
-      <PopoverContent className="w-fit min-w-28 relative flex justify-center z-[99999]" sideOffset={20}>
-        <div className="absolute -top-6">
+      <PopoverContent side={side} className="w-fit min-w-28 relative flex justify-center z-[99999]" sideOffset={20}>
+        <div className={cn({" -top-6": side === "bottom"}, "absolute")}>
           <div className="rotate-180">
             <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -65,10 +71,16 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
           </div>
         </div>
         <section className="flex flex-col w-fit space-y-2">
-          {data.sub_routes.map((route) => (
-            <Link key={route.name} href={route.href} className="hover:text-green-light hover:underline">
-              {route.name}
-            </Link>
+          {data.childs.map((route) => (
+            <div key={route.name}>
+              {route?.childs?.length ? (
+                <NavItem data={route} side="right" color="black" />
+              ) : (
+                <Link className="hover:text-green-light hover:underline" href={route.route}>
+                  {route.name}
+                </Link>
+              )}
+            </div>
           ))}
         </section>
       </PopoverContent>
@@ -76,21 +88,21 @@ const NavItem: React.FC<{data: Route}> = ({data}) => {
   );
 };
 
-const NavItemMobile: React.FC<{data: Route; index: number}> = ({data, index}) => {
+const NavItemMobile: React.FC<{data: HeaderItemChild; index: number}> = ({data, index}) => {
   return (
     <AccordionItem value={`route-${index}`} key={`${data.name}-${index}`} className="nav-mobile-accordion-item">
       <AccordionTrigger className="text-center flex justify-center flex-none mx-auto relative">
-        {data.sub_routes.length ? (
+        {data.childs?.length ? (
           <div className="w-fit flex justify-center items-center relative">
             <span className="text-center ">{data.name}</span>
           </div>
         ) : (
-          <Link href={data.href} className="w-full">
+          <Link href={data.route} className="w-full">
             {data.name}
           </Link>
         )}
 
-        {data.sub_routes.length ? (
+        {data.childs?.length ? (
           <svg
             className={"w-4 transition-all absolute  -right-5"}
             width="9"
@@ -108,10 +120,20 @@ const NavItemMobile: React.FC<{data: Route; index: number}> = ({data, index}) =>
       </AccordionTrigger>
       <AccordionContent>
         <section className="flex flex-col space-y-4 text-center">
-          {data.sub_routes.map((route) => (
-            <Link key={route.name} href={route.href} className="hover:text-green-light hover:underline">
-              {route.name}
-            </Link>
+          {data.childs?.map((route) => (
+            <section key={route.name} className="flex flex-col space-y-4 text-center">
+              {route.childs.length ? (
+                route.childs.map((child) => (
+                  <Link className="hover:text-green-light hover:underline" key={child.name} href={child.route}>
+                    {child.name}
+                  </Link>
+                ))
+              ) : (
+                <Link className="hover:text-green-light hover:underline" href={route.route}>
+                  {route.name}
+                </Link>
+              )}
+            </section>
           ))}
         </section>
       </AccordionContent>
@@ -236,13 +258,7 @@ const Header = () => {
               <ul className="flex w-full space-x-8 items-center mt-4">
                 {header?.map((route) => (
                   <li key={route.name} className="flex leading-none">
-                    <NavItem
-                      data={{
-                        name: route.name,
-                        href: route.route,
-                        sub_routes: route.childs.map((child) => ({name: child.name, href: child.route})),
-                      }}
-                    />
+                    <NavItem data={route} />
                   </li>
                 ))}
 
@@ -285,15 +301,7 @@ const Header = () => {
                 {/* actual navigation */}
                 <Accordion className="mt-16" type="single" collapsible>
                   {header?.map((route, index) => (
-                    <NavItemMobile
-                      key={route._id}
-                      index={index}
-                      data={{
-                        name: route.name,
-                        href: route.route,
-                        sub_routes: route.childs.map((child) => ({name: child.name, href: child.route})),
-                      }}
-                    />
+                    <NavItemMobile key={route._id} index={index} data={route} />
                   ))}
                 </Accordion>
               </DrawerContent>

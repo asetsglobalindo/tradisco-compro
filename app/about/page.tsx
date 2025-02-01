@@ -6,7 +6,7 @@ import {cn} from "@/lib/utils";
 import {ContentType} from "@/types/indes";
 import {CircleArrowDown} from "lucide-react";
 import {Metadata} from "next";
-import {cookies} from "next/headers";
+// import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
 import React from "react";
 
@@ -52,7 +52,7 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
-  const lang = (await cookies()).get("lang")?.value || "id";
+  // const lang = (await cookies()).get("lang")?.value || "id";
 
   return (
     <section>
@@ -115,7 +115,7 @@ const page = async () => {
 
       {/* timeline */}
       <section className="container lg:mt-16 mt-8">
-        <h1 className="title-3">Timeline</h1>
+        <h1 className="title-3">{data.bottom_text}</h1>
 
         <section className="lg:mt-16 mt-8 flex flex-col gap-8 max-w-[900px] mx-auto">
           {data.body
@@ -154,10 +154,12 @@ const page = async () => {
         </section>
       </section>
 
-      <section className="container lg:mt-16 mt-8">
-        <h1 className="title-3 ">{lang === "en" ? "Organizational Structure" : "Struktur Organisasi"}</h1>
-        <img className="mt-8" src={data?.thumbnail_images2[0]?.images[0]?.url} alt="" />
-      </section>
+      {/* {data?.thumbnail_images2.length ? (
+        <section className="container lg:mt-16 mt-8">
+          <h1 className="title-3 ">{lang === "en" ? "Organizational Structure" : "Struktur Organisasi"}</h1>
+          <img className="mt-8" src={data?.thumbnail_images2[0]?.images[0]?.url} alt="" />
+        </section>
+      ) : null} */}
 
       <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
         <div className="lg:w-[480px]">

@@ -1,11 +1,12 @@
 import BannerSingle from "@/components/BannerSingle";
 import {Button} from "@/components/ui/button";
-import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
+// import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
-import {X} from "lucide-react";
+// import {X} from "lucide-react";
 import {Metadata} from "next";
+import Link from "next/link";
 import {notFound} from "next/navigation";
 import React from "react";
 
@@ -89,7 +90,7 @@ const page = async () => {
       <section className="container lg:mt-16 mt-8">
         <section className=" max-w-[900px] mx-auto">
           <h1 className="title-3 text-center text-green-light">{data.title}</h1>
-          <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
+          <div className="mt-8 dont-reset" dangerouslySetInnerHTML={{__html: data.description}}></div>
         </section>
       </section>
 
@@ -105,8 +106,12 @@ const page = async () => {
                 <a className="w-full" target="_blank" href={c.bottom_button_route}>
                   <Button className="w-full">{c.bottom_button_name}</Button>
                 </a>
-
-                <Drawer>
+                <Link href={`/partnership/${c.slug}`}>
+                  <Button variant={"outline"} className="w-full text-white border-white">
+                    {c.sub_title1}
+                  </Button>
+                </Link>
+                {/* <Drawer>
                   <DrawerTrigger asChild className="cursor-pointer group overflow-hidden">
                     <Button variant={"outline"} className="w-full text-white border-white">
                       {c.sub_title1}
@@ -137,7 +142,7 @@ const page = async () => {
                       </section>
                     </div>
                   </DrawerContent>
-                </Drawer>
+                </Drawer> */}
               </div>
             </section>
           </div>
