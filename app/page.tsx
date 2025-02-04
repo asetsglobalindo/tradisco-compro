@@ -62,7 +62,11 @@ export default async function Home() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
           {content.section4a.content.map((c) => (
             <div className="rounded-2xl relative overflow-hidden" key={c._id}>
-              <img className="w-full" src={c?.thumbnail_images[0]?.images[0]?.url} alt="" />
+              <img
+                className="w-full brightness-[40%] aspect-square object-cover"
+                src={c?.thumbnail_images[0]?.images[0]?.url}
+                alt=""
+              />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>

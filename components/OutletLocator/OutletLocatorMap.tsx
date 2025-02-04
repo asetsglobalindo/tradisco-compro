@@ -5,26 +5,37 @@ import L from "leaflet";
 import {useQuery} from "react-query";
 import ApiService from "@/lib/ApiService";
 import {LocationType} from "@/types/indes";
-import {Loader2} from "lucide-react";
+import {ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search} from "lucide-react";
 import MapPopup from "../MapPopup";
 import LefleatMapIcon from "@/lib/LefleatIcon";
-import {ScrollArea} from "../ui/scroll-area";
+import {Input} from "../ui/input";
+import {Button} from "../ui/button";
+import {cn} from "@/lib/utils";
+import {useDebounce} from "use-debounce";
+import moment from "moment";
+
+const weeks = [
+  "Mon Feb 27 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+  "Tue Feb 28 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+  "Wed Mar 01 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+  "Thu Mar 02 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+  "Fri Mar 03 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+  "Sat Mar 04 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+  "Sun Mar 05 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+];
 
 const OutletLocatorMap = () => {
-  const suggestionLimit = 20;
   const [map, setMap] = useState<L.Map | null>(null);
+  const [selectedLocationDetails, setSelectedLocationDetails] = useState<LocationType | null>(null);
   const [value, setValue] = useState<string>("");
-  const [userLocation, setUserLocation] = useState<number[]>();
-  const [suggestion, setSuggestion] = useState<LocationType[]>([]);
-  const [isLoadingSuggestion, setIsLoadingSuggestion] = useState<boolean>(false);
-  const [showEmptySuggestion, setShowEmptySuggestion] = useState<boolean>(false);
+  const [locationQuery] = useDebounce(value, 1000);
 
-  const {data: locationData} = useQuery({
+  const {data: locationData, refetch} = useQuery({
     queryKey: ["outlet-locator"],
-    queryFn: async () => await getLocation({limit: 99999999, setInitial: true}),
+    queryFn: async () => await getLocation({limit: 99999999, search: locationQuery}),
   });
 
-  const getLocation = async ({limit, search, setInitial}: {limit: number; search?: string; setInitial?: boolean}) => {
+  const getLocation = async ({limit, search}: {limit: number; search?: string}) => {
     try {
       const query: {page: number; limit: number; query?: string; lat: number | null; long: number | null} = {
         page: 1,
@@ -43,133 +54,173 @@ const OutletLocatorMap = () => {
         throw new Error(res.data.message || res.data.err);
       }
 
-      if (setInitial && res.data.data.length) {
-        setSuggestion(res.data.data.slice(0, suggestionLimit) as LocationType[]);
-      }
-
-      // empty suggestion
-      if (!res.data.data.length) {
-        setShowEmptySuggestion(true);
-      } else {
-        setShowEmptySuggestion(false);
-      }
-
       return res.data.data as LocationType[] | [];
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (location) {
-        map?.flyTo([location.coords.latitude, location.coords.longitude], 15);
-        setTimeout(() => {
-          setUserLocation([location.coords.latitude, location.coords.longitude]);
-        }, 4000);
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  };
-
-  const getSuggestion = async () => {
-    setIsLoadingSuggestion(true);
-    const suggestionData = await getLocation({limit: suggestionLimit, search: value});
-    setSuggestion(suggestionData || []);
-    setIsLoadingSuggestion(false);
-  };
-
   return (
-    <section>
-      <section className=" flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
-        <section className="lg:w-5/12 ">
-          {/* searchbar */}
-          <section className="flex space-x-2 bg-[#FAFAFA] p-4">
-            <div className="border w-full border-black/20 h-12 flex px-2 py-2 space-x-2">
-              <button onClick={getUserLocation}>
-                <img className="w-[18px]" src="/icons/location-me.svg" alt="location" />
-              </button>
-              <input
-                type="text"
-                className="h-full w-full outline-none bg-transparent"
-                placeholder="Search your location"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-              />
-            </div>
-            <button disabled={isLoadingSuggestion} onClick={getSuggestion} className="bg-[#737373] px-4">
-              {isLoadingSuggestion ? (
-                <Loader2 className="w-5 animate-spin" color="white" />
-              ) : (
-                <img className="w-6" src="/icons/search-white-header.svg" alt="" />
-              )}
+    <section className="w-full h-[935px] relative border rounded-2xl overflow-hidden">
+      <section className="absolute h-auto top-0 z-30 bg-white w-full lg:max-w-[450px] p-8">
+        {/* search bar */}
+        <div className="flex gap-2 ">
+          <Input placeholder="Search location" onChange={(e) => setValue(e.target.value)} value={value} />
+          <Button onClick={() => refetch()}>
+            <Search />
+          </Button>
+        </div>
+
+        {/* list */}
+        {selectedLocationDetails ? (
+          <div className="mt-8 max-h-[calc(100vh-114px)] overflow-auto">
+            <button
+              onClick={() => setSelectedLocationDetails(null)}
+              className="flex items-center border-b pb-2 mb-4 w-full"
+            >
+              <ChevronLeft /> <span className="leading-none underline font-medium">BACK TO RESULT</span>
             </button>
-          </section>
+            <h1 className="lg:text-lg uppercase font-semibold">{selectedLocationDetails.name}</h1>
+            <p className="mt-2">{selectedLocationDetails.address}</p>
 
-          {/* suggestion */}
-          {suggestion?.length > 0 && !isLoadingSuggestion ? (
-            <ScrollArea className="h-[520px]">
-              {suggestion?.map((item) => (
-                <section key={item._id} className="flex space-x-2 items-start py-4 px-4 border-b border-black/20">
-                  <img className="w-[18px]" src="/icons/green-pinpoint.svg" alt="pinpoint" />
-                  <div>
-                    <button
-                      onClick={() => {
-                        map?.flyTo([+item.lat, +item.long], 15);
-                        setValue(item.name);
-                      }}
+            {selectedLocationDetails?.operational_hour?.length ? (
+              <div className="mt-4">
+                <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
+                  <Clock size={18} />
+                  operating hours :{" "}
+                </p>
+                <ul className="grid grid-cols-1 mt-2 gap-1">
+                  {weeks.map((f) => (
+                    <li
+                      key={f}
+                      className={cn(
+                        {
+                          "bg-gray-200":
+                            moment(f).format("LLLL").split(",")[0] === moment().format("LLLL").split(",")[0],
+                        },
+                        "flex justify-between"
+                      )}
                     >
-                      <h1 className="font-semibold hover:underline text-left">{item.name}</h1>
-                    </button>
-                    <span className="inline-block mt-2">{item.address}</span>
-                    {item.vr_url ? (
-                      <a href={item.vr_url} target="_blank" rel="noreferrer">
-                        <button className="mt-4 bg-green-light h-10 text-white px-4 rounded-sm">Direction</button>
-                      </a>
-                    ) : null}
-                  </div>
-                </section>
-              ))}
-            </ScrollArea>
-          ) : null}
+                      <p>{moment(f).format("LLLL").split(",")[0]}</p>
+                      {selectedLocationDetails.operational_hour.toLocaleLowerCase() === "24 jam" ? (
+                        <p>(00.00 - 23.59)</p>
+                      ) : null}
+                      {selectedLocationDetails.operational_hour.toLocaleLowerCase().includes("16 jam") ? (
+                        <p>{selectedLocationDetails.operational_hour.replace("16 jam", "")}</p>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {selectedLocationDetails?.fuel?.length ? (
+              <div className="mt-4">
+                <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
+                  <Fuel size={18} />
+                  Fuel :{" "}
+                </p>
+                <ul className="grid grid-cols-2 mt-2 gap-1">
+                  {selectedLocationDetails.fuel.split(",").map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
-          {/* suggestion nofound */}
-          <section>
-            {showEmptySuggestion && !isLoadingSuggestion ? (
-              <section className="flex space-x-2 items-start py-4 px-4">
+            {selectedLocationDetails?.facility?.length ? (
+              <div className="mt-4">
+                <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
+                  <Coffee /> Facility :{" "}
+                </p>
+                <ul className="grid grid-cols-2 mt-2 gap-1">
+                  {selectedLocationDetails.facility.split(",").map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {selectedLocationDetails?.lat && selectedLocationDetails?.long ? (
+              <a
+                className="mt-4 w-full block"
+                target="_blank"
+                href={
+                  "http://www.google.com/maps/place/" + selectedLocationDetails.lat + "," + selectedLocationDetails.long
+                }
+              >
+                <Button className="w-full flex justify-center items-center">
+                  Direction <MoveRight />
+                </Button>
+              </a>
+            ) : null}
+          </div>
+        ) : (
+          <div
+            className={cn(
+              {
+                "mt-8": locationData?.length,
+              },
+              "grid max-h-[calc(100vh-114px)] grid-cols-1 overflow-auto gap-4"
+            )}
+          >
+            {locationData?.map((item) => (
+              <section key={item._id} className="flex space-x-2 items-start border-b pb-4 border-black/20">
                 <img className="w-[18px]" src="/icons/green-pinpoint.svg" alt="pinpoint" />
                 <div>
-                  <h1 className="font-semibold">No Result Found.</h1>
+                  <button
+                    onClick={() => {
+                      map?.flyTo([+item.lat, +item.long], 15);
+                      setSelectedLocationDetails(item);
+                    }}
+                  >
+                    <h1 className="font-semibold hover:underline text-left">{item.name}</h1>
+                  </button>
+                  <span className="inline-block mt-2">{item.address}</span>
                 </div>
               </section>
-            ) : null}
-          </section>
-        </section>
-        <section className="lg:w-7/12">
-          <MapContainer
-            ref={(map) => {
-              if (map) {
-                setMap(map);
-              }
-            }}
-            center={[-4.775231, 109.042028]}
-            className="max-h-[500px] lg:max-h-[600px] h-full rounded-[10px] z-20"
-            zoom={6}
-          >
-            <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />
-            {userLocation ? <Marker position={userLocation as any} icon={LefleatMapIcon.myLocation}></Marker> : null}
-
-            {locationData?.map((item) => (
-              <Marker key={item._id} position={[+item.lat || 0, +item.long || 0]} icon={LefleatMapIcon.SPBU}>
-                <Popup className="m-0">
-                  <MapPopup item={item} />
-                </Popup>
-              </Marker>
             ))}
-          </MapContainer>
-        </section>
+          </div>
+        )}
       </section>
+      <MapContainer
+        ref={(map) => {
+          if (map) {
+            setMap(map);
+          }
+        }}
+        center={[-4.775231, 109.042028]}
+        className="w-full h-full  z-20"
+        zoom={6}
+      >
+        <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />
+        {locationData
+          ?.filter((d) => {
+            if (selectedLocationDetails) {
+              return d._id === selectedLocationDetails._id;
+            }
+
+            return d;
+          })
+          ?.map((item) => (
+            <Marker
+              eventHandlers={{
+                click: () => {
+                  map?.flyTo([+item.lat, +item.long], 15);
+                  setTimeout(() => {
+                    setSelectedLocationDetails(item);
+                  }, 500);
+                },
+              }}
+              key={item._id}
+              position={[+item.lat || 0, +item.long || 0]}
+              icon={LefleatMapIcon.SPBU}
+            >
+              <Popup className="m-0">
+                <MapPopup item={item} />
+              </Popup>
+            </Marker>
+          ))}
+      </MapContainer>
     </section>
   );
 };

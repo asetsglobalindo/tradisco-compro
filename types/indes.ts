@@ -18,12 +18,13 @@ export interface LocationType {
   name: string;
   slug: string;
   code: string;
-  postal_code: number;
   address: string;
   lat: string;
   long: string;
-  vr_url: string | null;
+  facility: string;
+  fuel: string;
   publish: number;
+  operational_hour: string;
 }
 
 export interface HeaderItemChild {
@@ -33,6 +34,11 @@ export interface HeaderItemChild {
   images: [];
   _id: string;
   childs: HeaderItemChild[] | [];
+}
+
+export interface PagesResponseType {
+  current_page: number;
+  total_data: number;
 }
 
 export interface HeaderItemType {
@@ -107,6 +113,8 @@ export interface ContentType {
   related: [];
   related2: [];
   organization_id: string;
+  bottom_text2: string;
+  bottom_description2: string;
   created_at: string;
   bottom_button_route: string;
   bottom_text: string;

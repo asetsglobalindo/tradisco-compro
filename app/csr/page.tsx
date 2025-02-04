@@ -56,7 +56,7 @@ const page = async () => {
       </section>
 
       {/* top */}
-      <section className="container lg:mt-16 mt-8">
+      {/* <section className="container lg:mt-16 mt-8">
         <h1 className="title-3 text-center text-green-light">{data.title}</h1>
         <section className=" max-w-[900px] mx-auto flex flex-col md:flex-row gap-8 items-center my-8">
           <div className="md:w-[40%]">
@@ -66,7 +66,7 @@ const page = async () => {
             <div dangerouslySetInnerHTML={{__html: data.description}}></div>
           </div>
         </section>
-      </section>
+      </section> */}
 
       <section className="container lg:mt-16 mt-8">
         <section className="max-w-[900px] mx-auto">
@@ -85,7 +85,7 @@ const page = async () => {
           .filter((d) => d.type === 3)
           .map((d) => (
             <div className="relative rounded-2xl overflow-hidden" key={d._id}>
-              <img src={d.images[0].images[0].url} alt="" />
+              <img className="w-full h-full object-cover" src={d.images[0].images[0].url} alt="" />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h1>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: d.text}}></div>

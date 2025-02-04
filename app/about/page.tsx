@@ -1,5 +1,7 @@
 import BannerSingle from "@/components/BannerSingle";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import {Button} from "@/components/ui/button";
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {cn} from "@/lib/utils";
@@ -70,9 +72,9 @@ const page = async () => {
 
       {/* vision */}
       <section className="container lg:mt-16 mt-8">
-        <section className="max-w-[900px] mx-auto">
+        <section className="">
           <section className="flex flex-col md:flex-row items-center bg-[#005CAB] text-white rounded-2xl overflow-hidden">
-            <div className="md:w-1/2 py-8 md:py-0">
+            <div className="md:w-1/2 py-8 md:py-0 max-w-[900px] mx-auto">
               <h3 className="title-3 text-center">{data.small_text2}</h3>
               <p className="text-center mt-4 px-8">{data.bottom_button_name}</p>
             </div>
@@ -84,7 +86,7 @@ const page = async () => {
       </section>
 
       <section className="container lg:mt-16 mt-8">
-        <section className="max-w-[900px] mx-auto">
+        <section className="mx-auto">
           <section
             className="text-white  py-8 px-8 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
             style={{backgroundImage: `url(${data?.images2[0]?.images[0]?.url})`}}
@@ -112,7 +114,6 @@ const page = async () => {
         <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
       </section>
-
       {/* timeline */}
       <section className="container lg:mt-16 mt-8">
         <h1 className="title-3">{data.bottom_text}</h1>
@@ -146,20 +147,55 @@ const page = async () => {
                   <h1 className="title-4 text-[#005CAB] font-bold ">{d.title}</h1>
                   <div className="mt-4 flex-col md:flex-row flex gap-8">
                     <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                    <img className="max-w-[250px] object-contain" src={d.images[0].images[0].url} alt="" />
+                    <img className="max-w-[250px] object-contain" src={d?.images[0]?.images[0]?.url} alt="" />
                   </div>
                 </div>
               </section>
             ))}
         </section>
       </section>
+      <section className="bg-[#F2F2F2] lg:mt-16 mt-8">
+        <section className="container py-16 flex flex-col gap-16">
+          {data.body
+            .filter((d) => d.type === 4)
+            .map((d) => (
+              <section key={d._id}>
+                <h2 className="title-4 font-bold text-[#005CAB]">{data.bottom_text2}</h2>
+                <div className="mt-4" dangerouslySetInnerHTML={{__html: data.bottom_description2}}></div>
 
-      {/* {data?.thumbnail_images2.length ? (
-        <section className="container lg:mt-16 mt-8">
-          <h1 className="title-3 ">{lang === "en" ? "Organizational Structure" : "Struktur Organisasi"}</h1>
-          <img className="mt-8" src={data?.thumbnail_images2[0]?.images[0]?.url} alt="" />
+                <Carousel className="mt-8">
+                  <CarouselContent>
+                    {d.images?.map((img, index) => (
+                      <CarouselItem key={index} className="w-full md:basis-1/3">
+                        <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
+                          <img className="blur-[2px] aspect-square object-cover" src={img.images[0].url} alt="" />
+
+                          <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
+                          <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
+                            <h1 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
+                              {img.title}
+                            </h1>
+                            <a target="_blank" href={img.button_route}>
+                              <Button
+                                size="default"
+                                variant="outline"
+                                className="w-fit mt-2 rounded-none text-xs shadow-sm border-white group-hover:border-white group-hover:border box-border"
+                              >
+                                <span>{d.button_name} </span>
+                              </Button>
+                            </a>
+                          </section>
+                        </section>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              </section>
+            ))}
         </section>
-      ) : null} */}
+      </section>
 
       <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
         <div className="lg:w-[480px]">

@@ -35,7 +35,20 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
 
   // for non sub routes
   if (!data.childs.length) {
-    return <Link href={data.route}>{data.name}</Link>;
+    return (
+      <Link href={data.route}>
+        {data.name.toLowerCase() === "home" || data.name.toLowerCase() === "beranda" ? (
+          <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M11.7281 0.953614C11.377 0.680505 10.9449 0.532227 10.5001 0.532227C10.0553 0.532227 9.62319 0.680505 9.2721 0.953614L0.888104 7.47361C0.136104 8.06061 0.550104 9.26561 1.5031 9.26561H2.5001V17.2656C2.5001 17.796 2.71082 18.3048 3.08589 18.6798C3.46096 19.0549 3.96967 19.2656 4.5001 19.2656H8.5001V13.2656C8.5001 12.7352 8.71082 12.2265 9.08589 11.8514C9.46096 11.4763 9.96967 11.2656 10.5001 11.2656C11.0305 11.2656 11.5392 11.4763 11.9143 11.8514C12.2894 12.2265 12.5001 12.7352 12.5001 13.2656V19.2656H16.5001C17.0305 19.2656 17.5392 19.0549 17.9143 18.6798C18.2894 18.3048 18.5001 17.796 18.5001 17.2656V9.26561H19.4971C20.4491 9.26561 20.8651 8.06061 20.1121 7.47461L11.7281 0.953614Z"
+              fill={ui.headerColor}
+            />
+          </svg>
+        ) : (
+          data.name
+        )}
+      </Link>
+    );
   }
 
   return (
@@ -185,7 +198,7 @@ const LanguageSwitcher = () => {
             />
           </svg>
         </PopoverTrigger>
-        <PopoverContent className="w-fit min-w-28 relative flex justify-center z-[99999]" sideOffset={20}>
+        <PopoverContent side="bottom" className="w-fit min-w-28 relative flex justify-center z-[99999]" sideOffset={20}>
           <div className="absolute -top-6">
             <div className="rotate-180">
               <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">

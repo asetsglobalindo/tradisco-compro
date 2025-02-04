@@ -63,48 +63,6 @@ const page = async () => {
           <h1 className="title-3 text-green-light my-16">{data.title}</h1>
         </section>
       </section>
-      {/* <section className="bg-[#F2F2F2]">
-        <section className="container py-16 flex flex-col gap-16">
-          {data.body
-            .filter((d) => d.type === 1)
-            .map((d) => (
-              <section key={d._id}>
-                <h2 className="title-4 font-bold text-[#005CAB]">{d.title}</h2>
-                <div className="mt-4" dangerouslySetInnerHTML={{__html: d.text}}></div>
-
-                <Carousel className="mt-8">
-                  <CarouselContent>
-                    {d.images?.map((img, index) => (
-                      <CarouselItem key={index} className="w-full md:basis-1/3">
-                        <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
-                          <img className="blur-[2px] aspect-square object-cover" src={img.images[0].url} alt="" />
-
-                          <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
-                          <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
-                            <h1 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
-                              {img.title}
-                            </h1>
-                            <a target="_blank" href={img.button_route}>
-                              <Button
-                                size="default"
-                                variant="outline"
-                                className="w-fit mt-2 rounded-none text-xs shadow-sm border-white group-hover:border-white group-hover:border box-border"
-                              >
-                                <span>{d.button_name} </span>
-                              </Button>
-                            </a>
-                          </section>
-                        </section>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </section>
-            ))}
-        </section>
-      </section> */}
 
       <section className="mt-16 container">
         <h1 className="title-3 text-green-light text-center">{data.small_text}</h1>

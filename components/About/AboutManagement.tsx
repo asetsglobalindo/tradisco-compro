@@ -53,19 +53,15 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
           .filter((d) => d.type === activeIndex)
           .map((d) => (
             <Drawer key={d._id}>
-              <DrawerTrigger asChild className="cursor-pointer group overflow-hidden">
+              <DrawerTrigger asChild className="cursor-pointer rounded-2xl group overflow-hidden">
                 <div className="border">
-                  <div className="aspect-[5/2] mx-4">
+                  <div className=" m-4">
                     <DrawerTitle className="mt-4">
                       <span className="title-5font-bold group-hover:underline">{d.button_route}</span>
                     </DrawerTitle>
                     <p className="text-xs mt-2">{d.title}</p>
                   </div>
-                  <img
-                    src={d.images[0].images[0].url}
-                    className="w-full group-hover:scale-105 transition-all"
-                    alt={d.button_route}
-                  />
+                  <img src={d.images[0].images[0].url} className="w-full transition-all" alt={d.button_route} />
                 </div>
               </DrawerTrigger>
               <DrawerContent className="border-none rounded-t-3xl px-0 container overflow-hidden">

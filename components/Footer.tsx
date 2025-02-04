@@ -1,12 +1,15 @@
 "use client";
 import {cn} from "@/lib/utils";
+import Link from "next/link";
 // import Link from "next/link";
 import {usePathname} from "next/navigation";
 import React from "react";
+import JSCookie from "js-cookie";
 
 const Footer = () => {
   const path = usePathname();
   const noMarginPath = ["/about/our-workers"];
+  const lang = JSCookie.get("lang") || "id";
 
   return (
     <footer
@@ -22,7 +25,7 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row md:gap-16">
             <div className="mb-6 md:mb-0 max-w-[400px]">
               <a href="#" className="flex items-center mb-6 ">
-                <img src="/logo/logo-white-footer.png" className="max-w-[200px]" alt="FlowBite Logo" />
+                <img src="/logo/logo-white.png" className="max-w-[200px]" alt="FlowBite Logo" />
               </a>
               <p>
                 PT Pertamina Retail is a subsidiary of PT Pertamina (Persero) that operates in the retail sector,
@@ -31,12 +34,14 @@ const Footer = () => {
               </p>
             </div>
             <div className="flex flex-col md:flex-row gap-8 lg:gap-8">
-              {/* <div className="min-w-fit max-w-[300px] lg:mt-8">
-                <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">Career</h2>
+              <div className="min-w-fit max-w-[300px] lg:mt-8">
+                <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">
+                  {lang === "en" ? "Link" : "Tautan"}
+                </h2>
                 <ul className="space-y-2">
                   <li>
                     <Link href="/career" className="hover:underline">
-                      Career
+                      {lang === "en" ? "Career" : "Karir"}
                     </Link>
                   </li>
 
@@ -46,17 +51,17 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/investor-relations/laporan-tahunan" className="hover:underline">
-                      Annual Report
+                    <Link href="/investor-relations/company-report" className="hover:underline">
+                      {lang === "en" ? "Company Report" : "Laporan Perusahaan"}
                     </Link>
                   </li>
                   <li>
                     <Link href="/partnership" className="hover:underline">
-                      Partnership
+                      {lang === "en" ? "Partnership" : "Kemitraan"}
                     </Link>
                   </li>
                 </ul>
-              </div> */}
+              </div>
               <div className="w-full lg:mt-8">
                 <h2 className="mb-4 lg:mb-6 font-semibold">Contact Us</h2>
                 <ul className="space-y-2">

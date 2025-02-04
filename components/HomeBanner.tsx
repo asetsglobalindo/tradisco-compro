@@ -54,7 +54,7 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
       >
         {data.banner.map((banner) => (
           <SwiperSlide
-            className="w-full h-full bg-cover bg-no-repeat bg-full bg-center flex items-center"
+            className="w-full h-full bg-cover bg-no-repeat bg-full bg-center flex items-center relative"
             style={{
               background: `url(${banner.images[0].url})`,
               backgroundRepeat: "no-repeat",
@@ -63,7 +63,7 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
             }}
             key={banner._id}
           >
-            <section className="flex items-center h-full">
+            <section className="flex items-center h-full z-20">
               <div className="container text-white">
                 <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
                 <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
@@ -77,6 +77,8 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
                 ) : null}
               </div>
             </section>
+
+            <div className="absolute w-full h-full bg-black opacity-40 top-0 -z-10"></div>
           </SwiperSlide>
         ))}
       </Swiper>
