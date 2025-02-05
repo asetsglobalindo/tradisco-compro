@@ -13,6 +13,8 @@ import {Button} from "../ui/button";
 import {cn} from "@/lib/utils";
 import {useDebounce} from "use-debounce";
 import moment from "moment";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+import "react-leaflet-markercluster/styles";
 
 const weeks = [
   "Mon Feb 27 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
@@ -210,33 +212,35 @@ const OutletLocatorMap = () => {
         zoom={6}
       >
         <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />
-        {locationData
-          ?.filter((d) => {
-            if (selectedLocationDetails) {
-              return d._id === selectedLocationDetails._id;
-            }
+        <MarkerClusterGroup>
+          {locationData
+            ?.filter((d) => {
+              if (selectedLocationDetails) {
+                return d._id === selectedLocationDetails._id;
+              }
 
-            return d;
-          })
-          ?.map((item) => (
-            <Marker
-              eventHandlers={{
-                click: () => {
-                  map?.flyTo([+item.lat, +item.long], 15);
-                  setTimeout(() => {
-                    setSelectedLocationDetails(item);
-                  }, 500);
-                },
-              }}
-              key={item._id}
-              position={[+item.lat || 0, +item.long || 0]}
-              icon={LefleatMapIcon.SPBU}
-            >
-              <Popup className="m-0">
-                <MapPopup item={item} />
-              </Popup>
-            </Marker>
-          ))}
+              return d;
+            })
+            ?.map((item) => (
+              <Marker
+                eventHandlers={{
+                  click: () => {
+                    map?.flyTo([+item.lat, +item.long], 15);
+                    setTimeout(() => {
+                      setSelectedLocationDetails(item);
+                    }, 500);
+                  },
+                }}
+                key={item._id}
+                position={[+item.lat || 0, +item.long || 0]}
+                icon={LefleatMapIcon.SPBU}
+              >
+                <Popup className="m-0">
+                  <MapPopup item={item} />
+                </Popup>
+              </Marker>
+            ))}
+        </MarkerClusterGroup>
       </MapContainer>
     </section>
   );

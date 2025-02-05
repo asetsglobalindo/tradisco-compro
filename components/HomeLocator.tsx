@@ -10,6 +10,8 @@ import {useDebounce} from "use-debounce";
 import {Loader2Icon} from "lucide-react";
 import LefleatMapIcon from "@/lib/LefleatIcon";
 import MapPopup from "./MapPopup";
+import "react-leaflet-markercluster/styles";
+import MarkerClusterGroup from "react-leaflet-markercluster";
 
 const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
   const [map, setMap] = useState<L.Map | null>(null);
@@ -133,13 +135,15 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
             zoom={6}
           >
             <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />
-            {locationData?.map((item) => (
-              <Marker key={item._id} position={[+item.lat || 0, +item.long || 0]} icon={LefleatMapIcon.SPBU}>
-                <Popup className="m-0">
-                  <MapPopup item={item} />
-                </Popup>
-              </Marker>
-            ))}
+            <MarkerClusterGroup>
+              {locationData?.map((item) => (
+                <Marker key={item._id} position={[+item.lat || 0, +item.long || 0]} icon={LefleatMapIcon.SPBU}>
+                  <Popup className="m-0">
+                    <MapPopup item={item} />
+                  </Popup>
+                </Marker>
+              ))}
+            </MarkerClusterGroup>
           </MapContainer>
         </section>
       </section>
