@@ -59,7 +59,7 @@ const page = async () => {
       </section>
 
       <section className=" bg-[#F2F2F2]">
-        <section className="container py-8 xl:py-16">
+        <section className="container py-8 lg:py-16">
           <h1 className="title-3 text-green-light my-16">{data.title}</h1>
         </section>
       </section>
@@ -67,20 +67,61 @@ const page = async () => {
       <section className="mt-16 container">
         <h1 className="title-3 text-green-light text-center">{data.small_text}</h1>
         <section className="container py-16 flex flex-col gap-16">
-          <Carousel className="w-full">
-            <CarouselContent className="w-full">
+          <Carousel className="w-full h-full">
+            <CarouselContent className="w-full h-full">
               {data.body
                 .filter((d) => d.type === 2)
                 .map((d) => (
                   <CarouselItem key={d._id}>
-                    <section key={d._id} className="flex relative items-center w-full">
-                      <img className="absolute lg:w-[300px]" src={d?.images[0]?.images[0]?.url} alt="" />
-                      <div className="bg-[#005CAB] text-white max-w-[85%] ml-auto h-[500px] flex flex-col justify-center pl-[15%] pr-16 rounded-3xl">
-                        <div className="text-2xl" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                    <section key={d._id} className="w-full h-full relative">
+                      <img
+                        className="hidden lg:block w-[280px] rounded-3xl absolute top-1/2 -translate-y-1/2"
+                        src={d?.images[0]?.images[0]?.url}
+                        alt={d?.images[0]?.images[0]?.url}
+                      />
+                      <img
+                        className="mx-auto lg:hidden w-[200px] rounded-3xl"
+                        src={d?.images[0]?.images[0]?.url}
+                        alt={d?.images[0]?.images[0]?.url}
+                      />
+                      <div className="bg-[#005CAB] lg:flex lg:h-full flex-col justify-center rounded-3xl p-8 text-white -mt-[100px] lg:-mt-0 lg:py-24 lg:pr-16 lg:pl-[calc(100px_+_64px)] lg:ml-[150px]">
+                        <div
+                          className="lg:text-2xl mt-[100px] lg:mt-0"
+                          dangerouslySetInnerHTML={{__html: d.text}}
+                        ></div>
                         <h1 className="title-4 mt-8">{d.title}</h1>
                         <p>{d.button_name}</p>
                       </div>
                     </section>
+                    {/* <section key={d._id} className="flex relative items-center w-full h-full">
+                      <img
+                        className="absolute hidden lg:block w-[280px] rounded-3xl"
+                        src={d?.images[0]?.images[0]?.url}
+                        alt={d?.images[0]?.images[0]?.url}
+                      />
+                      <img
+                        className=" top-0 left-1/2 -translate-x-1/2 lg:hidden w-[200px] rounded-3xl"
+                        src={d?.images[0]?.images[0]?.url}
+                        alt={d?.images[0]?.images[0]?.url}
+                      />
+                      <div className="bg-[#005CAB] lg:h-full lg:flex flex-col justify-center rounded-3xl p-8 text-white mt-[100px] lg:py-24 lg:pr-16 lg:pl-[calc(100px_+_64px)] lg:ml-[150px]">
+                        <div className="lg:text-2xl mt-[100px]" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                        <h1 className="title-4 mt-8">{d.title}</h1>
+                        <p>{d.button_name}</p>
+                      </div>
+                    </section> */}
+                    {/* <section key={d._id} className="flex relative items-center w-full ">
+                      <img
+                        className="absolute w-[200px] top-0 lg:top-[1/2] left-1/2 lg:left-0 lg:translate-x-0 -translate-x-1/2 lg:w-[300px]"
+                        src={d?.images[0]?.images[0]?.url}
+                        alt=""
+                      />
+                      <div className="bg-[#005CAB] px-8 pb-8 pt-[calc(100px_-_32px)] mt-[100px] text-white lg:max-w-[85%] ml-auto h-full lg:h-[500px] flex flex-col justify-center lg:pl-[15%] lg:pr-16 rounded-3xl">
+                        <div className="lg:text-2xl mt-24" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                        <h1 className="title-4 mt-8">{d.title}</h1>
+                        <p>{d.button_name}</p>
+                      </div>
+                    </section> */}
                   </CarouselItem>
                 ))}
             </CarouselContent>

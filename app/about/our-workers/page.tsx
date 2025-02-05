@@ -60,12 +60,12 @@ const page = async () => {
         <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
       </section>
       <section
-        className="mt-16 text-white min-h-[400px] md:min-h-[450px] bg-cover bg-no-repeat"
+        className="mt-8 lg:mt-16 text-white min-h-fit md:min-h-[450px] bg-cover bg-no-repeat"
         style={{backgroundImage: `url(${data.images[0].images[0].url})`}}
       >
-        <section className="container py-16">
+        <section className="container py-8 lg:py-16">
           <h1 className="title-3 text-center">At a Glance</h1>
-          <section className="grid grid-cols-2 mt-16 gap-2 md:gap-16 md:grid-cols-4">
+          <section className="grid grid-cols-2 mt-8 lg:mt-16 gap-2 md:gap-16 md:grid-cols-4">
             {data.body.map((d) => (
               <div key={d._id} className="flex flex-col">
                 <h1 className="title-2 text-green-light">{d.button_route}</h1>

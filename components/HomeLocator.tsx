@@ -57,10 +57,10 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
   }
   return (
     <section
-      className="mt-16 lg:mt-32"
+      className="mt-8 lg:mt-16"
       style={{background: "url(/texture/grid.png)", backgroundRepeat: "no-repeat", backgroundSize: "100% 550px"}}
     >
-      <section className="container pt-16 lg:pt-24 flex flex-col lg:flex-row lg:space-x-16">
+      <section className="container pt-16 lg:pt-8 flex flex-col lg:flex-row lg:space-x-16">
         <section className="w-full lg:w-5/12 lg:mt-16">
           <div className="">
             <span className="title-4 font-normal text-green">{data.section3.small_text}</span>

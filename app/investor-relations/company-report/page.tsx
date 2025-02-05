@@ -64,7 +64,7 @@ const page = async () => {
         <section className="container">
           <h1 className="title-4">{data.small_text}</h1>
           <div className="mt-4" dangerouslySetInnerHTML={{__html: data.description}}></div>
-          <section className="mt-8 flex flex-col gap-16">
+          <section className="mt-8 flex flex-col gap-8 lg:gap-16">
             <Carousel className="w-full ">
               <CarouselContent className="w-full">
                 {data.body

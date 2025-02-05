@@ -163,7 +163,7 @@ const OutletLocatorMap = () => {
               "grid max-h-[calc(100vh-114px)] grid-cols-1 overflow-auto gap-4"
             )}
           >
-            {locationData?.map((item) => (
+            {locationData?.slice(0, 20)?.map((item) => (
               <section key={item._id} className="flex space-x-2 items-start border-b pb-4 border-black/20">
                 <img className="w-[18px]" src="/icons/green-pinpoint.svg" alt="pinpoint" />
                 <div>

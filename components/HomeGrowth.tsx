@@ -9,7 +9,7 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   return (
-    <section className="mt-16 lg:mt-32 bg-cover bg-no-repeat">
+    <section className="mt-8 lg:mt-16 bg-cover bg-no-repeat">
       <section className="container">
         <section className="max-w-full overflow-x-scroll lg:overflow-hidden hide-default-scrollbar">
           <ul className="flex text-center w-[640px]  lg:w-[800px]  mx-auto text-base relative border-b-4 pb-4 lg:pb-6 border-[#EAEAEA]">
@@ -45,7 +45,7 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
             "lg:flex-row-reverse": activeIndex % 2 !== 0,
             "lg:flex-row": activeIndex % 2 === 0,
           },
-          "container flex gap-8 mt-8 lg:mt-16 flex-col "
+          "container flex gap-8 mt-8 flex-col "
         )}
       >
         <img className="lg:w-1/2" src={data.section4[activeIndex].image.images[0].url} alt="" />

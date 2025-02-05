@@ -25,7 +25,7 @@ const getData = async () => {
       limit: 1,
       page: 1,
       active_status: true,
-      type: CONTENT_TYPE.ABOUT_REWARD,
+      type: CONTENT_TYPE.BAZMA,
       show_single_language: "yes",
     };
 
@@ -51,21 +51,15 @@ const page = async () => {
 
   return (
     <section>
-      <section className="relative">
-        <BannerSingle data={data.banner} />
-      </section>
+      {data.banner.length ? (
+        <section className="relative">
+          <BannerSingle data={data.banner} />
+        </section>
+      ) : null}
 
       <section className="container mt-16 max-w-[900px]">
         <h1 className="title-3 text-center">{data.title}</h1>
         <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
-
-        <section className="grid grid-cols-2 mt-8 lg:mt-16 md:grid-cols-4 gap-8">
-          {data.images.map((d) => (
-            <div key={d._id} className="flex justify-center">
-              <img className="w-full object-contain" src={d.images[0].url} alt="" />
-            </div>
-          ))}
-        </section>
       </section>
     </section>
   );

@@ -64,7 +64,7 @@ const page = async () => {
         <h1 className="title-3 text-center">{data.title}</h1>
       </section>
 
-      <section className="container max-w-[800px] mt-8">
+      <section className="container max-w-[800px] lg:mt-16 mt-8">
         <CSRourPrograms data={dataTab} />
       </section>
 

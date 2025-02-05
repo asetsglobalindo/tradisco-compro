@@ -33,7 +33,6 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
         centeredSlides={true}
         effect="fade"
         onSlideChange={(swiper) => {
-          console.log(swiper);
           setActiveIndex(swiper.activeIndex);
         }}
         autoplay={{

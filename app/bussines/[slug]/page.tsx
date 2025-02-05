@@ -57,19 +57,19 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data.banner} />
+        <BannerSingle data={data?.banner} />
       </section>
 
       <section className="container">
         <section className="mt-16">
-          <h1 className="title-3">{data.title}</h1>
-          <div className="mt-8" dangerouslySetInnerHTML={{__html: data.small_text}}></div>
+          <h1 className="title-3">{data?.title}</h1>
+          <div className="mt-8" dangerouslySetInnerHTML={{__html: data?.small_text}}></div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 lg:mt-16">
           {bussinessList.map((d) => (
-            <div key={d._id} className="relative rounded-2xl overflow-hidden">
-              <img src={d?.thumbnail_images[0]?.images[0]?.url} alt="" />
+            <div key={d._id} className="relative rounded-2xl overflow-hidden aspect-square">
+              <img className="w-full h-full object-cover" src={d?.thumbnail_images[0]?.images[0]?.url} alt="" />
               <div className="absolute px-4 bottom-4 text-white z-10">
                 <h1 className="font-bold text-green-light">{d.title}</h1>
                 <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>

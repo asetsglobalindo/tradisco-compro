@@ -22,7 +22,7 @@ const Footer = () => {
     >
       <section className="container pt-16">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-          <div className="flex flex-col lg:flex-row md:gap-16">
+          <div className="flex flex-col lg:flex-row md:gap-8">
             <div className="mb-6 md:mb-0 max-w-[400px]">
               <a href="#" className="flex items-center mb-6 ">
                 <img src="/logo/logo-white.png" className="max-w-[200px]" alt="FlowBite Logo" />
@@ -83,10 +83,25 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="max-w-[300px] flex flex-col items-center justify-center space-y-8 lg:mt-8">
+              <div
+                suppressHydrationWarning
+                className="max-w-[300px] min-w-fit flex flex-col items-center justify-center space-y-8 lg:mt-8"
+              >
                 <img className="max-w-[77px]" src="/icons/call-center.png" alt="" />
-                <img className="max-w-[230px]" src="/icons/pertamina-clean.png" alt="" />
-                <img className="max-w-[230px]" src="/logo/bazma.png" alt="" />
+                <a
+                  target="_blank"
+                  className="rounded-full border-2 border-white/40 py-2 min-w-fit pl-2 pr-3 flex transition-all items-center gap-[6px] hover:border-white"
+                  href="https://pertaminaclean.tipoffs.info/"
+                >
+                  <img src="/icons/pertamina-clean.svg" alt="" />
+                  <div>
+                    <p className="text-white font-bold text-xs">Whistle Blowing System</p>
+                    <div className="text-white font-normal text-[8px]">https://pertaminaclean.tipoffs.info/</div>
+                  </div>
+                </a>
+                <Link suppressHydrationWarning href="/bazma">
+                  <img className="max-w-[230px]" src="/logo/bazma.png" alt="" />
+                </Link>
               </div>
             </div>
           </div>
@@ -99,7 +114,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <a href="https://www.instagram.com/pertamina_retail" target="_blank" className="hover:underline">
                   <img className="w-10" src="/icons/instagram.png" alt="" />
                 </a>
               </li>

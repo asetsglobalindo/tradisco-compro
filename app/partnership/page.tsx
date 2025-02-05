@@ -87,14 +87,14 @@ const page = async () => {
       </section>
 
       {/* top */}
-      <section className="container lg:mt-16 mt-8">
+      <section className="container mt-16">
         <section className=" max-w-[900px] mx-auto">
           <h1 className="title-3 text-center text-green-light">{data.title}</h1>
           <div className="mt-8 dont-reset" dangerouslySetInnerHTML={{__html: data.description}}></div>
         </section>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 container mt-8 gap-4">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 container mt-8 lg:mt-16 gap-4">
         {related.map((c) => (
           <div className="rounded-2xl relative overflow-hidden" key={c._id}>
             <img

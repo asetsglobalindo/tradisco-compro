@@ -55,7 +55,7 @@ export default async function Home() {
       {/* growth revenue */}
       <HomeGrowth data={content} />
 
-      <section className="relative mt-16 lg:mt-32 container">
+      <section className="relative mt-8 lg:mt-16 container">
         <h1 className="title-3 text-center">{content.section4a.title}</h1>
         <div className="mt-8" dangerouslySetInnerHTML={{__html: content.section4a.description}}></div>
 
@@ -88,7 +88,7 @@ export default async function Home() {
       </section>
 
       {/* News */}
-      <section className="relative mt-16 lg:mt-32">
+      <section className="relative mt-8 lg:mt-16">
         {/* heading */}
         <section className="container flex justify-between items-center">
           <h1 className="title-3">{content.section5.title}</h1>
@@ -102,7 +102,7 @@ export default async function Home() {
         </section>
 
         {/* news */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 container mt-8">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 container mt-8">
           {content.section5.content.map((data, index) => (
             <section
               key={index}

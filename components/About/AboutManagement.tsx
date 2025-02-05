@@ -5,17 +5,26 @@ import React, {useState} from "react";
 import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "../ui/drawer";
 import {Button} from "../ui/button";
 import {X} from "lucide-react";
+import JSCookie from "js-cookie";
 
 const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
+  const langValue = JSCookie.get("lang") || "id";
+  const lang = langValue === "en" ? "en" : "id";
   const [activeIndex, setActiveIndex] = useState(1);
   const tabList = [
     {
       value: 1,
-      label: "Board of Directors",
+      label: {
+        en: "Board of Directors",
+        id: "Direksi",
+      },
     },
     {
       value: 2,
-      label: "Board of Commissioners",
+      label: {
+        en: "Board of Commissioners",
+        id: "Dewan Komisaris",
+      },
     },
   ];
 
@@ -25,7 +34,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
         <ul className="flex text-center  mx-auto text-base relative border-b-4 pb-4 lg:pb-6 border-[#EAEAEA]">
           {tabList.map((tab, index) => (
             <li
-              key={tab.label}
+              key={tab.label[lang]}
               className={cn(
                 {
                   "font-medium": activeIndex === index,
@@ -34,7 +43,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
               )}
               onClick={() => setActiveIndex(index + 1)}
             >
-              {tab.label}
+              {String(tab.label[lang])}
             </li>
           ))}
 
@@ -48,7 +57,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
         </ul>
       </section>
 
-      <section className="grid-cols-1 md:grid-cols-3 gap-8 grid  mx-auto mt-16">
+      <section className="grid-cols-1 md:grid-cols-3 gap-8 grid  mx-auto mt-8 lg:mt-16">
         {data.body
           .filter((d) => d.type === activeIndex)
           .map((d) => (

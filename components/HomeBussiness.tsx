@@ -13,7 +13,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
   const lang = JSCookie.get("lang") || "id";
 
   return (
-    <section className="relative mt-16 lg:mt-32">
+    <section className="relative mt-16">
       {/* heading */}
       <section className="container">
         <h1 className="title-3 text-center">{data.section2.title}</h1>
@@ -58,7 +58,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
         </section>
       </section>
 
-      <section className="container mt-8 md:mt-16">
+      <section className="container mt-8">
         <Carousel>
           <CarouselContent>
             {data.section2.tab

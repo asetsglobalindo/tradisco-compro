@@ -50,8 +50,6 @@ const getData = async () => {
 const page = async () => {
   const data: ContentType = await getData();
 
-  console.log(data);
-
   return (
     <section>
       <section className="relative">
