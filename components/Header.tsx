@@ -283,7 +283,7 @@ const Header = () => {
               <img
                 className="w-40"
                 src={ui.headerColor === "white" ? "/logo/logo-white.png" : "/logo/logo.png"}
-                alt=""
+                alt="pertamina-retail-logo"
               />
             </Link>
 
@@ -305,7 +305,7 @@ const Header = () => {
 
                 {/* close */}
                 <section className="flex justify-between items-center">
-                  <img className="w-40" src={"/logo/logo.png"} alt="" />
+                  <img className="w-40" src={"/logo/logo.png"} alt="close" />
                   <DrawerClose>
                     <X />
                   </DrawerClose>

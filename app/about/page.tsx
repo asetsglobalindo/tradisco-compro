@@ -79,7 +79,9 @@ const page = async () => {
               <p className="text-center mt-4 px-8">{data.bottom_button_name}</p>
             </div>
             <div className="md:w-1/2">
-              {data.images.length && <img className="w-full" src={data.images[0].images[0].url} alt="" />}
+              {data.images.length && (
+                <img className="w-full" src={data.images[0].images[0].url} alt={data?.small_text2} />
+              )}
             </div>
           </section>
         </section>
@@ -147,7 +149,7 @@ const page = async () => {
                   <h1 className="title-4 text-[#005CAB] font-bold ">{d.title}</h1>
                   <div className="mt-4 flex-col md:flex-row flex gap-8">
                     <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                    <img className="max-w-[250px] object-contain" src={d?.images[0]?.images[0]?.url} alt="" />
+                    <img className="max-w-[250px] object-contain" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
                   </div>
                 </div>
               </section>
@@ -168,7 +170,11 @@ const page = async () => {
                     {d.images?.map((img, index) => (
                       <CarouselItem key={index} className="w-full md:basis-1/3">
                         <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
-                          <img className="blur-[2px] aspect-square object-cover" src={img.images[0].url} alt="" />
+                          <img
+                            className="blur-[2px] aspect-square object-cover"
+                            src={img.images[0].url}
+                            alt={img.title}
+                          />
 
                           <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
                           <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">

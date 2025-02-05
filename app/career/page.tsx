@@ -93,35 +93,6 @@ const page = async () => {
                         <p>{d.button_name}</p>
                       </div>
                     </section>
-                    {/* <section key={d._id} className="flex relative items-center w-full h-full">
-                      <img
-                        className="absolute hidden lg:block w-[280px] rounded-3xl"
-                        src={d?.images[0]?.images[0]?.url}
-                        alt={d?.images[0]?.images[0]?.url}
-                      />
-                      <img
-                        className=" top-0 left-1/2 -translate-x-1/2 lg:hidden w-[200px] rounded-3xl"
-                        src={d?.images[0]?.images[0]?.url}
-                        alt={d?.images[0]?.images[0]?.url}
-                      />
-                      <div className="bg-[#005CAB] lg:h-full lg:flex flex-col justify-center rounded-3xl p-8 text-white mt-[100px] lg:py-24 lg:pr-16 lg:pl-[calc(100px_+_64px)] lg:ml-[150px]">
-                        <div className="lg:text-2xl mt-[100px]" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                        <h1 className="title-4 mt-8">{d.title}</h1>
-                        <p>{d.button_name}</p>
-                      </div>
-                    </section> */}
-                    {/* <section key={d._id} className="flex relative items-center w-full ">
-                      <img
-                        className="absolute w-[200px] top-0 lg:top-[1/2] left-1/2 lg:left-0 lg:translate-x-0 -translate-x-1/2 lg:w-[300px]"
-                        src={d?.images[0]?.images[0]?.url}
-                        alt=""
-                      />
-                      <div className="bg-[#005CAB] px-8 pb-8 pt-[calc(100px_-_32px)] mt-[100px] text-white lg:max-w-[85%] ml-auto h-full lg:h-[500px] flex flex-col justify-center lg:pl-[15%] lg:pr-16 rounded-3xl">
-                        <div className="lg:text-2xl mt-24" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                        <h1 className="title-4 mt-8">{d.title}</h1>
-                        <p>{d.button_name}</p>
-                      </div>
-                    </section> */}
                   </CarouselItem>
                 ))}
             </CarouselContent>
@@ -147,7 +118,7 @@ const page = async () => {
               </Button>
             </Link>
           </div>
-          <img className="lg:w-1/2" src={data.images[0].images[0].url} alt="" />
+          <img className="lg:w-1/2" src={data.images[0].images[0].url} alt={data?.title} />
         </section>
       </section>
     </section>

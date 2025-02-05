@@ -43,7 +43,11 @@ const CSRourPrograms: React.FC<{data: ContentType}> = ({data}) => {
         ) : null}
 
         {data.body[activeIndex - 1]?.images?.length ? (
-          <img className="mx-auto mt-8" src={data.body[activeIndex - 1].images[0].images[0].url} alt="" />
+          <img
+            className="mx-auto mt-8"
+            src={data.body[activeIndex - 1].images[0].images[0].url}
+            alt={data?.body[activeIndex - 1].images[0]?.title}
+          />
         ) : null}
       </section>
     </section>

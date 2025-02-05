@@ -100,7 +100,7 @@ const page = async () => {
             <img
               className="w-full brightness-[40%] aspect-square object-cover"
               src={c?.thumbnail_images[0]?.images[0]?.url}
-              alt=""
+              alt={c?.thumbnail_images[0]?.title}
             />
             <section className="absolute bottom-0 w-full z-20 left-0 p-4 md:p-8 transition-all flex flex-col">
               <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>

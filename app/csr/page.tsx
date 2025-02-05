@@ -74,7 +74,7 @@ const page = async () => {
           .filter((d) => d.type === 3)
           .map((d) => (
             <div className="relative rounded-2xl overflow-hidden" key={d._id}>
-              <img className="w-full h-full object-cover" src={d.images[0].images[0].url} alt="" />
+              <img className="w-full h-full object-cover" src={d.images[0].images[0].url} alt={d?.title} />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h1>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: d.text}}></div>

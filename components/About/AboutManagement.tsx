@@ -93,7 +93,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
                       className="lg:w-[60%] h-full max-h-[300px] lg:max-h-[300px] xl:max-h-[500px] overflow-y-auto"
                       dangerouslySetInnerHTML={{__html: d.text}}
                     ></div>
-                    <img className="lg:w-[40%] rounded-2xl" src={d.images[0].images[0].url} alt="" />
+                    <img className="lg:w-[40%] rounded-2xl" src={d.images[0].images[0].url} alt={d?.title} />
                   </section>
                 </div>
               </DrawerContent>

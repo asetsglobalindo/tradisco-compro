@@ -69,7 +69,7 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 lg:mt-16">
           {bussinessList.map((d) => (
             <div key={d._id} className="relative rounded-2xl overflow-hidden aspect-square">
-              <img className="w-full h-full object-cover" src={d?.thumbnail_images[0]?.images[0]?.url} alt="" />
+              <img className="w-full h-full object-cover" src={d?.thumbnail_images[0]?.images[0]?.url} alt={d?.title} />
               <div className="absolute px-4 bottom-4 text-white z-10">
                 <h1 className="font-bold text-green-light">{d.title}</h1>
                 <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>

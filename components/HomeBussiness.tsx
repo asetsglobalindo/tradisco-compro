@@ -29,7 +29,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
               className="relative h-full max-h-[200px] group cursor-pointer"
             >
               <div className="overflow-hidden w-full h-full relative rounded-2xl">
-                <img className="blur-[2px] object-cover w-full" src={d.image.images[0].url} alt="" />
+                <img className="blur-[2px] object-cover w-full" src={d.image.images[0].url} alt={d?.title} />
                 <span className="absolute z-10 top-1/2 left-10 title-4 text-white">{d.title}</span>
                 <div
                   className={cn(
@@ -51,7 +51,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                   "absolute -bottom-7 left-1/2 -translate-x-1/2"
                 )}
                 src="/icons/arrow-down.png"
-                alt=""
+                alt="arrow-down"
               />
             </section>
           ))}
@@ -69,7 +69,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                     <img
                       className="blur-[2px] aspect-square object-cover"
                       src={d.thumbnail_images[0].images[0].url}
-                      alt=""
+                      alt={d?.title}
                     />
 
                     <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>

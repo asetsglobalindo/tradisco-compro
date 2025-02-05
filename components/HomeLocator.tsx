@@ -77,7 +77,7 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
                 "flex bg-white items-center justify-center  w-full px-4 z-40 rounded-[15px] lg:rounded-[20px] mt-4 lg:mt-8 relative"
               )}
             >
-              <img className="h-4 w-4 lg:w-6 lg:h-6 mr-4" src="/icons/search-locator.png" alt="" />
+              <img className="h-4 w-4 lg:w-6 lg:h-6 mr-4" src="/icons/search-locator.png" alt="search-locator" />
               <div className="w-full">
                 <input
                   value={value}
@@ -94,7 +94,7 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
                   <Loader2Icon className="animate-spin " />
                 </div>
               ) : (
-                <img className="h-10 w-10 lg:w-[52px] lg:h-[52px]" src="/icons/search-btn.png" alt="" />
+                <img className="h-10 w-10 lg:w-[52px] lg:h-[52px]" src="/icons/search-btn.png" alt="search" />
               )}
             </div>
             <div

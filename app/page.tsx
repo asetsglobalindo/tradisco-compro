@@ -65,7 +65,7 @@ export default async function Home() {
               <img
                 className="w-full brightness-[40%] aspect-square object-cover"
                 src={c?.thumbnail_images[0]?.images[0]?.url}
-                alt=""
+                alt={c?.title}
               />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
@@ -108,7 +108,7 @@ export default async function Home() {
               key={index}
               className="relative rounded-2xl news-card overflow-hidden group flex items-end justify-end"
             >
-              <img className="blur-[2px]" src="/temp/img-gasoline.png" alt="" />
+              <img className="blur-[2px]" src={data?.thumbnail_images[0]?.images[0]?.url} alt={data?.title} />
 
               {/* content */}
               <section className="absolute z-20  text-white px-8 py-16">

@@ -67,7 +67,7 @@ const Footer = () => {
                 <ul className="space-y-2">
                   <li>
                     <p className="flex items-start space-x-1">
-                      <img src="/icons/location.svg" alt="" />
+                      <img src="/icons/location.svg" alt="location" />
                       <span>
                         {" "}
                         Gedung Grha Pertamina Lantai 10-11 Jalan Medan Merdeka Timur No.11-13, Jakarta Pusat - Indonesia
@@ -80,7 +80,7 @@ const Footer = () => {
                       href="https://api.whatsapp.com/send/?phone=6281312600600&text=saya+tertarik+untuk+informasi+lebih+lanjut+dari+PT+Pertamina+Retail&type=phone_number&app_absent=0"
                       className="hover:underline flex items-start space-x-1"
                     >
-                      <img src="/icons/call.svg" alt="" />
+                      <img src="/icons/call.svg" alt="call" />
                       <span>+62 813-1260-0600</span>
                     </a>
                   </li>
@@ -90,20 +90,20 @@ const Footer = () => {
                 suppressHydrationWarning
                 className="max-w-[300px] min-w-fit flex flex-col items-center justify-center space-y-8 lg:mt-8"
               >
-                <img className="max-w-[77px]" src="/icons/call-center.png" alt="" />
+                <img className="max-w-[77px]" src="/icons/call-center.png" alt="call-center" />
                 <a
                   target="_blank"
                   className="rounded-full border-2 border-white/40 py-2 min-w-fit pl-2 pr-3 flex transition-all items-center gap-[6px] hover:border-white"
                   href="https://pertaminaclean.tipoffs.info/"
                 >
-                  <img src="/icons/pertamina-clean.svg" alt="" />
+                  <img src="/icons/pertamina-clean.svg" alt="pertamina-celan" />
                   <div>
                     <p className="text-white font-bold text-xs">Whistle Blowing System</p>
                     <div className="text-white font-normal text-[8px]">https://pertaminaclean.tipoffs.info/</div>
                   </div>
                 </a>
                 <Link suppressHydrationWarning href="/bazma">
-                  <img className="max-w-[230px]" src="/logo/bazma.png" alt="" />
+                  <img className="max-w-[230px]" src="/logo/bazma.png" alt="bazma" />
                 </Link>
               </div>
             </div>
@@ -113,17 +113,17 @@ const Footer = () => {
             <ul className="flex space-x-4">
               <li>
                 <a href="https://www.youtube.com/@PertaminaRetailOfficial" target="_blank" className="hover:underline">
-                  <img className="w-10" src="/icons/youtube.png" alt="" />
+                  <img className="w-10" src="/icons/youtube.png" alt="youtube" />
                 </a>
               </li>
               <li>
                 <a href="https://www.instagram.com/pertamina_retail" target="_blank" className="hover:underline">
-                  <img className="w-10" src="/icons/instagram.png" alt="" />
+                  <img className="w-10" src="/icons/instagram.png" alt="instagram" />
                 </a>
               </li>
               <li>
                 <a href="https://www.tiktok.com/@pertaminaretailofficial" target="_blank" className="hover:underline">
-                  <img className="w-10" src="/icons/tiktok.png" alt="" />
+                  <img className="w-10" src="/icons/tiktok.png" alt="tiktok" />
                 </a>
               </li>
             </ul>

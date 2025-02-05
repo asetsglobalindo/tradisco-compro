@@ -95,7 +95,7 @@ const page = async () => {
                   key={d._id + i}
                 >
                   <div className="lg:w-1/2">
-                    <img src={d.images[0].images[0].url} alt="" />
+                    <img src={d.images[0].images[0].url} alt={d?.title} />
                   </div>
                   <div className="lg:w-1/2 mt-4 lg:mt-0">
                     <h3 className="title-4">{d.title}</h3>
