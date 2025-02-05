@@ -5,7 +5,7 @@ import L from "leaflet";
 import {useQuery} from "react-query";
 import ApiService from "@/lib/ApiService";
 import {LocationType} from "@/types/indes";
-import {ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search} from "lucide-react";
+import {AlignJustify, ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search} from "lucide-react";
 import MapPopup from "../MapPopup";
 import LefleatMapIcon from "@/lib/LefleatIcon";
 import {Input} from "../ui/input";
@@ -29,6 +29,7 @@ const OutletLocatorMap = () => {
   const [selectedLocationDetails, setSelectedLocationDetails] = useState<LocationType | null>(null);
   const [value, setValue] = useState<string>("");
   const [locationQuery] = useDebounce(value, 1000);
+  const [openList, setOpenList] = useState<boolean>(false);
 
   const {data: locationData, refetch} = useQuery({
     queryKey: ["outlet-locator"],
@@ -62,8 +63,24 @@ const OutletLocatorMap = () => {
 
   return (
     <section className="w-full h-[935px] relative border rounded-2xl overflow-hidden">
-      <section className="absolute h-auto top-0 z-30 bg-white w-full lg:max-w-[450px] p-8">
+      {!openList ? (
+        <Button onClick={() => setOpenList(true)} className="absolute top-8 right-8 z-40 lg:hidden">
+          <AlignJustify />
+        </Button>
+      ) : null}
+      <section
+        className={cn(
+          {
+            "-translate-x-[100%] lg:translate-x-0": !openList,
+            "translate-x-0 lg:translate-x-0": openList,
+          },
+          "absolute h-auto top-0 z-30 bg-white w-full lg:max-w-[450px] p-8 transition-all"
+        )}
+      >
         {/* search bar */}
+        <div className="flex justify-end mb-8 lg:hidden">
+          <Button onClick={() => setOpenList((prev) => !prev)}>Close</Button>
+        </div>
         <div className="flex gap-2 ">
           <Input placeholder="Search location" onChange={(e) => setValue(e.target.value)} value={value} />
           <Button onClick={() => refetch()}>
