@@ -1,4 +1,3 @@
-import OutletLocatorMap from "@/components/OutletLocator/OutletLocatorMap";
 import OutletLocatorMapClient from "@/components/OutletLocator/OutletLocatorMapClient";
 import {Metadata} from "next";
 import {cookies} from "next/headers";
