@@ -109,7 +109,7 @@ const Footer = () => {
             <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">Follow Us :</h2>
             <ul className="flex space-x-4">
               <li>
-                <a href="#" className="hover:underline">
+                <a href="https://www.youtube.com/@PertaminaRetailOfficial" target="_blank" className="hover:underline">
                   <img className="w-10" src="/icons/youtube.png" alt="" />
                 </a>
               </li>
@@ -119,7 +119,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <a href="https://www.tiktok.com/@pertaminaretailofficial" target="_blank" className="hover:underline">
                   <img className="w-10" src="/icons/tiktok.png" alt="" />
                 </a>
               </li>
