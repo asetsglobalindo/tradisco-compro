@@ -66,19 +66,22 @@ const Footer = () => {
                 <h2 className="mb-4 lg:mb-6 font-semibold">Contact Us</h2>
                 <ul className="space-y-2">
                   <li>
-                    <a href="#" className="hover:underline flex items-start space-x-1">
+                    <p className="flex items-start space-x-1">
                       <img src="/icons/location.svg" alt="" />
                       <span>
                         {" "}
                         Gedung Grha Pertamina Lantai 10-11 Jalan Medan Merdeka Timur No.11-13, Jakarta Pusat - Indonesia
                       </span>
-                    </a>
+                    </p>
                   </li>
 
                   <li>
-                    <a href="#" className="hover:underline flex items-start space-x-1">
+                    <a
+                      href="https://api.whatsapp.com/send/?phone=6281312600600&text=saya+tertarik+untuk+informasi+lebih+lanjut+dari+PT+Pertamina+Retail&type=phone_number&app_absent=0"
+                      className="hover:underline flex items-start space-x-1"
+                    >
                       <img src="/icons/call.svg" alt="" />
-                      <span>+62-21-3926772 - 3926775</span>
+                      <span>+62 813-1260-0600</span>
                     </a>
                   </li>
                 </ul>
