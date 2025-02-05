@@ -1,4 +1,5 @@
 import OutletLocatorMap from "@/components/OutletLocator/OutletLocatorMap";
+import OutletLocatorMapClient from "@/components/OutletLocator/OutletLocatorMapClient";
 import {Metadata} from "next";
 import {cookies} from "next/headers";
 import React from "react";
@@ -17,7 +18,7 @@ const page = async () => {
           {lang === "en" ? "Find Your Nearest Pertamina Store" : "Temukan Pertamina Store Terdekat Anda"}
         </h1>
         <section className="mt-16">
-          <OutletLocatorMap />
+          <OutletLocatorMapClient />
         </section>
       </section>
     </React.Fragment>

@@ -1,7 +1,6 @@
 import HomeBanner from "@/components/HomeBanner";
 import HomeBussiness from "@/components/HomeBussiness";
 import HomeGrowth from "@/components/HomeGrowth";
-import HomeLocator from "@/components/HomeLocator";
 import ApiService from "@/lib/ApiService";
 import {HomeType} from "@/types/indes";
 import {Metadata} from "next";
@@ -13,6 +12,7 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {ArrowRight} from "lucide-react";
 import {cookies} from "next/headers";
+import HomeLocatorClient from "@/components/HomeLocatorClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: HomeType = await getHomeContent();
@@ -50,7 +50,7 @@ export default async function Home() {
       {/* our bussiness */}
       <HomeBussiness data={content} />
 
-      <HomeLocator data={content} />
+      <HomeLocatorClient data={content} />
 
       {/* growth revenue */}
       <HomeGrowth data={content} />
