@@ -161,9 +161,6 @@ const LanguageSwitcher = () => {
 
   const updateLang = (lang: string) => {
     UpdateLangPreference(lang);
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 500);
   };
 
   return (
@@ -230,6 +227,7 @@ const Header = () => {
   const lang = JSCookie.get("lang") || "id";
   const ui = uiStore((state) => state);
   const path = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   const {data: header} = useQuery({
     queryKey: ["header", lang],
@@ -252,6 +250,7 @@ const Header = () => {
 
   useEffect(() => {
     ui.setHeaderColor("black");
+    setIsOpen(false);
   }, [path]);
 
   return (
@@ -287,8 +286,8 @@ const Header = () => {
               />
             </Link>
 
-            <Drawer direction="right" handleOnly>
-              <DrawerTrigger className="lg:hidden">
+            <Drawer open={isOpen} onOpenChange={setIsOpen} direction="right" handleOnly>
+              <DrawerTrigger onClick={() => setIsOpen(true)} className="lg:hidden">
                 <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"

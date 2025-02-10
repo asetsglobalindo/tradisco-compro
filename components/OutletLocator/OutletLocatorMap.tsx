@@ -64,7 +64,7 @@ const OutletLocatorMap = () => {
   };
 
   return (
-    <section className="w-full h-[935px] relative border rounded-2xl overflow-hidden">
+    <section className="w-full h-screen xl:max-h-[800px] relative border rounded-2xl overflow-hidden">
       {!openList ? (
         <Button onClick={() => setOpenList(true)} className="absolute top-8 right-8 z-40 lg:hidden">
           <AlignJustify />
