@@ -58,7 +58,7 @@ const page = async () => {
       {/* top */}
 
       <section className="container mt-16">
-        <section className="max-w-[900px] mx-auto">
+        <section className=" mx-auto">
           <section
             className="text-white  py-16 px-4 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
             style={{backgroundImage: `url(${data?.thumbnail_images[0]?.images[0]?.url})`}}
@@ -74,7 +74,11 @@ const page = async () => {
           .filter((d) => d.type === 3)
           .map((d) => (
             <div className="relative rounded-2xl overflow-hidden" key={d._id}>
-              <img className="w-full h-full object-cover" src={d.images[0].images[0].url} alt={d?.title} />
+              <img
+                className="w-full h-full object-cover aspect-square"
+                src={d.images[0].images[0].url}
+                alt={d?.title}
+              />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
                 <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h1>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: d.text}}></div>
@@ -84,28 +88,41 @@ const page = async () => {
       </section>
 
       <section className="container lg:mt-16 mt-8">
-        <section className="dont-reset border-b pb-16" dangerouslySetInnerHTML={{__html: data.sub_title2}}></section>
+        <section className="dont-reset" dangerouslySetInnerHTML={{__html: data.sub_title2}}></section>
+        <img className="w-full lg:mt-16 mt-8" src={data.images[0].images[0].url} alt="" />
       </section>
-      <section className="container lg:mt-16 mt-8">
-        <section className="  border-b pb-16" dangerouslySetInnerHTML={{__html: data.sub_title3}}></section>
+      <section className="container">
+        <section className=" px-0 rounded-2xl flex-col md:flex-row overflow-hidden md:mt-16 mt-8 bg-[#005CAB] flex items-center">
+          <section className="md:w-5/12 overflow-hidden">
+            <img
+              className="h-full md:min-h-[300px] lg:min-h-[400px]  object-cover scale-105"
+              src={data.images2[0].images[0].url}
+              alt=""
+            />
+          </section>
+          <section
+            className="px-4 lg:px-12 py-6 md:w-7/12"
+            dangerouslySetInnerHTML={{__html: data.sub_title3}}
+          ></section>
+        </section>
       </section>
       <section className="container lg:mt-16 mt-8">
         <section className="" dangerouslySetInnerHTML={{__html: data.small_text}}></section>
       </section>
 
       <section className="container mt-8">
-        <section className="max-w-[900px] mx-auto">
+        <section className="mx-auto">
           <section
-            className="text-white  py-8 px-8 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
+            className="text-white min-h-[400px] flex items-center py-8 px-8 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
             style={{backgroundImage: `url(${data?.thumbnail_images2[0]?.images[0]?.url})`}}
           >
-            <h1 className="title-3 text-center">{data.sub_title1}</h1>
+            {/* <h1 className="title-3 text-center">{data.sub_title1}</h1> */}
 
-            <section className="grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-8 mt-4">
+            <section className="grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-8">
               {data.body
                 .filter((d) => d.type === 2)
                 .map((d, index) => (
-                  <div key={d._id} className="relative flex items-center">
+                  <div key={d._id} className="relative flex items-center xl:aspect-[4/1]">
                     <div className="absolute -left-5 bg-green-light rounded-lg flex items-center justify-center h-10 w-10">
                       {index + 1}
                     </div>
