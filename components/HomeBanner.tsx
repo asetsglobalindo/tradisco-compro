@@ -64,9 +64,14 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
           >
             <section className="flex items-center h-full z-20">
               <div className="container text-white">
-                <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
-                <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
-                {banner.button_route ? (
+                {banner.title.length > 1 ? (
+                  <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
+                ) : null}
+
+                {banner.description.length > 1 ? (
+                  <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
+                ) : null}
+                {banner.button_route.length > 1 ? (
                   <a href={banner.button_route} target="_blank">
                     <Button className="mt-8" size={"lg"} rounded>
                       <span className="tracking-wider">{lang === "en" ? "Learn More" : "Selengkapnya"}</span>
