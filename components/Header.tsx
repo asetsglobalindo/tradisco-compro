@@ -72,8 +72,8 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
           />
         </svg>
       </PopoverTrigger>
-      <PopoverContent side={side} className="w-fit min-w-28 relative flex justify-center z-[99999]" sideOffset={20}>
-        <div className={cn({" -top-6": side === "bottom"}, "absolute")}>
+      <PopoverContent side={side} className=" min-w-28 relative flex  z-[99999] w-64" sideOffset={20} align="start">
+        {/* <div className={cn({" -top-6": side === "bottom"}, "absolute")}>
           <div className="rotate-180">
             <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -82,14 +82,34 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
               />
             </svg>
           </div>
-        </div>
-        <section className="flex flex-col w-fit space-y-2">
+        </div> */}
+        <section className="flex flex-col w-full space-y-1">
           {data.childs.map((route) => (
             <div key={route.name}>
               {route?.childs?.length ? (
-                <NavItem data={route} side="right" color="black" />
+                <React.Fragment>
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem className="border-none" value="item-1">
+                      <AccordionTrigger className="w-full no-underline hover:no-underline leading-none font-normal text-sm rounded-md hover:bg-green-light/40 px-2 py-1">
+                        {data.name}
+                      </AccordionTrigger>
+                      <AccordionContent className="pb-0 ml-4 mt-1">
+                        {route.childs.map((item, index) => (
+                          <Link
+                            key={item.name + index}
+                            className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md"
+                            href={item.route}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                  {/* <NavItem data={route} side="right" color="black" /> */}
+                </React.Fragment>
               ) : (
-                <Link className="hover:text-green-light hover:underline" href={route.route}>
+                <Link className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md" href={route.route}>
                   {route.name}
                 </Link>
               )}

@@ -75,11 +75,11 @@ export default async function Home() {
                   <a className="w-full" target="_blank" href={c.bottom_button_route}>
                     <Button className="w-full">{c.bottom_button_name}</Button>
                   </a>
-                  <a className="w-full" target="_blank" href={c.sub_title2}>
+                  <Link className="w-full" href={`/partnership/${c.slug}`}>
                     <Button variant={"outline"} className="w-full text-white border-white">
                       {c.sub_title1}
                     </Button>
-                  </a>
+                  </Link>
                 </div>
               </section>
             </div>

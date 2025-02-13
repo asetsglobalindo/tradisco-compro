@@ -12,19 +12,19 @@ import {Input} from "../ui/input";
 import {Button} from "../ui/button";
 import {cn} from "@/lib/utils";
 import {useDebounce} from "use-debounce";
-import moment from "moment";
+// import moment from "moment";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/styles";
 
-const weeks = [
-  "Mon Feb 27 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-  "Tue Feb 28 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-  "Wed Mar 01 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-  "Thu Mar 02 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-  "Fri Mar 03 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-  "Sat Mar 04 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-  "Sun Mar 05 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
-];
+// const weeks = [
+//   "Mon Feb 27 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+//   "Tue Feb 28 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+//   "Wed Mar 01 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+//   "Thu Mar 02 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+//   "Fri Mar 03 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+//   "Sat Mar 04 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+//   "Sun Mar 05 2017 00:00:00 GMT+0700 (Western Indonesia Time)",
+// ];
 
 const OutletLocatorMap = () => {
   const [map, setMap] = useState<L.Map | null>(null);
@@ -108,7 +108,8 @@ const OutletLocatorMap = () => {
                   <Clock size={18} />
                   operating hours :{" "}
                 </p>
-                <ul className="grid grid-cols-1 mt-2 gap-1">
+                <p className="mt-2">{selectedLocationDetails.operational_hour}</p>
+                {/* <ul className="grid grid-cols-1 mt-2 gap-1">
                   {weeks.map((f) => (
                     <li
                       key={f}
@@ -129,7 +130,7 @@ const OutletLocatorMap = () => {
                       ) : null}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
             ) : null}
             {selectedLocationDetails?.fuel?.length ? (
