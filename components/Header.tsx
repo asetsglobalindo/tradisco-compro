@@ -286,7 +286,7 @@ const Header = () => {
       >
         <section className="container ">
           <section className={cn({}, "items-center flex justify-between relative w-full ")}>
-            <nav className="w-full hidden lg:block">
+            <nav className="w-full hidden xl:block">
               <ul className="flex w-full space-x-8 items-center mt-4">
                 {header?.map((route) => (
                   <li key={route.name} className="flex leading-none">
@@ -307,7 +307,7 @@ const Header = () => {
             </Link>
 
             <Drawer open={isOpen} onOpenChange={setIsOpen} direction="right" handleOnly>
-              <DrawerTrigger onClick={() => setIsOpen(true)} className="lg:hidden">
+              <DrawerTrigger onClick={() => setIsOpen(true)} className="xl:hidden">
                 <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"

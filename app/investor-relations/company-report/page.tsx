@@ -62,17 +62,17 @@ const page = async () => {
 
       <section className="bg-[#F2F2F2] py-8">
         <section className="container">
-          <h1 className="title-4">{data.small_text}</h1>
+          {/* <h1 className="title-4">{data.small_text}</h1> */}
           <div className="mt-4" dangerouslySetInnerHTML={{__html: data.description}}></div>
           <section className="mt-8 flex flex-col gap-8 lg:gap-16">
             <Carousel className="w-full ">
-              <CarouselContent className="w-full">
+              <CarouselContent className="">
                 {data.body
                   .filter((d) => d.type === 1)
                   .map((d, index) => (
-                    <CarouselItem key={index} className="w-full md:basis-1/4 ">
+                    <CarouselItem key={index} className="md:basis-1/4 ">
                       <section className="relative group transition-all border overflow-hidden bg-white">
-                        <img className="aspect-square object-cover" src={d.images[0].images[0].url} alt={d?.title} />
+                        <img className="object-cover w-full" src={d.images[0].images[0].url} alt={d?.title} />
                         <section className=" z-20 p-4 transition-all flex left-0 bottom-0 flex-col">
                           <h1 className="mt-2 text-lg font-semibold text-green-light ">{d.title}</h1>
                           <a target="_blank" href={d.button_route}>
@@ -97,17 +97,17 @@ const page = async () => {
       </section>
       <section className=" mt-8">
         <section className="container">
-          <h1 className="title-4 text-center">{data.bottom_button_name}</h1>
+          {/* <h1 className="title-4 text-center">{data.bottom_button_name}</h1> */}
           <div className="mt-4 text-center" dangerouslySetInnerHTML={{__html: data.small_text2}}></div>
           <section className="mt-8 flex flex-col gap-16">
             <Carousel className="w-full ">
-              <CarouselContent className="w-full">
+              <CarouselContent className="">
                 {data.body
                   .filter((d) => d.type === 2)
                   .map((d, index) => (
-                    <CarouselItem key={index} className="w-full md:basis-1/4 bg-white">
+                    <CarouselItem key={index} className="md:basis-1/4 bg-white">
                       <section className="relative group transition-all border overflow-hidden">
-                        <img className="aspect-square object-cover" src={d.images[0].images[0].url} alt={d?.title} />
+                        <img className="object-cover w-full" src={d.images[0].images[0].url} alt={d?.title} />
                         <section className=" z-20 p-4 transition-all flex left-0 bottom-0 flex-col">
                           <h1 className="mt-2 text-lg font-semibold text-green-light ">{d.title}</h1>
                           <a target="_blank" href={d.button_route}>

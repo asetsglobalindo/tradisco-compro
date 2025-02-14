@@ -5,11 +5,33 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import React from "react";
 import JSCookie from "js-cookie";
+import {useQuery} from "react-query";
+import ApiService from "@/lib/ApiService";
+import {FooterType} from "@/types/indes";
 
 const Footer = () => {
   const path = usePathname();
   const noMarginPath = ["/about/our-workers"];
   const lang = JSCookie.get("lang") || "id";
+
+  const {data: footer} = useQuery({
+    queryKey: ["header", "footer", lang],
+    queryFn: async () => await getHeader(),
+  });
+
+  const getHeader = async () => {
+    try {
+      const response = await ApiService.get("/header/header-footer");
+
+      if (response.data.status !== 200) {
+        throw new Error(response.data.message || response.data.err);
+      }
+
+      return response.data.data?.footer as FooterType;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <footer
@@ -23,67 +45,71 @@ const Footer = () => {
       <section className="container pt-16">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="flex flex-col lg:flex-row md:gap-8">
-            <div className="mb-6 md:mb-0 max-w-[400px]">
+            <div className="mb-6 md:mb-0 max-w-[300px] xl:max-w-[400px]">
               <a href="#" className="flex items-center mb-6 ">
                 <img src="/logo/logo-white.png" className="max-w-[200px]" alt="FlowBite Logo" />
               </a>
-              <p>
-                PT Pertamina Retail is a subsidiary of PT Pertamina (Persero) that operates in the retail sector,
-                particularly in the distribution of fuel at gas stations and the management, development, and marketing
-                of both fuel and non-fuel products in line with its related business activities.
-              </p>
+              <p>{footer?.tagline}</p>
             </div>
-            <div className="flex flex-col md:flex-row gap-8 lg:gap-8">
+            <div className="flex flex-col md:flex-row gap-8">
               <div className="min-w-fit max-w-[300px] lg:mt-8">
                 <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">
                   {lang === "en" ? "Link" : "Tautan"}
                 </h2>
                 <ul className="space-y-2">
-                  <li>
-                    <Link href="/career" className="hover:underline">
-                      {lang === "en" ? "Career" : "Karir"}
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link href="/about/hsse" className="hover:underline">
-                      HSSE
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/investor-relations/company-report" className="hover:underline">
-                      {lang === "en" ? "Company Report" : "Laporan Perusahaan"}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/partnership" className="hover:underline">
-                      {lang === "en" ? "Partnership" : "Kemitraan"}
-                    </Link>
-                  </li>
+                  {footer?.other_routes
+                    .sort((a, b) => a.order - b.order)
+                    .map((route) => (
+                      <li key={route._id}>
+                        <Link href={route.route || "/"} className="hover:underline">
+                          {route.title}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
               <div className="w-full lg:mt-8">
-                <h2 className="mb-4 lg:mb-6 font-semibold">Contact Us</h2>
+                <h2 className="mb-4 lg:mb-6 font-semibold"> {lang === "en" ? "Contact Us" : "Hubungi Kami"}</h2>
                 <ul className="space-y-2">
-                  <li>
-                    <p className="flex items-start space-x-1">
-                      <img src="/icons/location.svg" alt="location" />
-                      <span>
-                        {" "}
-                        Gedung Grha Pertamina Lantai 10-11 Jalan Medan Merdeka Timur No.11-13, Jakarta Pusat - Indonesia
-                      </span>
-                    </p>
-                  </li>
+                  {footer?.address?.length ? (
+                    <li>
+                      <p className="flex items-start space-x-1">
+                        <img src="/icons/location.svg" alt="location" />
+                        <span>{footer?.address}</span>
+                      </p>
+                    </li>
+                  ) : null}
 
-                  <li>
-                    <a
-                      href="https://api.whatsapp.com/send/?phone=6281312600600&text=saya+tertarik+untuk+informasi+lebih+lanjut+dari+PT+Pertamina+Retail&type=phone_number&app_absent=0"
-                      className="hover:underline flex items-start space-x-1"
-                    >
-                      <img src="/icons/call.svg" alt="call" />
-                      <span>+62 813-1260-0600</span>
-                    </a>
-                  </li>
+                  {footer?.mail?.length ? (
+                    <li>
+                      {footer.url_mail.length ? ( //copyright_link will act as a link for tel url
+                        <a href={footer.url_mail} className="hover:underline flex items-start space-x-1">
+                          <img src="/icons/call.svg" alt="call" />
+                          <span>{footer.mail}</span>
+                        </a>
+                      ) : (
+                        <p className="flex items-start space-x-1">
+                          <img src="/icons/call.svg" alt="call" />
+                          <span>{footer.mail}</span>
+                        </p>
+                      )}
+                    </li>
+                  ) : null}
+                  {footer?.tel?.length ? (
+                    <li>
+                      {footer.copyright_link.length ? ( //copyright_link will act as a link for tel url
+                        <a href={footer.copyright_link} className="hover:underline flex items-start space-x-1">
+                          <img src="/icons/call.svg" alt="call" />
+                          <span>{footer.tel}</span>
+                        </a>
+                      ) : (
+                        <p className="flex items-start space-x-1">
+                          <img src="/icons/call.svg" alt="call" />
+                          <span>{footer.tel}</span>
+                        </p>
+                      )}
+                    </li>
+                  ) : null}
                 </ul>
               </div>
               <div
@@ -109,33 +135,33 @@ const Footer = () => {
             </div>
           </div>
           <div className="min-w-fit max-w-[300px] mt-8">
-            <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">Follow Us :</h2>
+            <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">
+              {lang === "en" ? "Follow Us" : "Ikuti Kami"} :
+            </h2>
             <ul className="flex space-x-4">
-              <li>
-                <a href="https://www.youtube.com/@PertaminaRetailOfficial" target="_blank" className="hover:underline">
-                  <img className="w-10" src="/icons/youtube.png" alt="youtube" />
-                </a>
-              </li>
-              <li>
-                <a href="https://www.instagram.com/pertamina_retail" target="_blank" className="hover:underline">
-                  <img className="w-10" src="/icons/instagram.png" alt="instagram" />
-                </a>
-              </li>
-              <li>
-                <a href="https://www.tiktok.com/@pertaminaretailofficial" target="_blank" className="hover:underline">
-                  <img className="w-10" src="/icons/tiktok.png" alt="tiktok" />
-                </a>
-              </li>
+              {footer?.url_facebook?.length ? (
+                <li>
+                  <a href={footer.url_facebook} target="_blank" className="hover:underline">
+                    <img className="w-10" src="/icons/youtube.png" alt="youtube" />
+                  </a>
+                </li>
+              ) : null}
+              {footer?.url_instagram?.length ? (
+                <li>
+                  <a href={footer.url_instagram} target="_blank" className="hover:underline">
+                    <img className="w-10" src="/icons/instagram.png" alt="instagram" />
+                  </a>
+                </li>
+              ) : null}
+              {footer?.url_linkedin?.length ? (
+                <li>
+                  <a href={footer?.url_linkedin} target="_blank" className="hover:underline">
+                    <img className="w-10" src="/icons/tiktok.png" alt="tiktok" />
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </div>
-          {/* <div className="sm:flex sm:items-center sm:justify-between mt-24 font-light text-xs text-[#BFBFBF]">
-            <span className="">© 2024 Pertamina Retail. All rights reserved.</span>
-            <div className="flex mt-4 space-x-4 sm:justify-center sm:mt-0">
-              <a href="#">Privacy Policy</a>
-              <a href="#">Term Of Use</a>
-              <a href="#">Sitemap</a>
-            </div>
-          </div> */}
         </div>
       </section>
     </footer>

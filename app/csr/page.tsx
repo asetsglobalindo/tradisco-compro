@@ -76,7 +76,7 @@ const page = async () => {
             <div className="relative rounded-2xl overflow-hidden" key={d._id}>
               <img
                 className="w-full h-full object-cover aspect-square"
-                src={d.images[0].images[0].url}
+                src={d?.images[0]?.images[0]?.url}
                 alt={d?.title}
               />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">

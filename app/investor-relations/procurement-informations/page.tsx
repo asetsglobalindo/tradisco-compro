@@ -91,9 +91,9 @@ const page = async () => {
                     </DrawerClose>
                   </section>
                 </DrawerHeader>
-                <section className="flex pb-10 lg:pb-0 flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 lg:mt-16 lg:mb-20">
+                <section className="flex flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 xl:mt-16 xl:mb-16">
                   <div
-                    className="dont-reset h-full max-h-[300px] lg:max-h-[300px] xl:max-h-[500px] overflow-y-auto"
+                    className="dont-reset h-full max-h-[50vh] lg:max-h-[40vh] overflow-y-auto"
                     dangerouslySetInnerHTML={{__html: d.text}}
                   ></div>
                 </section>

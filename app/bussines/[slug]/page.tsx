@@ -1,4 +1,5 @@
 import BannerSingle from "@/components/BannerSingle";
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
@@ -65,19 +66,30 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
           <h1 className="title-3">{data?.title}</h1>
           <div className="mt-8" dangerouslySetInnerHTML={{__html: data?.small_text}}></div>
         </section>
+        <section className="mt-8 flex flex-col ">
+          <Carousel className="">
+            <CarouselContent className="">
+              {bussinessList.map((d, index) => (
+                <CarouselItem key={index} className="w-full md:basis-1/2 lg:basis-1/3">
+                  <div key={d._id} className="relative rounded-2xl overflow-hidden aspect-square">
+                    <img
+                      className="w-full h-full object-cover"
+                      src={d?.thumbnail_images[0]?.images[0]?.url}
+                      alt={d?.title}
+                    />
+                    <div className="absolute px-4 bottom-4 text-white z-10">
+                      <h1 className="font-bold text-green-light">{d.title}</h1>
+                      <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>
+                    </div>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 lg:mt-16">
-          {bussinessList.map((d) => (
-            <div key={d._id} className="relative rounded-2xl overflow-hidden aspect-square">
-              <img className="w-full h-full object-cover" src={d?.thumbnail_images[0]?.images[0]?.url} alt={d?.title} />
-              <div className="absolute px-4 bottom-4 text-white z-10">
-                <h1 className="font-bold text-green-light">{d.title}</h1>
-                <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>
-              </div>
-
-              <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black opacity-60"></div>
-            </div>
-          ))}
+                    <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black opacity-60"></div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </section>
       </section>
     </section>

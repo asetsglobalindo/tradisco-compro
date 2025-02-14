@@ -88,9 +88,9 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
                       </DrawerClose>
                     </section>
                   </DrawerHeader>
-                  <section className="flex pb-10 lg:pb-0 flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 lg:mt-16 lg:mb-20">
+                  <section className="flex flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 xl:mt-16 xl:mb-16">
                     <div
-                      className="lg:w-[60%] h-full max-h-[300px] lg:max-h-[300px] xl:max-h-[500px] overflow-y-auto"
+                      className="ddont-reset h-full max-h-[50vh] lg:max-h-[40vh] overflow-y-auto"
                       dangerouslySetInnerHTML={{__html: d.text}}
                     ></div>
                     <img className="lg:w-[40%] rounded-2xl" src={d.images[0].images[0].url} alt={d?.title} />

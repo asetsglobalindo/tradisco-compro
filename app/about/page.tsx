@@ -156,50 +156,51 @@ const page = async () => {
             ))}
         </section>
       </section>
+
+      <section className="container lg:mt-16 mt-8">
+        <h1 className="title-3">{data.bottom_text2}</h1>
+        <img className=" mt-4" src={data.thumbnail_images2[0]?.images[0]?.url} alt={data.bottom_text2} />
+      </section>
       <section className="bg-[#F2F2F2] lg:mt-16 mt-8">
-        <section className="container py-16 flex flex-col gap-16">
-          {data.body
-            .filter((d) => d.type === 4)
-            .map((d) => (
-              <section key={d._id}>
-                <h2 className="title-4 font-bold text-[#005CAB]">{data.bottom_text2}</h2>
-                <div className="mt-4" dangerouslySetInnerHTML={{__html: data.bottom_description2}}></div>
+        <section className="container py-16">
+          <div dangerouslySetInnerHTML={{__html: data.bottom_description2}}></div>
+          <Carousel className="mt-8">
+            <CarouselContent>
+              {data.body
+                .filter((d) => d.type === 4)
+                .map((d) => (
+                  <CarouselItem key={d._id} className="md:basis-1/3">
+                    <section key={d._id}>
+                      <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
+                        <img
+                          className="brightness-[40%] aspect-square object-cover"
+                          src={d.images?.[0]?.images?.[0]?.url}
+                          alt={d.images?.[0]?.title}
+                        />
 
-                <Carousel className="mt-8">
-                  <CarouselContent>
-                    {d.images?.map((img, index) => (
-                      <CarouselItem key={index} className="w-full md:basis-1/3">
-                        <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
-                          <img
-                            className="blur-[2px] aspect-square object-cover"
-                            src={img.images[0].url}
-                            alt={img.title}
-                          />
-
-                          <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
-                          <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
-                            <h1 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
-                              {img.title}
-                            </h1>
-                            <a target="_blank" href={img.button_route}>
-                              <Button
-                                size="default"
-                                variant="outline"
-                                className="w-fit mt-2 rounded-none text-xs shadow-sm border-white group-hover:border-white group-hover:border box-border"
-                              >
-                                <span>{d.button_name} </span>
-                              </Button>
-                            </a>
-                          </section>
+                        <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
+                        <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
+                          <h1 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
+                            {d.title}
+                          </h1>
+                          <a target="_blank" href={d.button_route}>
+                            <Button
+                              size="default"
+                              variant="outline"
+                              className="w-fit mt-2 rounded-none text-xs shadow-sm border-white group-hover:border-white group-hover:border box-border"
+                            >
+                              <span>{d.button_name} </span>
+                            </Button>
+                          </a>
                         </section>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </section>
-            ))}
+                      </section>
+                    </section>
+                  </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </section>
       </section>
 

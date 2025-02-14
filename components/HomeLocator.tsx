@@ -131,7 +131,7 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
               }
             }}
             center={[-4.775231, 109.042028]}
-            className="h-[400px] lg:h-[650px] rounded-[20px] z-[30]"
+            className="h-[400px] lg:h-[550px] xl:h-[650px] rounded-[20px] z-[30]"
             zoom={6}
           >
             <TileLayer url="https://tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey=c56d26e0f3eb454f8dff29acecde52d6" />

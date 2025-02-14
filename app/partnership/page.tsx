@@ -1,12 +1,10 @@
 import BannerSingle from "@/components/BannerSingle";
-import {Button} from "@/components/ui/button";
-// import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
+import PartnershipCard from "@/components/PartnershipCard";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
 // import {X} from "lucide-react";
 import {Metadata} from "next";
-import Link from "next/link";
 import {notFound} from "next/navigation";
 import React from "react";
 
@@ -96,60 +94,7 @@ const page = async () => {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 container mt-8 lg:mt-16 gap-4">
         {related.map((c) => (
-          <div className="rounded-2xl relative overflow-hidden" key={c._id}>
-            <img
-              className="w-full brightness-[40%] aspect-square object-cover"
-              src={c?.thumbnail_images[0]?.images[0]?.url}
-              alt={c?.thumbnail_images[0]?.title}
-            />
-            <section className="absolute bottom-0 w-full z-20 left-0 p-4 md:p-8 transition-all flex flex-col">
-              <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
-              <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
-
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <a className="w-full" target="_blank" href={c.bottom_button_route}>
-                  <Button className="w-full">{c.bottom_button_name}</Button>
-                </a>
-                <Link href={`/partnership/${c.slug}`}>
-                  <Button variant={"outline"} className="w-full text-white border-white">
-                    {c.sub_title1}
-                  </Button>
-                </Link>
-                {/* <Drawer>
-                  <DrawerTrigger asChild className="cursor-pointer group overflow-hidden">
-                    <Button variant={"outline"} className="w-full text-white border-white">
-                      {c.sub_title1}
-                    </Button>
-                  </DrawerTrigger>
-                  <DrawerContent className="border-none rounded-t-3xl px-0 container overflow-hidden">
-                    <div className="mx-auto w-full ">
-                      <DrawerHeader className="bg-[#171717] flex items-center py-8 text-white">
-                        <section className="container flex justify-between items-center">
-                          <section>
-                            <DrawerTitle className="mt-4">
-                              <h1>{c.title}</h1>
-                            </DrawerTitle>
-                          </section>
-                          <DrawerClose>
-                            <Button
-                              variant="outline"
-                              rounded
-                              className="w-fit px-3 bg-green-light/50 border-transparent"
-                            >
-                              <X color="#63AE1D" />
-                            </Button>
-                          </DrawerClose>
-                        </section>
-                      </DrawerHeader>
-                      <section className="flex flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 lg:mt-16 lg:mb-48">
-                        <div className="mx-6 dont-reset" dangerouslySetInnerHTML={{__html: c.sub_title2}}></div>
-                      </section>
-                    </div>
-                  </DrawerContent>
-                </Drawer> */}
-              </div>
-            </section>
-          </div>
+          <PartnershipCard key={c._id} data={c} />
         ))}
       </section>
     </section>

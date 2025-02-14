@@ -67,13 +67,13 @@ const page = async () => {
       <section className="mt-16 container">
         <h1 className="title-3 text-green-light text-center">{data.small_text}</h1>
         <section className="container py-16 flex flex-col gap-16">
-          <Carousel className="w-full h-full">
-            <CarouselContent className="w-full h-full">
+          <Carousel className="">
+            <CarouselContent className="">
               {data.body
                 .filter((d) => d.type === 2)
                 .map((d) => (
-                  <CarouselItem key={d._id}>
-                    <section key={d._id} className="w-full h-full relative">
+                  <CarouselItem key={d._id} className="w-full">
+                    <section key={d._id} className=" relative">
                       <img
                         className="hidden lg:block w-[280px] rounded-3xl absolute top-1/2 -translate-y-1/2"
                         src={d?.images[0]?.images[0]?.url}
@@ -86,7 +86,7 @@ const page = async () => {
                       />
                       <div className="bg-[#005CAB] lg:flex lg:h-full flex-col justify-center rounded-3xl p-8 text-white -mt-[100px] lg:-mt-0 lg:py-24 lg:pr-16 lg:pl-[calc(100px_+_64px)] lg:ml-[150px]">
                         <div
-                          className="lg:text-2xl mt-[100px] lg:mt-0"
+                          className="xl:text-2xl mt-[100px] lg:mt-0"
                           dangerouslySetInnerHTML={{__html: d.text}}
                         ></div>
                         <h1 className="title-4 mt-8">{d.title}</h1>

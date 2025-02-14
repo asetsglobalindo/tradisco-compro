@@ -13,6 +13,7 @@ import {Button} from "@/components/ui/button";
 import {ArrowRight} from "lucide-react";
 import {cookies} from "next/headers";
 import HomeLocatorClient from "@/components/HomeLocatorClient";
+import PartnershipCard from "@/components/PartnershipCard";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: HomeType = await getHomeContent();
@@ -58,31 +59,9 @@ export default async function Home() {
       <section className="relative mt-8 lg:mt-16 container">
         <h1 className="title-3 text-center">{content.section4a.title}</h1>
         <div className="mt-8" dangerouslySetInnerHTML={{__html: content.section4a.description}}></div>
-
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
           {content.section4a.content.map((c) => (
-            <div className="rounded-2xl relative overflow-hidden" key={c._id}>
-              <img
-                className="w-full brightness-[40%] aspect-square object-cover"
-                src={c?.thumbnail_images[0]?.images[0]?.url}
-                alt={c?.title}
-              />
-              <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
-                <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
-                <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
-
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <a className="w-full" target="_blank" href={c.bottom_button_route}>
-                    <Button className="w-full">{c.bottom_button_name}</Button>
-                  </a>
-                  <Link className="w-full" href={`/partnership/${c.slug}`}>
-                    <Button variant={"outline"} className="w-full text-white border-white">
-                      {c.sub_title1}
-                    </Button>
-                  </Link>
-                </div>
-              </section>
-            </div>
+            <PartnershipCard data={c} key={c._id} />
           ))}
         </section>
       </section>
