@@ -69,7 +69,7 @@ const page = async () => {
             <DrawerTrigger asChild className="cursor-pointer group rounded-2xl group overflow-hidden">
               <div className="">
                 <img
-                  src={d.images[0].images[0].url}
+                  src={d?.images[0]?.images[0]?.url}
                   className="max-w-44 mx-auto group-hover:scale-95 transition-all"
                   alt={d.button_route}
                 />

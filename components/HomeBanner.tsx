@@ -55,7 +55,7 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
           <SwiperSlide
             className="w-full h-full bg-cover bg-no-repeat bg-full bg-center flex items-center relative"
             style={{
-              background: `url(${banner.images[0].url})`,
+              background: `url(${banner?.images[0]?.url})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center center",

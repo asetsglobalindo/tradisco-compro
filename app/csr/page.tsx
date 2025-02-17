@@ -89,14 +89,14 @@ const page = async () => {
 
       <section className="container lg:mt-16 mt-8">
         <section className="dont-reset" dangerouslySetInnerHTML={{__html: data.sub_title2}}></section>
-        <img className="w-full lg:mt-16 mt-8" src={data.images[0].images[0].url} alt="" />
+        <img className="w-full lg:mt-16 mt-8" src={data?.images[0]?.images[0]?.url} alt="" />
       </section>
       <section className="container">
         <section className=" px-0 rounded-2xl flex-col md:flex-row overflow-hidden md:mt-16 mt-8 bg-[#005CAB] flex items-center">
           <section className="md:w-5/12 overflow-hidden">
             <img
               className="h-full md:min-h-[300px] lg:min-h-[400px]  object-cover scale-105"
-              src={data.images2[0].images[0].url}
+              src={data?.images2[0]?.images[0]?.url}
               alt=""
             />
           </section>

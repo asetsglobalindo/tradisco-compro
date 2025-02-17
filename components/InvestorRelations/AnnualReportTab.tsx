@@ -34,7 +34,7 @@ const AnnualReportTab: React.FC<{data: ContentType[] | []}> = ({data}) => {
             .find((item) => item._id === selectedTab)
             ?.body.map((item) => (
               <section key={item._id} className="shadow-md hover:shadow-xl p-4">
-                <img src={item.images[0].images[0].url} alt={item.title} />
+                <img src={item?.images[0]?.images[0]?.url} alt={item.title} />
                 <h1 className="text-base font-medium text-center mt-4">{item.title}</h1>
                 <div className="h-[2px] w-full bg-[#EAEAEA] my-5"></div>
                 <button className="flex mx-auto space-x-1 text-white  border-green-light bg-green-light w-fit border px-6 py-3 rounded-full items-center ">

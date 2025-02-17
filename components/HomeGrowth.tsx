@@ -50,14 +50,14 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
       >
         <img
           className="lg:w-1/2"
-          src={data.section4[activeIndex]?.image?.images[0]?.url}
-          alt={data.section4[activeIndex]?.image?.title}
+          src={data?.section4[activeIndex]?.image?.images[0]?.url}
+          alt={data?.section4[activeIndex]?.image?.title}
         />
         <div className="lg:w-1/2">
-          <h1 className="title-3">{data.section4[activeIndex].title}</h1>
+          <h1 className="title-3">{data?.section4[activeIndex]?.title}</h1>
           <p
             className="mt-8 text-justify"
-            dangerouslySetInnerHTML={{__html: data.section4[activeIndex].description}}
+            dangerouslySetInnerHTML={{__html: data?.section4[activeIndex]?.description}}
           ></p>
         </div>
       </section>

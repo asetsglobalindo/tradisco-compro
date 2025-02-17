@@ -4,12 +4,16 @@ export interface ImageType {
   description: string;
   button_name: string;
   button_route: string;
-  images: {
-    url: string;
-  }[];
-  images_mobile: {
-    url: string;
-  }[];
+  images:
+    | {
+        url: string;
+      }[]
+    | [];
+  images_mobile:
+    | {
+        url: string;
+      }[]
+    | [];
 }
 
 export interface LocationType {
@@ -31,7 +35,7 @@ export interface HeaderItemChild {
   name: string;
   route: string;
   order: number;
-  images: [];
+  images: [] | [];
   _id: string;
   childs: HeaderItemChild[] | [];
 }
@@ -46,7 +50,7 @@ export interface HeaderItemType {
   _id: string;
   route: string;
   order: number;
-  images: [];
+  images: [] | [];
   active_status: boolean;
   childs: HeaderItemChild[] | [];
   contents: [];
@@ -205,3 +209,4 @@ export interface FooterType {
   updated_at: string;
   updated_by: string;
 }
+

@@ -51,10 +51,10 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
         {moment(data.created_at).format("YYYY-MM-DD")}
       </p>
       <section className="relative mt-8">
-        {data.images.slice(0, 1).map((img) => (
+        {data?.images.slice(0, 1).map((img) => (
           <picture key={img._id}>
-            <source media="(min-width:650px)" srcSet={img.images[0].url} />
-            <img className="w-full" src={img.images[0].url} alt="Flowers" />
+            <source media="(min-width:650px)" srcSet={img?.images[0]?.url} />
+            <img className="w-full" src={img?.images[0]?.url} alt="Flowers" />
           </picture>
         ))}
       </section>

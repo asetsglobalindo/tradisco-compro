@@ -61,7 +61,7 @@ const page = async () => {
       </section>
       <section
         className="mt-8 lg:mt-16 text-white min-h-fit md:min-h-[450px] bg-cover bg-no-repeat"
-        style={{backgroundImage: `url(${data.images[0].images[0].url})`}}
+        style={{backgroundImage: `url(${data?.images[0]?.images[0]?.url})`}}
       >
         <section className="container py-8 lg:py-16">
           <h1 className="title-3 text-center">At a Glance</h1>

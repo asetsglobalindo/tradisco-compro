@@ -118,7 +118,7 @@ const page = async () => {
               </Button>
             </Link>
           </div>
-          <img className="lg:w-1/2" src={data.images[0].images[0].url} alt={data?.title} />
+          <img className="lg:w-1/2" src={data?.images[0]?.images[0].url} alt={data?.title} />
         </section>
       </section>
     </section>

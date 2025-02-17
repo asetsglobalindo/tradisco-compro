@@ -79,8 +79,8 @@ const page = async () => {
               <p className="text-center mt-4 px-8">{data.bottom_button_name}</p>
             </div>
             <div className="md:w-1/2">
-              {data.images.length && (
-                <img className="w-full" src={data.images[0].images[0].url} alt={data?.small_text2} />
+              {data?.images?.length && (
+                <img className="w-full" src={data?.images[0]?.images[0]?.url} alt={data?.small_text2} />
               )}
             </div>
           </section>

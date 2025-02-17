@@ -70,7 +70,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
                     </DrawerTitle>
                     <p className="text-xs mt-2">{d.title}</p>
                   </div>
-                  <img src={d.images[0].images[0].url} className="w-full transition-all" alt={d.button_route} />
+                  <img src={d?.images[0]?.images[0]?.url} className="w-full transition-all" alt={d.button_route} />
                 </div>
               </DrawerTrigger>
               <DrawerContent className="border-none rounded-t-3xl px-0 container overflow-hidden">
@@ -93,7 +93,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
                       className="ddont-reset h-full max-h-[50vh] lg:max-h-[40vh] overflow-y-auto"
                       dangerouslySetInnerHTML={{__html: d.text}}
                     ></div>
-                    <img className="lg:w-[40%] rounded-2xl" src={d.images[0].images[0].url} alt={d?.title} />
+                    <img className="lg:w-[40%] rounded-2xl" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
                   </section>
                 </div>
               </DrawerContent>

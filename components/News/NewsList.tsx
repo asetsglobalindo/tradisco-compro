@@ -73,7 +73,7 @@ const NewsList = () => {
               <div className="aspect-video">
                 <img
                   className="aspect-video object-cover w-full h-full"
-                  src={data.thumbnail_images[0].images[0].url}
+                  src={data?.thumbnail_images[0]?.images[0]?.url}
                   alt={data.title}
                 />
               </div>

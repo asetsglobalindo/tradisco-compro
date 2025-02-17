@@ -57,9 +57,9 @@ const page = async () => {
 
       <section className="container mt-16 max-w-[900px]">
         <section className="grid grid-cols-1 gap-8 md:gap-16">
-          {data.images.map((d) => (
+          {data?.images?.map((d) => (
             <div key={d._id} className="flex justify-center">
-              <img className="w-full object-contain" src={d.images[0].url} alt={d.title} />
+              <img className="w-full object-contain" src={d?.images[0]?.url} alt={d.title} />
             </div>
           ))}
         </section>

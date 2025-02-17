@@ -72,7 +72,7 @@ const page = async () => {
                   .map((d, index) => (
                     <CarouselItem key={index} className="md:basis-1/4 ">
                       <section className="relative group transition-all border overflow-hidden bg-white">
-                        <img className="object-cover w-full" src={d.images[0].images[0].url} alt={d?.title} />
+                        <img className="object-cover w-full" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
                         <section className=" z-20 p-4 transition-all flex left-0 bottom-0 flex-col">
                           <h1 className="mt-2 text-lg font-semibold text-green-light ">{d.title}</h1>
                           <a target="_blank" href={d.button_route}>
@@ -107,7 +107,7 @@ const page = async () => {
                   .map((d, index) => (
                     <CarouselItem key={index} className="md:basis-1/4 bg-white">
                       <section className="relative group transition-all border overflow-hidden">
-                        <img className="object-cover w-full" src={d.images[0].images[0].url} alt={d?.title} />
+                        <img className="object-cover w-full" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
                         <section className=" z-20 p-4 transition-all flex left-0 bottom-0 flex-col">
                           <h1 className="mt-2 text-lg font-semibold text-green-light ">{d.title}</h1>
                           <a target="_blank" href={d.button_route}>
