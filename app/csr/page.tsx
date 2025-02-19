@@ -56,14 +56,13 @@ const page = async () => {
       </section>
 
       {/* top */}
-
       <section className="container mt-16">
         <section className=" mx-auto">
           <section
             className="text-white  py-16 px-4 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
             style={{backgroundImage: `url(${data?.thumbnail_images[0]?.images[0]?.url})`}}
           >
-            <h1 className="title-3 text-center">{data.sub_title1}</h1>
+            <h1 className="title-3  text-center">{data.sub_title1}</h1>
             <div className="mt-4" dangerouslySetInnerHTML={{__html: data.bottom_button_name}}></div>
           </section>
         </section>
@@ -80,7 +79,7 @@ const page = async () => {
                 alt={d?.title}
               />
               <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
-                <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h1>
+                <h2 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h2>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: d.text}}></div>
               </section>
             </div>

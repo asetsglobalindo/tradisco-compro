@@ -63,7 +63,7 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
 
       <section className="container">
         <section className="mt-16">
-          <h1 className="title-3">{data?.title}</h1>
+          <h1 className="title-3 text-center text-green-light">{data?.title}</h1>
           <div className="mt-8" dangerouslySetInnerHTML={{__html: data?.small_text}}></div>
         </section>
         <section className="mt-8 flex flex-col ">
@@ -78,7 +78,7 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
                       alt={d?.title}
                     />
                     <div className="absolute px-4 bottom-4 text-white z-10">
-                      <h1 className="font-bold text-green-light">{d.title}</h1>
+                      <h2 className="font-bold text-green-light">{d.title}</h2>
                       <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>
                     </div>
 

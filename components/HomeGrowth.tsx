@@ -49,7 +49,7 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
         )}
       >
         <img
-          className="lg:w-1/2"
+          className="lg:w-1/2 rounded-2xl"
           src={data?.section4[activeIndex]?.image?.images[0]?.url}
           alt={data?.section4[activeIndex]?.image?.title}
         />

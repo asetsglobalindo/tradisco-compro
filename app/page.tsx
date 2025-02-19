@@ -92,7 +92,7 @@ export default async function Home() {
               {/* content */}
               <section className="absolute z-20  text-white px-8 py-16">
                 {/* category */}
-                <span className="text-green-lighter">{data.category_id.name}</span>
+                <span className="text-green-light group-hover:text-white">{data.category_id.name}</span>
 
                 {/* title */}
                 <h1 className="title-4 mt-4">{data.title}</h1>

@@ -60,7 +60,7 @@ const page = async () => {
 
       <section className=" bg-[#F2F2F2]">
         <section className="container py-8 lg:py-16">
-          <h1 className="title-3 text-green-light my-16">{data.title}</h1>
+          <h1 className="title-3 text-green-light my-16 text-center">{data.title}</h1>
         </section>
       </section>
 

@@ -56,7 +56,7 @@ const NewsList = () => {
   return (
     <React.Fragment>
       <section>
-        <div className="flex gap-4 justify-end">
+        <div className="flex gap-4 ">
           <Input
             value={queryValue}
             className="lg:max-w-[300px]"

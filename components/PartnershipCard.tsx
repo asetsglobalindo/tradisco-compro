@@ -16,7 +16,7 @@ const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
         alt={c?.thumbnail_images[0]?.title}
       />
       <section className="absolute bottom-0 w-full z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
-        <h1 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h1>
+        <h2 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{c.title}</h2>
         <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
 
         <div className="grid grid-cols-2 gap-4 mt-4">

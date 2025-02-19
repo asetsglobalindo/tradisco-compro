@@ -53,12 +53,11 @@ const page = async () => {
     <section>
       <section className="relative">
         <BannerSingle data={data.banner} />
-
-        <h1 className="title-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">{data.title}</h1>
       </section>
 
       <section className="container">
-        <div className="mt-16" dangerouslySetInnerHTML={{__html: data.description}}></div>
+        <h1 className="title-3 mt-16 text-center text-green-light">{data.title}</h1>
+        <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
         <section className="mt-8">
           <NewsList />
         </section>

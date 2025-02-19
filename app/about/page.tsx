@@ -180,9 +180,9 @@ const page = async () => {
 
                         <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
                         <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
-                          <h1 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
+                          <h2 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
                             {d.title}
-                          </h1>
+                          </h2>
                           <a target="_blank" href={d.button_route}>
                             <Button
                               size="default"

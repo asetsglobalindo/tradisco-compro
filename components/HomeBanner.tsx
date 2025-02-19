@@ -47,42 +47,40 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
             return '<span class="' + className + '">' + "<em>" + "</em>" + "<i></i>" + "<b></b>" + "</span>";
           },
         }}
-        className="h-screen md:h-[60vh] lg:h-screen"
         slidesPerView={1}
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
       >
         {data.banner.map((banner) => (
-          <SwiperSlide
-            className="w-full h-full bg-cover bg-no-repeat bg-full bg-center flex items-center relative"
-            style={{
-              background: `url(${banner?.images[0]?.url})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              backgroundPosition: "center center",
-            }}
-            key={banner._id}
-          >
-            <section className="flex items-center h-full z-20">
-              <div className="container text-white">
-                {banner.title.length > 1 ? (
-                  <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
-                ) : null}
+          <SwiperSlide className="w-full flex items-center relative" key={banner._id}>
+            <picture key={banner?._id}>
+              <source media="(min-width:768px)" srcSet={banner?.images[0]?.url} />
+              <img
+                className="w-full h-screen brightness-[70%] object-cover"
+                src={banner?.images_mobile[0]?.url}
+                alt={banner?.images[0]?.url}
+              />
+            </picture>
+            <section className="absolute top-0 h-full w-full">
+              <section className="flex items-center h-full z-20">
+                <div className="container text-white">
+                  {banner.title.length > 1 ? (
+                    <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
+                  ) : null}
 
-                {banner.description.length > 1 ? (
-                  <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
-                ) : null}
-                {banner.button_route.length > 1 ? (
-                  <a href={banner.button_route} target="_blank">
-                    <Button className="mt-8" size={"lg"} rounded>
-                      <span className="tracking-wider">{lang === "en" ? "Learn More" : "Selengkapnya"}</span>
-                      <ArrowRight />
-                    </Button>
-                  </a>
-                ) : null}
-              </div>
+                  {banner.description.length > 1 ? (
+                    <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
+                  ) : null}
+                  {banner.button_route.length > 1 ? (
+                    <a href={banner.button_route} target="_blank">
+                      <Button className="mt-8" size={"lg"} rounded>
+                        <span className="tracking-wider">{lang === "en" ? "Learn More" : "Selengkapnya"}</span>
+                        <ArrowRight />
+                      </Button>
+                    </a>
+                  ) : null}
+                </div>
+              </section>
             </section>
-
-            <div className="absolute w-full h-full bg-black opacity-40 top-0 -z-10"></div>
           </SwiperSlide>
         ))}
       </Swiper>

@@ -61,7 +61,7 @@ const page = async () => {
       </section>
 
       <section className="mt-16">
-        <h1 className="title-3 text-center">{data.title}</h1>
+        <h1 className="title-3 text-center text-green-light">{data.title}</h1>
       </section>
 
       <section className="container max-w-[800px] lg:mt-16 mt-8">
@@ -70,40 +70,38 @@ const page = async () => {
 
       <section className="container mt-8">
         <section className="border-t pt-8 flex flex-col gap-8">
-          {Array(10)
-            .fill(data.body[0])
-            .map((d, i) => {
-              if (count == 2) {
-                count = 1;
-                if (currentLayout == "right") {
-                  currentLayout = "left";
-                } else {
-                  currentLayout = "right";
-                }
+          {data.body.map((d, i) => {
+            if (count == 2) {
+              count = 1;
+              if (currentLayout == "right") {
+                currentLayout = "left";
               } else {
-                count = count + 1;
+                currentLayout = "right";
               }
+            } else {
+              count = count + 1;
+            }
 
-              return (
-                <section
-                  className={cn(
-                    {
-                      "flex-row-reverse": currentLayout == "left",
-                    },
-                    "lg:flex gap-8"
-                  )}
-                  key={d._id + i}
-                >
-                  <div className="lg:w-1/2">
-                    <img src={d?.images[0]?.images[0]?.url} alt={d?.title} />
-                  </div>
-                  <div className="lg:w-1/2 mt-4 lg:mt-0">
-                    <h3 className="title-4">{d.title}</h3>
-                    <div className="mt-4" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                  </div>
-                </section>
-              );
-            })}
+            return (
+              <section
+                className={cn(
+                  {
+                    "flex-row-reverse": currentLayout == "left",
+                  },
+                  "lg:flex gap-8"
+                )}
+                key={d._id + i}
+              >
+                <div className="lg:w-1/2">
+                  <img src={d?.images[0]?.images[0]?.url} alt={d?.title} />
+                </div>
+                <div className="lg:w-1/2 mt-4 lg:mt-0">
+                  <h3 className="title-4">{d.title}</h3>
+                  <div className="mt-4" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                </div>
+              </section>
+            );
+          })}
         </section>
       </section>
     </section>

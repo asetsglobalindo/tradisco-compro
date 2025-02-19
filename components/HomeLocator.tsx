@@ -65,7 +65,7 @@ const HomeLocator: React.FC<{data: HomeType}> = ({data}) => {
       <section className="container pt-16 lg:pt-8 flex flex-col lg:flex-row lg:space-x-16">
         <section className="w-full lg:w-5/12 lg:mt-16">
           <div className="">
-            <span className="title-4 font-normal text-green">{data.section3.small_text}</span>
+            <span className="title-4 font-normal text-green-light">{data.section3.small_text}</span>
             <h1 className="text-white title-2 leading-snug mt-4 max-w-[400px]">{data.section3.title}</h1>
           </div>
           <section className="relative">

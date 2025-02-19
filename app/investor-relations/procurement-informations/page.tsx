@@ -59,7 +59,7 @@ const page = async () => {
       </section>
 
       <section className="container mt-16">
-        <h1 className="title-3 text-green-light ">{data.title}</h1>
+        <h1 className="title-3 text-green-light text-center">{data.title}</h1>
       </section>
       <div className="container mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
 

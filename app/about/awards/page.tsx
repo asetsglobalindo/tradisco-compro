@@ -56,7 +56,7 @@ const page = async () => {
       </section>
 
       <section className="container mt-16 max-w-[900px]">
-        <h1 className="title-3 text-center">{data.title}</h1>
+        <h1 className="title-3 text-green-light text-center">{data.title}</h1>
         <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
 
         <section className="grid grid-cols-2 mt-8 lg:mt-16 md:grid-cols-4 gap-8">
