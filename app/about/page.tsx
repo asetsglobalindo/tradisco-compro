@@ -36,6 +36,7 @@ const getData = async () => {
     };
 
     const response = await ApiService.get("/content", params);
+    console.log("Fetched Data:", response.data.data[0]);
 
     if (response.data.status !== 200) {
       throw new Error(response.data.message || response.data.err);
