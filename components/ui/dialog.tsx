@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
@@ -21,6 +22,9 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
+        <DialogClose className="absolute right-4 top-4 text-gray-500 hover:text-gray-700">
+            <X className="w-5 h-5" />
+        </DialogClose>
     </DialogPrimitive.Content>
   </DialogPrimitive.Portal>
 ));

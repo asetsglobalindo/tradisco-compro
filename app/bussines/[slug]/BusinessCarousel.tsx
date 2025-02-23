@@ -40,7 +40,7 @@ const BusinessCarousel = ({ bussinessList }: { bussinessList: ContentType[] }) =
           {selectedItem && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Bagian Kiri - Judul & Deskripsi */}
-              <div className="p-6">
+              <div className="p-6 flex flex-col justify-center">
                 <DialogHeader>
                   <DialogTitle className="text-green-light">{selectedItem.title}</DialogTitle>
                 </DialogHeader>
