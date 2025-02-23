@@ -1,14 +1,14 @@
 import BannerSingle from "@/components/BannerSingle";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
+import BusinessCarousel from "./BusinessCarousel"; // Import komponen Client
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {ContentType} from "@/types/indes";
-import {Metadata} from "next";
-import {notFound} from "next/navigation";
+import { ContentType } from "@/types/indes";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 
-export async function generateMetadata({params}: {params: Promise<{slug: string}>}): Promise<Metadata> {
-  const {slug} = await params;
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = params;
   const result: ContentType = await getData(slug, CONTENT_TYPE.BUSINESS_PAGE, 1);
 
   return {
@@ -50,8 +50,8 @@ const getData = async (slug: string, type: string, limit = 9999) => {
   }
 };
 
-const page = async ({params}: {params: Promise<{slug: string}>}) => {
-  const {slug} = await params;
+const Page = async ({ params }: { params: { slug: string } }) => {
+  const { slug } = params;
   const data: ContentType = await getData(slug, CONTENT_TYPE.BUSINESS_PAGE, 1);
   const bussinessList: ContentType[] | [] = await getData(slug, CONTENT_TYPE.BUSINESS);
 
@@ -64,36 +64,16 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
       <section className="container">
         <section className="mt-16">
           <h1 className="title-3 text-center text-green-light">{data?.title}</h1>
-          <div className="mt-8" dangerouslySetInnerHTML={{__html: data?.small_text}}></div>
+          <div className="mt-8" dangerouslySetInnerHTML={{ __html: data?.small_text }}></div>
         </section>
-        <section className="mt-8 flex flex-col ">
-        <Carousel className="">
-          <CarouselContent className="">
-            {bussinessList.map((d, index) => (
-              <CarouselItem key={index} className="w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                <div key={d._id} className="relative rounded-2xl overflow-hidden aspect-square">
-                  <img
-                    className="w-full h-full object-cover"
-                    src={d?.thumbnail_images[0]?.images[0]?.url}
-                    alt={d?.title}
-                  />
-                  <div className="absolute px-4 bottom-4 text-white z-10">
-                    <h2 className="font-bold text-green-light">{d.title}</h2>
-                    <div className="mt-2" dangerouslySetInnerHTML={{ __html: d.description }}></div>
-                  </div>
-                  <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black opacity-60"></div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+
+        {/* Kirim data ke BusinessCarousel (Client Component) */}
+        <section className="mt-8 flex flex-col">
+          <BusinessCarousel bussinessList={bussinessList} />
         </section>
       </section>
     </section>
   );
 };
 
-export default page;
-
+export default Page;
