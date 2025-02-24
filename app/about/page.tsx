@@ -118,47 +118,17 @@ const page = async () => {
         <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
       </section>
+      
       {/* timeline */}
-      {/* <section className="container lg:mt-16 mt-8">
-        <h1 className="title-3">{data.bottom_text}</h1>
-
-        <section className="lg:mt-16 mt-8 flex flex-col gap-8 max-w-[900px] mx-auto">
-          {data.body
-            .filter((d) => d.type === 1)
-            .map((d, index) => (
-              <section key={d._id} className="flex">
-                <section className="lg:grid w-fit grid-cols-2 lg:min-w-40">
-                  <div className="hidden lg:block">
-                    <p className="title-3 text-[#005CAB]">{d.button_name}</p>
-                  </div>
-                  <div className="lg:mx-8 h-full flex justify-center flex-col items-center">
-                    <div className="bg-green-light p-1 rounded-full flex items-center justify-center">
-                      <div className="w-3 h-3 bg-white rounded-full"></div>
-                    </div>
-
-                    <div
-                      className={cn(
-                        {
-                          "opacity-0": index === data.body.filter((d) => d.type === 1).length - 1,
-                        },
-                        "h-full w-[2px] mx-auto bg-[#D9D9D9]"
-                      )}
-                    ></div>
-                  </div>
-                </section>
-                <div className="ml-4 lg:ml-0">
-                  <p className="title-3 lg:hidden text-[#005CAB]">{d.button_name}</p>
-                  <h1 className="title-4 text-[#005CAB] font-bold ">{d.title}</h1>
-                  <div className="mt-4 flex-col md:flex-row flex gap-8">
-                    <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                    <img className="max-w-[250px] object-contain" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
-                  </div>
-                </div>
-              </section>
-            ))}
-        </section>
-      </section> */}
-      <Timeline/>
+      <Timeline
+        data={data.body
+          .filter((d) => d.type === 1)
+          .map((d) => ({
+            year: d.button_name, 
+            image: d?.images[0]?.images[0]?.url || "", 
+            description: d.text, 
+          }))}
+      />
 
       <section className="container lg:mt-16 mt-8">
         <h1 className="title-3">{data.bottom_text2}</h1>
