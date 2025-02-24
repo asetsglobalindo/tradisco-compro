@@ -11,6 +11,7 @@ import {Metadata} from "next";
 // import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
 import React from "react";
+import CounterData from "./counter-data/page";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -36,7 +37,6 @@ const getData = async () => {
     };
 
     const response = await ApiService.get("/content", params);
-    console.log("Fetched Data:", response.data.data[0]);
 
     if (response.data.status !== 200) {
       throw new Error(response.data.message || response.data.err);
@@ -162,7 +162,10 @@ const page = async () => {
         <h1 className="title-3">{data.bottom_text2}</h1>
         <img className=" mt-4" src={data.thumbnail_images2[0]?.images[0]?.url} alt={data.bottom_text2} />
       </section>
-      <section className="bg-[#F2F2F2] lg:mt-16 mt-8">
+
+      <CounterData/>
+
+      {/* <section className="bg-[#F2F2F2] lg:mt-16 mt-8">
         <section className="container py-16">
           <div dangerouslySetInnerHTML={{__html: data.bottom_description2}}></div>
           <Carousel className="mt-8">
@@ -203,7 +206,8 @@ const page = async () => {
             <CarouselNext />
           </Carousel>
         </section>
-      </section>
+      </section> */}
+
 
       <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
         <div className="lg:w-[480px]">

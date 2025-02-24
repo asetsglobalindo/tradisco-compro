@@ -32,7 +32,7 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
             alt={title}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-transparent" />
-          <h1 className="absolute left-[100px] bottom-[120px] text-white text-3xl font-bold capitalize">
+          <h1 className="absolute left-[100px] bottom-[120px] text-white text-[42px] font-bold capitalize">
             {title.replace(/-/g, " ")}
           </h1>
         </picture>
