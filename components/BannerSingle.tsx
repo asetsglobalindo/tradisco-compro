@@ -4,11 +4,14 @@ import { ImageType } from "@/types/indes";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import "@/lib/i18n";
 
 const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
   const ui = uiStore((state) => state);
   const { ref, inView } = useInView({ threshold: 0 });
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   useEffect(() => {
     ui.setHeaderColor(inView ? "white" : "black");
@@ -17,9 +20,8 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
   if (!data?.length) {
     return null;
   }
-
-  // get end params url
-  const title = pathname?.split("/").filter(Boolean).pop() || "Home";
+  const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
+  const translatedTitle = t(rawTitle.replace(/-/g, " "));
 
   return (
     <div ref={ref} className="relative w-full">
@@ -29,7 +31,7 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
           <img
             className="w-full brightness-[70%] object-cover"
             src={img?.images_mobile[0]?.url}
-            alt={title}
+            alt={translatedTitle}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#32599C] to-transparent" />
           <h1 className="
@@ -43,7 +45,7 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
               md:text-[42px]   
               lg:text-[42px]  
               font-bold capitalize">
-            {title.replace(/-/g, " ")}
+            {translatedTitle}
           </h1>
         </picture>
       ))}

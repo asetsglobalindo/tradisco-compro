@@ -1,14 +1,11 @@
 import BannerSingle from "@/components/BannerSingle";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
-import {Button} from "@/components/ui/button";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {cn} from "@/lib/utils";
 import {ContentType} from "@/types/indes";
 import {CircleArrowDown} from "lucide-react";
 import {Metadata} from "next";
-// import {cookies} from "next/headers";
+import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
 import React from "react";
 import CounterData from "./counter-data/page";
@@ -56,7 +53,7 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
-  // const lang = (await cookies()).get("lang")?.value || "id";
+  const lang = (await cookies()).get("lang")?.value || "id";
 
   return (
     <section>
@@ -118,7 +115,7 @@ const page = async () => {
         <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
       </section>
-      
+
       {/* timeline */}
       <Timeline
         data={data.body
