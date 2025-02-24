@@ -28,9 +28,14 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
               key={index}
               className="relative h-full max-h-[200px] group cursor-pointer"
             >
-              <div className="overflow-hidden w-full h-full relative rounded-2xl">
-                <img className="blur-[2px] object-cover w-full" src={d?.image?.images[0]?.url} alt={d?.title} />
-                <span className="absolute z-10 top-1/2 left-10 title-4 text-white">{d.title}</span>
+
+            <div className="overflow-hidden w-full h-full relative rounded-2xl">
+                <img
+                  src={d?.image?.images[0]?.url} 
+                  alt={d?.title}
+                  className="blur-[2px] object-cover w-full transition-transform duration-300 transform group-hover:scale-125"
+                />
+                <span className="absolute z-20 top-1/2 left-10 title-4 text-white">{d.title}</span>
                 <div
                   className={cn(
                     {
@@ -72,7 +77,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                       alt={d?.title}
                     />
 
-                    <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
+                    <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light-secondary"></div>
                     {/* content */}
                     <section className="absolute z-20 left-0 text-white px-8 py-8 transition-all flex flex-col">
                       {/* category */}
@@ -84,7 +89,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                         <Button
                           rounded
                           size="lg"
-                          className="w-fit mt-4 shadow-sm group-hover:border-white group-hover:border box-border"
+                          className="w-fit mt-4 shadow-sm box-border"
                         >
                           <span>{lang === "en" ? "Learn More" : "Selengkapnya"} </span>
                           <ArrowRight color="white" />

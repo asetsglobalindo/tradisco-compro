@@ -71,18 +71,18 @@ const page = async ({params}: {params: Promise<{slug: string}>}) => {
             <CarouselContent className="">
               {bussinessList.map((d, index) => (
                 <CarouselItem key={index} className="w-full md:basis-1/2 lg:basis-1/3">
-                  <div key={d._id} className="relative rounded-2xl overflow-hidden aspect-square">
+                  <div key={d._id} className="relative group rounded-2xl overflow-hidden aspect-square">
                     <img
                       className="w-full h-full object-cover"
                       src={d?.thumbnail_images[0]?.images[0]?.url}
                       alt={d?.title}
                     />
                     <div className="absolute px-4 bottom-4 text-white z-10">
-                      <h2 className="font-bold text-green-light">{d.title}</h2>
+                      <h2 className="font-bold text-green-light group-hover:text-white">{d.title}</h2>
                       <div className="mt-2" dangerouslySetInnerHTML={{__html: d.description}}></div>
                     </div>
 
-                    <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black opacity-60"></div>
+                    <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-tr from-[rgb(0,0,0)]/[.55] from-[55%] via-black-/100 to-black/100 hover:from-green/[.85] hover:from-[25%] hover:to-black/70"></div>
                   </div>
                 </CarouselItem>
               ))}

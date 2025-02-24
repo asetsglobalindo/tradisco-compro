@@ -90,9 +90,7 @@ const page = async () => {
       <section className="container lg:mt-16 mt-8">
         <section className="mx-auto">
           <section
-            className="text-white  py-8 px-8 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
-            style={{backgroundImage: `url(${data?.images2[0]?.images[0]?.url})`}}
-          >
+            className="text-white py-8 px-8 lg:px-14 rounded-3xl overflow-hidden bg-[#005CAB]">
             <h1 className="title-3 text-center">{data.sub_title1}</h1>
 
             <section className="grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-8 mt-4">
