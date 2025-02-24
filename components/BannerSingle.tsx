@@ -31,8 +31,18 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
             src={img?.images_mobile[0]?.url}
             alt={title}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-transparent" />
-          <h1 className="absolute left-[100px] bottom-[120px] text-white text-[42px] font-bold capitalize">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#32599C] to-transparent" />
+          <h1 className="
+              absolute left-[10px] bottom-[10px] 
+              sm:left-[20px] sm:bottom-[10px] 
+              md:left-[50px] md:bottom-[50px] 
+              lg:left-[100px] lg:bottom-[120px] 
+              text-white 
+              text-[30px]      
+              sm:text-[30px]   
+              md:text-[42px]   
+              lg:text-[42px]  
+              font-bold capitalize">
             {title.replace(/-/g, " ")}
           </h1>
         </picture>
