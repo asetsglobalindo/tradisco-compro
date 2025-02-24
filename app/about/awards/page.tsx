@@ -1,4 +1,5 @@
 import BannerSingle from "@/components/BannerSingle";
+import RelatedPage from "@/components/RelatedPage";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
@@ -48,6 +49,26 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
+  const linksData = [
+    {
+      href: "/about",
+      image: data?.banner[0]?.images[0]?.url,
+      alt: "Profile",
+      title: "Profil",
+    },
+    {
+      href: "/about/our-values",
+      image: "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
+      alt: "Tata Nilai",
+      title: "Tata Nilai",
+    },
+    {
+      href: "/about/managements",
+      image: data?.banner[0]?.images[0]?.url,
+      alt: "Managements",
+      title: "Managements",
+    },
+  ];
 
   return (
     <section>
@@ -67,6 +88,8 @@ const page = async () => {
           ))}
         </section>
       </section>
+      {/* Related Page */}
+      <RelatedPage links={linksData} />
     </section>
   );
 };

@@ -37,7 +37,7 @@ const Footer = () => {
     <footer
       className={cn(
         {
-          "mt-48": !noMarginPath.includes(path),
+          "mt-0": !noMarginPath.includes(path),
         },
         "bg-[#171717] text-white "
       )}

@@ -27,7 +27,7 @@ const Timeline = ({ data }: { data: { year: string; image: string; description: 
   }, [activeIndex]);
 
   return (
-    <section className="timeline-container relative">
+    <section className="timeline-container relative lg:h-[720px] sm:h-[300px] h-[300px]">
       <Swiper
         modules={[EffectFade, Autoplay]}
         effect="fade"
