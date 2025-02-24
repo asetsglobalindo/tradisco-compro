@@ -20,10 +20,17 @@ const BusinessCarousel = ({ bussinessList }: { bussinessList: ContentType[] }) =
                 className="relative rounded-2xl overflow-hidden aspect-square cursor-pointer"
                 onClick={() => setSelectedItem(d)}
               >
-                <img className="w-full h-full object-cover" src={d?.thumbnail_images[0]?.images[0]?.url} alt={d?.title} />
+                <img
+                  className="w-full h-full object-cover"
+                  src={d?.thumbnail_images[0]?.images[0]?.url}
+                  alt={d?.title}
+                />
                 <div className="absolute px-4 bottom-4 text-white z-10">
                   <h2 className="font-bold text-green-light">{d.title}</h2>
-                  <div className="mt-2" dangerouslySetInnerHTML={{ __html: d.description }}></div>
+                  <div
+                    className="mt-2 line-clamp-3 overflow-hidden text-ellipsis"
+                    dangerouslySetInnerHTML={{ __html: d.description }}
+                  ></div>
                 </div>
                 <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black opacity-60"></div>
               </div>

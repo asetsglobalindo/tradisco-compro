@@ -66,8 +66,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
           <h1 className="title-3 text-center text-green-light">{data?.title}</h1>
           <div className="mt-8" dangerouslySetInnerHTML={{ __html: data?.small_text }}></div>
         </section>
-
-        {/* Kirim data ke BusinessCarousel (Client Component) */}
+        
         <section className="mt-8 flex flex-col">
           <BusinessCarousel bussinessList={bussinessList} />
         </section>
