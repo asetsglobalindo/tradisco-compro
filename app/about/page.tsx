@@ -11,6 +11,8 @@ import {Metadata} from "next";
 // import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
 import React from "react";
+import CounterData from "./counter-data/page";
+import Timeline from "./timeline/page";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -117,7 +119,7 @@ const page = async () => {
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
       </section>
       {/* timeline */}
-      <section className="container lg:mt-16 mt-8">
+      {/* <section className="container lg:mt-16 mt-8">
         <h1 className="title-3">{data.bottom_text}</h1>
 
         <section className="lg:mt-16 mt-8 flex flex-col gap-8 max-w-[900px] mx-auto">
@@ -155,54 +157,15 @@ const page = async () => {
               </section>
             ))}
         </section>
-      </section>
+      </section> */}
+      <Timeline/>
 
       <section className="container lg:mt-16 mt-8">
         <h1 className="title-3">{data.bottom_text2}</h1>
         <img className=" mt-4" src={data.thumbnail_images2[0]?.images[0]?.url} alt={data.bottom_text2} />
       </section>
-      <section className="bg-[#F2F2F2] lg:mt-16 mt-8">
-        <section className="container py-16">
-          <div dangerouslySetInnerHTML={{__html: data.bottom_description2}}></div>
-          <Carousel className="mt-8">
-            <CarouselContent>
-              {data.body
-                .filter((d) => d.type === 4)
-                .map((d) => (
-                  <CarouselItem key={d._id} className="md:basis-1/3">
-                    <section key={d._id}>
-                      <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
-                        <img
-                          className="brightness-[40%] aspect-square object-cover"
-                          src={d.images?.[0]?.images?.[0]?.url}
-                          alt={d.images?.[0]?.title}
-                        />
 
-                        <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
-                        <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
-                          <h2 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
-                            {d.title}
-                          </h2>
-                          <a target="_blank" href={d.button_route}>
-                            <Button
-                              size="default"
-                              variant="outline"
-                              className="w-fit mt-2 rounded-none text-xs shadow-sm border-white group-hover:border-white group-hover:border box-border"
-                            >
-                              <span>{d.button_name} </span>
-                            </Button>
-                          </a>
-                        </section>
-                      </section>
-                    </section>
-                  </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </section>
-      </section>
+      <CounterData/>
 
       <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
         <div className="lg:w-[480px]">
