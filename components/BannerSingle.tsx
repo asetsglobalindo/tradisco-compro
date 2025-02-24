@@ -15,13 +15,25 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
 
   useEffect(() => {
     ui.setHeaderColor(inView ? "white" : "black");
-  }, [inView]); 
+  }, [inView]);
 
   if (!data?.length) {
     return null;
   }
+  const titleMapping: Record<string, string> = {
+    "about": "Profile",
+    "csr": "Tanggung Jawab Sosial",
+    "our-values": "Tata Nilai",
+    "awards": "Penghargaan",
+    "managements": "Tata Kelola"
+  };
+
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
-  const translatedTitle = t(rawTitle.replace(/-/g, " "));
+  const normalizedTitle = rawTitle.toLowerCase(); 
+  
+  const mappedTitle = titleMapping[normalizedTitle] || rawTitle;
+
+  const translatedTitle = t(mappedTitle.replace(/-/g, " "));
 
   return (
     <div ref={ref} className="relative w-full">

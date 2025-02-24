@@ -69,6 +69,35 @@ const page = async () => {
         <BannerSingle data={data.banner} />
       </section>
 
+      {/* Section Direksi  */}
+      <section className="container mt-16 flex flex-col md:flex-row items-center gap-6">
+        <div className="w-full md:w-1/3 flex flex-col items-center text-center">
+          <img
+            src="/temp/zibali.jpg" 
+            alt="Zibali Hisbul Masih"
+            className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow-lg"
+          />
+          <h2 className="text-xl font-semibold mt-4">Zibali Hisbul Masih</h2>
+          <p className="text-gray-600">Direktur Utama PT Pertamina Retail</p>
+        </div>
+
+        <div className="w-full md:w-2/3 relative">
+          <div
+            className="relative w-full h-60 md:h-80 bg-cover bg-center rounded-2xl shadow-lg bg-blue-500 verflow-hidden"
+          >
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center p-6">
+              <p className="text-white text-lg leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                gravida lorem id metus malesuada, at tincidunt justo vehicula.
+                Phasellus ultricies est id velit feugiat, at hendrerit magna
+                elementum. Integer tincidunt, erat vel malesuada dictum, erat
+                turpis pretium tortor, id pharetra enim felis in odio.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* top */}
       <section className="container mt-16">
         <section className=" mx-auto">
@@ -148,7 +177,7 @@ const page = async () => {
           </section>
         </section>
       </section>
-      
+
       {/* Related Page */}
       <RelatedPage links={linksData} />
       
