@@ -90,8 +90,8 @@ const page = async () => {
       <section className="container lg:mt-16 mt-8">
         <section className="mx-auto">
           <section
-            className="text-white py-8 px-8 lg:px-14 rounded-3xl overflow-hidden bg-[#005CAB]">
-            <h1 className="title-3 text-center">{data.sub_title1}</h1>
+            className="text-white py-8 px-8 lg:px-32 lg:pt-16 lg:pb-20 rounded-3xl overflow-hidden bg-[#005CAB]">
+            <h1 className="title-3 text-center lg:mb-16">{data.sub_title1}</h1>
 
             <section className="grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-8 mt-4">
               {data.body2.map((d, index) => (
