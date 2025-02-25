@@ -21,16 +21,16 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
     return null;
   }
   const titleMapping: Record<string, string> = {
-    "about": "Profile",
-    "csr": "Tanggung Jawab Sosial",
+    about: "Profile",
+    csr: "Tanggung Jawab Sosial",
     "our-values": "Tata Nilai",
-    "awards": "Penghargaan",
-    "managements": "Tata Kelola"
+    awards: "Penghargaan",
+    managements: "Tata Kelola",
   };
 
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
-  const normalizedTitle = rawTitle.toLowerCase(); 
-  
+  const normalizedTitle = rawTitle.toLowerCase();
+
   const mappedTitle = titleMapping[normalizedTitle] || rawTitle;
 
   const translatedTitle = t(mappedTitle.replace(/-/g, " "));
@@ -46,7 +46,8 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
             alt={translatedTitle}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#32599C] to-transparent" />
-          <h1 className="
+          <h1
+            className="
               absolute left-[10px] bottom-[10px] 
               sm:left-[20px] sm:bottom-[10px] 
               md:left-[50px] md:bottom-[50px] 
@@ -56,7 +57,8 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
               sm:text-[30px]   
               md:text-[42px]   
               lg:text-[42px]  
-              font-bold capitalize">
+              font-bold capitalize"
+          >
             {translatedTitle}
           </h1>
         </picture>
