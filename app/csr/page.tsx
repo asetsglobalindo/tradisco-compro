@@ -85,7 +85,7 @@ const page = async () => {
           <div
             className="relative w-full h-60 md:h-80 bg-cover bg-center rounded-2xl shadow-lg bg-blue-500 verflow-hidden"
           >
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center p-6">
+            <div className="absolute rounded-2xl inset-0 bg-black bg-opacity-50 flex items-center p-6">
               <p className="text-white text-lg leading-relaxed">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                 gravida lorem id metus malesuada, at tincidunt justo vehicula.
@@ -102,27 +102,32 @@ const page = async () => {
       <section className="container mt-16">
         <section className=" mx-auto">
           <section
-            className="text-white  py-16 px-4 lg:px-14 bg-cover bg-no-repeat rounded-3xl overflow-hidden"
+            className="text-white  py-16 px-4 lg:px-14 bg-cover bg-center bg-[length:200%] bg-no-repeat rounded-2xl overflow-hidden flex flex-col items-center"
             style={{backgroundImage: `url(${data?.thumbnail_images[0]?.images[0]?.url})`}}
           >
-            <h1 className="title-3  text-center">{data.sub_title1}</h1>
+            <h1 className="title-3 text-center relative inline-block pb-2 border-b-4 border-green-light">
+              <span className="text-green-light">{data.sub_title1.split(" ")[0]}</span>{" "}
+              <span className="text-white">{data.sub_title1.split(" ").slice(1).join(" ")}</span>
+            </h1>
             <div className="mt-4" dangerouslySetInnerHTML={{__html: data.bottom_button_name}}></div>
           </section>
         </section>
       </section>
 
-      <section className="container lg:mt-16 mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <section className="container lg:mt-16 mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
         {data.body
           .filter((d) => d.type === 3)
           .map((d) => (
-            <div className="relative rounded-2xl overflow-hidden" key={d._id}>
+            <div className="relative rounded-2xl overflow-hidden group" key={d._id}>
               <img
-                className="w-full h-full object-cover aspect-square"
+                className="w-full h-full object-cover aspect-square transition-transform duration-500 ease-in-out group-hover:scale-110"
                 src={d?.images[0]?.images[0]?.url}
                 alt={d?.title}
               />
-              <section className="absolute bottom-0 z-20 left-0 p-4 xl:p-8 transition-all flex flex-col">
-                <h2 className="mt-2 text-lg text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h2>
+              <div className="absolute inset-0 transition-opacity duration-500"></div>
+
+              <section className="absolute bg-black bg-opacity-50  bottom-0 z-20 left-0 p-4 transition-all flex flex-col items-center w-full justify-center gap-2">
+                <h2 className="mt-2 text-xl text-green-light font-semibold lg:max-w-[70%] ">{d.title}</h2>
                 <div className="text-white" dangerouslySetInnerHTML={{__html: d.text}}></div>
               </section>
             </div>
