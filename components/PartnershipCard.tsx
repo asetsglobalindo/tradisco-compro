@@ -1,19 +1,24 @@
 "use client";
 import {ContentType} from "@/types/indes";
-import React from "react";
+import React, { useState } from "react";
 import {Button} from "./ui/button";
-import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
-import {X} from "lucide-react";
+import Modal from "./ui/modal";
+import { X } from 'lucide-react';
 
 const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
   const c = data;
   const hasLink:boolean = c.bottom_button_route !== '#';
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleButtonClick = (url: string): void => {
 
     if(hasLink) {
       window.open(url, '_blank');
     }
+  }
+
+  const handleOpenModal = () => {
+    setIsOpen(true)
   }
 
   return (
@@ -35,37 +40,31 @@ const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
           {c.bottom_button_name}
         </Button>
 
-          <Drawer>
-            <DrawerTrigger asChild className="cursor-pointer group overflow-hidden">
-              <Button variant={"outline"} className="w-full text-white border-white rounded-none">
-                {c.sub_title1}
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent className="border-none rounded-t-3xl px-0 container overflow-hidden">
-              <div className="mx-auto w-full ">
-                <DrawerHeader className="bg-[#171717] flex items-center py-8 text-white">
-                  <section className="container flex justify-between items-center">
-                    <section>
-                      <DrawerTitle className="mt-4">
-                        <h1>{c.title}</h1>
-                      </DrawerTitle>
-                    </section>
-                    <DrawerClose>
-                      <Button variant="outline" rounded className="w-fit px-3 bg-green-light/50 border-transparent">
-                        <X color="#63AE1D" />
-                      </Button>
-                    </DrawerClose>
-                  </section>
-                </DrawerHeader>
-                <section className="flex flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 xl:mt-16 xl:mb-16">
-                  <div
-                    className="dont-reset h-full max-h-[50vh] lg:max-h-[40vh] overflow-y-auto"
-                    dangerouslySetInnerHTML={{__html: c.sub_title2}}
-                  ></div>
-                </section>
-              </div>
-            </DrawerContent>
-          </Drawer>
+        <Button variant={"outline"} className="w-full text-white border-white rounded-none" onClick={handleOpenModal}>
+          {c.sub_title1}
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen?.(false)}
+        >
+          <header className="flex items-center justify-between mt-2 mb-3">
+            <h2 className="text-lg text-green-light font-semibold lg:max-w-[70%]">{c.title}</h2>
+            <div className="w-6 h-6 text-center hover:text-red-800 hover:cursor-pointer">
+              <X className="w-5" onClick={() => setIsOpen?.(false)}/>
+            </div>
+           </header>
+          <div
+            className="dont-reset h-full max-h-[50vh] lg:max-h-[40vh]  overflow-y-auto
+              [&::-webkit-scrollbar]:w-2
+              [&::-webkit-scrollbar-track]:rounded-full
+              [&::-webkit-scrollbar-track]:bg-gray-100
+              [&::-webkit-scrollbar-thumb]:rounded-full
+              [&::-webkit-scrollbar-thumb]:bg-[#005CAB]
+              dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+              dark:[&::-webkit-scrollbar-thumb]:bg-[#005CAB]"
+            dangerouslySetInnerHTML={{__html: c.sub_title2}}
+          ></div>
+        </Modal>
         </div>
       </section>
     </div>
