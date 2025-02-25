@@ -7,6 +7,14 @@ import {X} from "lucide-react";
 
 const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
   const c = data;
+  const hasLink:boolean = c.bottom_button_route !== '#';
+
+  const handleButtonClick = (url: string): void => {
+
+    if(hasLink) {
+      window.open(url, '_blank');
+    }
+  }
 
   return (
     <div className="rounded-2xl relative overflow-hidden" key={c._id}>
@@ -20,13 +28,16 @@ const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
         <div className="text-white" dangerouslySetInnerHTML={{__html: c.description}}></div>
 
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <a className="w-full" target="_blank" href={c.bottom_button_route}>
-            <Button className="w-full">{c.bottom_button_name}</Button>
-          </a>
+        <Button 
+          className={`w-full ${hasLink ? '' : 'bg-[#A6B0A7] text-neutral-900 font-bold pointer-events-none'} rounded-none`} 
+          onClick={() => {handleButtonClick(c.bottom_button_route)}}
+        >
+          {c.bottom_button_name}
+        </Button>
 
           <Drawer>
             <DrawerTrigger asChild className="cursor-pointer group overflow-hidden">
-              <Button variant={"outline"} className="w-full text-white border-white">
+              <Button variant={"outline"} className="w-full text-white border-white rounded-none">
                 {c.sub_title1}
               </Button>
             </DrawerTrigger>
