@@ -1,30 +1,45 @@
 "use client";
-import React, {useEffect} from "react";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {useState} from "react";
+import React, { useEffect } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useState } from "react";
 import Link from "next/link";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import uiStore from "@/app/store/uiStore";
-import {Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger} from "./ui/drawer";
-import {X} from "lucide-react";
-import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./ui/accordion";
-import {useQuery} from "react-query";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer";
+import { X } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
+import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
-import {HeaderItemChild, HeaderItemType} from "@/types/indes";
+import { HeaderItemChild, HeaderItemType } from "@/types/indes";
 import JSCookie from "js-cookie";
-import {UpdateLangPreference} from "@/app/action";
-import {usePathname} from "next/navigation";
+import { UpdateLangPreference } from "@/app/action";
+import { usePathname } from "next/navigation";
 
 const langOptions = [
-  {label: "en", value: "en"},
-  {label: "id", value: "id"},
+  { label: "en", value: "en" },
+  { label: "id", value: "id" },
 ];
 
-const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | "right" | "bottom" | "top"}> = ({
-  data,
-  side = "bottom",
-  color,
-}) => {
+const NavItem: React.FC<{
+  data: HeaderItemChild;
+  color?: string;
+  side?: "left" | "right" | "bottom" | "top";
+}> = ({ data, side = "bottom", color }) => {
   const ui = uiStore((state) => state);
   const [isOpen, setIsOpen] = useState(false);
   const path = usePathname();
@@ -37,8 +52,15 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
   if (!data.childs.length) {
     return (
       <Link href={data.route}>
-        {data.name.toLowerCase() === "home" || data.name.toLowerCase() === "beranda" ? (
-          <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {data.name.toLowerCase() === "home" ||
+        data.name.toLowerCase() === "beranda" ? (
+          <svg
+            width="21"
+            height="20"
+            viewBox="0 0 21 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M11.7281 0.953614C11.377 0.680505 10.9449 0.532227 10.5001 0.532227C10.0553 0.532227 9.62319 0.680505 9.2721 0.953614L0.888104 7.47361C0.136104 8.06061 0.550104 9.26561 1.5031 9.26561H2.5001V17.2656C2.5001 17.796 2.71082 18.3048 3.08589 18.6798C3.46096 19.0549 3.96967 19.2656 4.5001 19.2656H8.5001V13.2656C8.5001 12.7352 8.71082 12.2265 9.08589 11.8514C9.46096 11.4763 9.96967 11.2656 10.5001 11.2656C11.0305 11.2656 11.5392 11.4763 11.9143 11.8514C12.2894 12.2265 12.5001 12.7352 12.5001 13.2656V19.2656H16.5001C17.0305 19.2656 17.5392 19.0549 17.9143 18.6798C18.2894 18.3048 18.5001 17.796 18.5001 17.2656V9.26561H19.4971C20.4491 9.26561 20.8651 8.06061 20.1121 7.47461L11.7281 0.953614Z"
               fill={ui.headerColor}
@@ -57,7 +79,10 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
         <span className="inline-block leading-none">{data.name}</span>
         <svg
           className={cn(
-            {"rotate-180": isOpen && side === "bottom", "rotate-[-90deg]": side === "right"},
+            {
+              "rotate-180": isOpen && side === "bottom",
+              "rotate-[-90deg]": side === "right",
+            },
             "w-4 transition-all"
           )}
           width="9"
@@ -72,7 +97,12 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
           />
         </svg>
       </PopoverTrigger>
-      <PopoverContent side={side} className=" min-w-28 relative flex  z-[99999] w-64" sideOffset={20} align="start">
+      <PopoverContent
+        side={side}
+        className=" min-w-28 relative flex  z-[99999] w-64"
+        sideOffset={20}
+        align="start"
+      >
         {/* <div className={cn({" -top-6": side === "bottom"}, "absolute")}>
           <div className="rotate-180">
             <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +121,7 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem className="border-none" value="item-1">
                       <AccordionTrigger className="w-full no-underline hover:no-underline leading-none font-normal text-sm rounded-md hover:bg-green-light/40 px-2 py-1">
-                        {data.name}
+                        {route.name}
                       </AccordionTrigger>
                       <AccordionContent className="pb-0 ml-4 mt-1">
                         {route.childs.map((item, index) => (
@@ -109,7 +139,10 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
                   {/* <NavItem data={route} side="right" color="black" /> */}
                 </React.Fragment>
               ) : (
-                <Link className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md" href={route.route}>
+                <Link
+                  className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md"
+                  href={route.route}
+                >
                   {route.name}
                 </Link>
               )}
@@ -121,9 +154,16 @@ const NavItem: React.FC<{data: HeaderItemChild; color?: string; side?: "left" | 
   );
 };
 
-const NavItemMobile: React.FC<{data: HeaderItemChild; index: number}> = ({data, index}) => {
+const NavItemMobile: React.FC<{ data: HeaderItemChild; index: number }> = ({
+  data,
+  index,
+}) => {
   return (
-    <AccordionItem value={`route-${index}`} key={`${data.name}-${index}`} className="nav-mobile-accordion-item">
+    <AccordionItem
+      value={`route-${index}`}
+      key={`${data.name}-${index}`}
+      className="nav-mobile-accordion-item"
+    >
       <AccordionTrigger className="text-center flex justify-center flex-none mx-auto relative">
         {data.childs?.length ? (
           <div className="w-fit flex justify-center items-center relative">
@@ -154,15 +194,25 @@ const NavItemMobile: React.FC<{data: HeaderItemChild; index: number}> = ({data, 
       <AccordionContent>
         <section className="flex flex-col space-y-4 text-center">
           {data.childs?.map((route) => (
-            <section key={route.name} className="flex flex-col space-y-4 text-center">
+            <section
+              key={route.name}
+              className="flex flex-col space-y-4 text-center"
+            >
               {route.childs.length ? (
                 route.childs.map((child) => (
-                  <Link className="hover:text-green-light hover:underline" key={child.name} href={child.route}>
+                  <Link
+                    className="hover:text-green-light hover:underline"
+                    key={child.name}
+                    href={child.route}
+                  >
                     {child.name}
                   </Link>
                 ))
               ) : (
-                <Link className="hover:text-green-light hover:underline" href={route.route}>
+                <Link
+                  className="hover:text-green-light hover:underline"
+                  href={route.route}
+                >
                   {route.name}
                 </Link>
               )}
@@ -200,9 +250,11 @@ const LanguageSwitcher = () => {
               fill={ui.headerColor}
             />
           </svg>
-          {lang ? <span className="inline-block uppercase leading-none">{lang}</span> : null}
+          {lang ? (
+            <span className="inline-block uppercase leading-none">{lang}</span>
+          ) : null}
           <svg
-            className={cn({"rotate-180": isOpen}, "w-4 transition-all")}
+            className={cn({ "rotate-180": isOpen }, "w-4 transition-all")}
             width="9"
             height="5"
             viewBox="0 0 9 5"
@@ -215,10 +267,20 @@ const LanguageSwitcher = () => {
             />
           </svg>
         </PopoverTrigger>
-        <PopoverContent side="bottom" className="w-fit min-w-28 relative flex justify-center z-[99999]" sideOffset={20}>
+        <PopoverContent
+          side="bottom"
+          className="w-fit min-w-28 relative flex justify-center z-[99999]"
+          sideOffset={20}
+        >
           <div className="absolute -top-6">
             <div className="rotate-180">
-              <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 14 13"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M10.4332 4.43083H7.05863H4.01988C3.49988 4.43083 3.23988 5.05917 3.60822 5.4275L6.41405 8.23333C6.86363 8.68291 7.59488 8.68291 8.04447 8.23333L9.11155 7.16625L10.8503 5.4275C11.2132 5.05917 10.9532 4.43083 10.4332 4.43083Z"
                   fill="white"
@@ -249,7 +311,7 @@ const Header = () => {
   const path = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  const {data: header} = useQuery({
+  const { data: header } = useQuery({
     queryKey: ["header", lang],
     queryFn: async () => await getHeader(),
   });
@@ -285,7 +347,12 @@ const Header = () => {
         )}
       >
         <section className="container ">
-          <section className={cn({}, "items-center flex justify-between relative w-full ")}>
+          <section
+            className={cn(
+              {},
+              "items-center flex justify-between relative w-full "
+            )}
+          >
             <nav className="w-full hidden xl:block">
               <ul className="flex w-full space-x-8 items-center mt-4">
                 {header?.map((route) => (
@@ -301,14 +368,32 @@ const Header = () => {
             <Link href="/">
               <img
                 className="w-40"
-                src={ui.headerColor === "white" ? "/logo/logo-white.png" : "/logo/logo.png"}
+                src={
+                  ui.headerColor === "white"
+                    ? "/logo/logo-white.png"
+                    : "/logo/logo.png"
+                }
                 alt="pertamina-retail-logo"
               />
             </Link>
 
-            <Drawer open={isOpen} onOpenChange={setIsOpen} direction="right" handleOnly>
-              <DrawerTrigger onClick={() => setIsOpen(true)} className="xl:hidden">
-                <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <Drawer
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              direction="right"
+              handleOnly
+            >
+              <DrawerTrigger
+                onClick={() => setIsOpen(true)}
+                className="xl:hidden"
+              >
+                <svg
+                  width="18"
+                  height="14"
+                  viewBox="0 0 18 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"
                     stroke={ui.headerColor}
@@ -349,4 +434,3 @@ const Header = () => {
 };
 
 export default Header;
-

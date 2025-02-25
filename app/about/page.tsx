@@ -1,12 +1,17 @@
 import BannerSingle from "@/components/BannerSingle";
-import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {ContentType} from "@/types/indes";
-import {CircleArrowDown} from "lucide-react";
-import {Metadata} from "next";
-import {cookies} from "next/headers";
-import {notFound} from "next/navigation";
+import { ContentType } from "@/types/indes";
+import { CircleArrowDown } from "lucide-react";
+import { Metadata } from "next";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import React from "react";
 import CounterData from "./counter-data/page";
 import Timeline from "./timeline/page";
@@ -53,8 +58,6 @@ const getData = async () => {
   }
 };
 
-
-
 const page = async () => {
   const data: ContentType = await getData();
   const lang = (await cookies()).get("lang")?.value || "id";
@@ -68,7 +71,8 @@ const page = async () => {
     },
     {
       href: "/about/our-values",
-      image: "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
+      image:
+        "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
       alt: "Tata Nilai",
       title: "Tata Nilai",
     },
@@ -90,7 +94,10 @@ const page = async () => {
       <section className="container lg:mt-16 mt-8">
         <section className=" max-w-[900px] mx-auto">
           <h1 className="title-3 text-center text-green-light">{data.title}</h1>
-          <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
+          <div
+            className="mt-8"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          ></div>
         </section>
       </section>
 
@@ -104,7 +111,11 @@ const page = async () => {
             </div>
             <div className="md:w-1/2">
               {data?.images?.length && (
-                <img className="w-full" src={data?.images[0]?.images[0]?.url} alt={data?.small_text2} />
+                <img
+                  className="w-full"
+                  src={data?.images[0]?.images[0]?.url}
+                  alt={data?.small_text2}
+                />
               )}
             </div>
           </section>
@@ -113,8 +124,7 @@ const page = async () => {
 
       <section className="container lg:mt-16 mt-8">
         <section className="mx-auto">
-          <section
-            className="text-white py-8 px-8 lg:px-32 lg:pt-16 lg:pb-20 rounded-3xl overflow-hidden bg-[#005CAB]">
+          <section className="text-white py-8 px-8 lg:px-32 lg:pt-16 lg:pb-20 rounded-3xl overflow-hidden bg-[#005CAB]">
             <h1 className="title-3 text-center lg:mb-16">{data.sub_title1}</h1>
 
             <section className="grid grid-cols-1 md:grid-cols-2  gap-x-8 gap-y-8 mt-4">
@@ -124,7 +134,7 @@ const page = async () => {
                     {index + 1}
                   </div>
                   <div className="bg-white text-black pl-8 py-4 pr-4 h-full rounded-2xl flex items-center">
-                    <div dangerouslySetInnerHTML={{__html: d.text}}></div>
+                    <div dangerouslySetInnerHTML={{ __html: d.text }}></div>
                   </div>
                 </div>
               ))}
@@ -135,8 +145,12 @@ const page = async () => {
 
       {/* motto */}
       <section className="container lg:mt-16 mt-8 border-b pb-16">
-        <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
-        <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
+        <p className="text-xl text-[#005CAB] font-bold text-center">
+          {data.sub_title2}
+        </p>
+        <h1 className="text-3xl text-center font-bold font-Kalam mt-4">
+          {data.sub_title3}
+        </h1>
       </section>
 
       {/* timeline */}
@@ -144,18 +158,22 @@ const page = async () => {
         data={data.body
           .filter((d) => d.type === 1)
           .map((d) => ({
-            year: d.button_name, 
-            image: d?.images[0]?.images[0]?.url || "", 
-            description: d.text, 
+            year: d.button_name,
+            image: d?.images[0]?.images[0]?.url || "",
+            description: d.text,
           }))}
       />
 
       <section className="container lg:mt-16 mt-8">
         <h1 className="title-3">{data.bottom_text2}</h1>
-        <img className=" mt-4" src={data.thumbnail_images2[0]?.images[0]?.url} alt={data.bottom_text2} />
+        <img
+          className=" mt-4"
+          src={data.thumbnail_images2[0]?.images[0]?.url}
+          alt={data.bottom_text2}
+        />
       </section>
 
-      <CounterData/>
+      <CounterData />
 
       <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
         <div className="lg:w-[480px]">
@@ -175,12 +193,16 @@ const page = async () => {
                         href={d.button_route}
                         target="_blank"
                       >
-                        <CircleArrowDown className="mr-1" size={18} /> {d.button_name}
+                        <CircleArrowDown className="mr-1" size={18} />{" "}
+                        {d.button_name}
                       </a>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                    <div
+                      className=""
+                      dangerouslySetInnerHTML={{ __html: d.text }}
+                    ></div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -195,4 +217,3 @@ const page = async () => {
 };
 
 export default page;
-
