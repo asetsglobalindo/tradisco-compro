@@ -7,8 +7,6 @@ import {ContentType} from "@/types/indes";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
-import Link from "next/link";
-import RelatedPage from "@/components/RelatedPage";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
@@ -52,25 +50,9 @@ const getData = async (type: string) => {
 
 const page = async () => {
   const data: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
-  console.log("isis data: ", data)
   const dataTab: ContentType = await getData(CONTENT_TYPE.CSR_CONTENT);
   let count = 0;
   let currentLayout = "right";
-
-  const linksData = [
-    {
-      href: "/csr",
-      image: data?.banner[0]?.images[0]?.url,
-      alt: "Tanggung Jawab Sosial",
-      title: "Tanggung Jawab Sosial",
-    },
-    {
-      href: "/csr/collaboration-partnership",
-      image: data?.body[6]?.images[0]?.images[0]?.url,
-      alt: "Kolaborasi & Kemitraan",
-      title: "Kolaborasi & Kemitraan",
-    },
-  ];
 
   return (
     <section>
@@ -122,8 +104,6 @@ const page = async () => {
           })}
         </section>
       </section>
-      {/* Related Page */}
-      <RelatedPage links={linksData} />
     </section>
   );
 };

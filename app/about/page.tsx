@@ -1,16 +1,17 @@
 import BannerSingle from "@/components/BannerSingle";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
-import {Button} from "@/components/ui/button";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {cn} from "@/lib/utils";
 import {ContentType} from "@/types/indes";
 import {CircleArrowDown} from "lucide-react";
 import {Metadata} from "next";
-// import {cookies} from "next/headers";
+import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
 import React from "react";
+import CounterData from "./counter-data/page";
+import Timeline from "./timeline/page";
+import Link from "next/link";
+import RelatedPage from "@/components/RelatedPage";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -52,9 +53,32 @@ const getData = async () => {
   }
 };
 
+
+
 const page = async () => {
   const data: ContentType = await getData();
-  // const lang = (await cookies()).get("lang")?.value || "id";
+  const lang = (await cookies()).get("lang")?.value || "id";
+
+  const linksData = [
+    {
+      href: "/about/managements",
+      image: data?.banner[0]?.images[0]?.url,
+      alt: "Manajemen",
+      title: "Manajemen",
+    },
+    {
+      href: "/about/our-values",
+      image: "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
+      alt: "Tata Nilai",
+      title: "Tata Nilai",
+    },
+    {
+      href: "/about/awards",
+      image: data?.body[6]?.images[0]?.images[0]?.url,
+      alt: "Penghargaan",
+      title: "Penghargaan",
+    },
+  ];
 
   return (
     <section>
@@ -114,93 +138,24 @@ const page = async () => {
         <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
       </section>
+
       {/* timeline */}
-      <section className="container lg:mt-16 mt-8">
-        <h1 className="title-3">{data.bottom_text}</h1>
-
-        <section className="lg:mt-16 mt-8 flex flex-col gap-8 max-w-[900px] mx-auto">
-          {data.body
-            .filter((d) => d.type === 1)
-            .map((d, index) => (
-              <section key={d._id} className="flex">
-                <section className="lg:grid w-fit grid-cols-2 lg:min-w-40">
-                  <div className="hidden lg:block">
-                    <p className="title-3 text-[#005CAB]">{d.button_name}</p>
-                  </div>
-                  <div className="lg:mx-8 h-full flex justify-center flex-col items-center">
-                    <div className="bg-green-light p-1 rounded-full flex items-center justify-center">
-                      <div className="w-3 h-3 bg-white rounded-full"></div>
-                    </div>
-
-                    <div
-                      className={cn(
-                        {
-                          "opacity-0": index === data.body.filter((d) => d.type === 1).length - 1,
-                        },
-                        "h-full w-[2px] mx-auto bg-[#D9D9D9]"
-                      )}
-                    ></div>
-                  </div>
-                </section>
-                <div className="ml-4 lg:ml-0">
-                  <p className="title-3 lg:hidden text-[#005CAB]">{d.button_name}</p>
-                  <h1 className="title-4 text-[#005CAB] font-bold ">{d.title}</h1>
-                  <div className="mt-4 flex-col md:flex-row flex gap-8">
-                    <div className="" dangerouslySetInnerHTML={{__html: d.text}}></div>
-                    <img className="max-w-[250px] object-contain" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
-                  </div>
-                </div>
-              </section>
-            ))}
-        </section>
-      </section>
+      <Timeline
+        data={data.body
+          .filter((d) => d.type === 1)
+          .map((d) => ({
+            year: d.button_name, 
+            image: d?.images[0]?.images[0]?.url || "", 
+            description: d.text, 
+          }))}
+      />
 
       <section className="container lg:mt-16 mt-8">
         <h1 className="title-3">{data.bottom_text2}</h1>
         <img className=" mt-4" src={data.thumbnail_images2[0]?.images[0]?.url} alt={data.bottom_text2} />
       </section>
-      <section className="bg-[#F2F2F2] lg:mt-16 mt-8">
-        <section className="container py-16">
-          <div dangerouslySetInnerHTML={{__html: data.bottom_description2}}></div>
-          <Carousel className="mt-8">
-            <CarouselContent>
-              {data.body
-                .filter((d) => d.type === 4)
-                .map((d) => (
-                  <CarouselItem key={d._id} className="md:basis-1/3">
-                    <section key={d._id}>
-                      <section className="relative group rounded-2xl news-card group  overflow-hidden group  transition-all">
-                        <img
-                          className="brightness-[40%] aspect-square object-cover"
-                          src={d.images?.[0]?.images?.[0]?.url}
-                          alt={d.images?.[0]?.title}
-                        />
 
-                        <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light"></div>
-                        <section className="absolute z-20 text-white px-8 py-8 transition-all flex left-0 bottom-0 flex-col">
-                          <h2 className="mt-2 text-lg font-semibold text-green-light group-hover:text-white">
-                            {d.title}
-                          </h2>
-                          <a target="_blank" href={d.button_route}>
-                            <Button
-                              size="default"
-                              variant="outline"
-                              className="w-fit mt-2 rounded-none text-xs shadow-sm border-white group-hover:border-white group-hover:border box-border"
-                            >
-                              <span>{d.button_name} </span>
-                            </Button>
-                          </a>
-                        </section>
-                      </section>
-                    </section>
-                  </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </section>
-      </section>
+      <CounterData/>
 
       <section className="container lg:mt-16 mt-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
         <div className="lg:w-[480px]">
@@ -232,6 +187,9 @@ const page = async () => {
           </Accordion>
         </div>
       </section>
+
+      {/* Related Page */}
+      <RelatedPage links={linksData} />
     </section>
   );
 };
