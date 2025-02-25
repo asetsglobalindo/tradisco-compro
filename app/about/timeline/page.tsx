@@ -8,7 +8,11 @@ import "swiper/css/effect-fade";
 
 const SLIDE_DURATION = 5000;
 
-const Timeline = ({ data }: { data: { year: string; image: string; description: string }[] }) => {
+const Timeline = ({
+  data,
+}: {
+  data: { year: string; image: string; description: string }[];
+}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const progressRef = useRef<HTMLDivElement>(null);
   const swiperRef = useRef<any>(null);
@@ -27,7 +31,7 @@ const Timeline = ({ data }: { data: { year: string; image: string; description: 
   }, [activeIndex]);
 
   return (
-    <section className="timeline-container relative lg:h-[720px] sm:h-[300px] h-[300px]">
+    <section className="timeline-container relative">
       <Swiper
         modules={[EffectFade, Autoplay]}
         effect="fade"
@@ -63,7 +67,10 @@ const Timeline = ({ data }: { data: { year: string; image: string; description: 
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 px-4 z-[99] w-3/4">
         <div className="relative w-full h-[2px] bg-gray-700">
           {/* Timeline Years */}
-          <div className="flex justify-stretch mt-2 text-gray-300 text-sm relative" style={{top: '-30px'}}>
+          <div
+            className="flex justify-stretch mt-2 text-gray-300 text-sm relative"
+            style={{ top: "-30px" }}
+          >
             {data.map((item, index) => (
               <div
                 key={index}
@@ -82,14 +89,18 @@ const Timeline = ({ data }: { data: { year: string; image: string; description: 
                   </span>
                   <div
                     className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 rounded-lg shadow-lg w-full h-[95px] transition-all duration-300 ${
-                      hoveredYear === index ? "opacity-100 visible translate-y-[-20px]" : "opacity-0 invisible"
+                      hoveredYear === index
+                        ? "opacity-100 visible translate-y-[-20px]"
+                        : "opacity-0 invisible"
                     }`}
                   >
                     <img
                       src={item.image}
                       alt="Preview"
                       className="w-full h-full object-cover rounded cursor-pointer"
-                      onClick={() => swiperRef.current?.swiper.slideToLoop(index)}
+                      onClick={() =>
+                        swiperRef.current?.swiper.slideToLoop(index)
+                      }
                     />
                   </div>
                 </div>
@@ -101,7 +112,10 @@ const Timeline = ({ data }: { data: { year: string; image: string; description: 
           <div
             ref={progressRef}
             className="absolute top-0 left-0 h-full bg-green-light transition-all duration-300 ease-linear"
-            style={{ width: "0%", transition: `width ${SLIDE_DURATION}ms linear` }}
+            style={{
+              width: "0%",
+              transition: `width ${SLIDE_DURATION}ms linear`,
+            }}
           ></div>
         </div>
       </div>
