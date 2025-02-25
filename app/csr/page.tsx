@@ -6,6 +6,7 @@ import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
 import Link from "next/link";
+import RelatedPage from "@/components/RelatedPage";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -48,11 +49,53 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
-  console.log('isi data', data);
+  const linksData = [
+    {
+      href: "/csr/our-programs",
+      image: data?.banner[0]?.images[0]?.url,
+      alt: "Program Kami",
+      title: "Program Kami",
+    },
+    {
+      href: "/csr/collaboration-partnership",
+      image: data?.body[6]?.images[0]?.images[0]?.url,
+      alt: "Kolaborasi & Kemitraan",
+      title: "Kolaborasi & Kemitraan",
+    },
+  ];
   return (
     <section>
       <section className="relative">
         <BannerSingle data={data.banner} />
+      </section>
+
+      {/* Section Direksi  */}
+      <section className="container mt-16 flex flex-col md:flex-row items-center gap-6">
+        <div className="w-full md:w-1/3 flex flex-col items-center text-center">
+          <img
+            src="/temp/zibali.jpg" 
+            alt="Zibali Hisbul Masih"
+            className="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full border-4 border-white shadow-lg"
+          />
+          <h2 className="text-xl font-semibold mt-4">Zibali Hisbul Masih</h2>
+          <p className="text-gray-600">Direktur Utama PT Pertamina Retail</p>
+        </div>
+
+        <div className="w-full md:w-2/3 relative">
+          <div
+            className="relative w-full h-60 md:h-80 bg-cover bg-center rounded-2xl shadow-lg bg-blue-500 verflow-hidden"
+          >
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center p-6">
+              <p className="text-white text-lg leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                gravida lorem id metus malesuada, at tincidunt justo vehicula.
+                Phasellus ultricies est id velit feugiat, at hendrerit magna
+                elementum. Integer tincidunt, erat vel malesuada dictum, erat
+                turpis pretium tortor, id pharetra enim felis in odio.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* top */}
@@ -134,34 +177,10 @@ const page = async () => {
           </section>
         </section>
       </section>
-      <section className="mt-16">
-        <section className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 h-[240px] mb-[-192px]">
-          <Link href="/csr/our-programs" className="relative group cursor-pointer overflow-hidden">
-            <img 
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-125" 
-              src={data?.banner[0]?.images[0]?.url} 
-              alt="Lingkungan" 
-            />
-            <div className="absolute bottom-0 left-0 p-8 w-full text-white h-full flex flex-col justify-center">
-              <h2 className="text-xl font-semibold">Program Kami</h2>
-              <p className="hidden group-hover:block text-sm mt-2">Selengkapnya →</p>
-            </div>
-            <div className="absolute bottom-0 left-0 w-full h-2 group-hover:bg-green-light transition-all duration-300"></div>
-          </Link>
-          <Link href="/csr/collaboration-partnership" className="relative group cursor-pointer overflow-hidden">
-            <img 
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-125" 
-              src={data?.body[6]?.images[0]?.images[0].url} 
-              alt="Sosial" 
-            />
-            <div className="absolute bottom-0 left-0 p-8 w-full text-white h-full flex flex-col justify-center">
-              <h2 className="text-xl font-semibold">Kolaborasi & Kemitraan</h2>
-              <p className="hidden group-hover:block text-sm mt-2">Selengkapnya →</p>
-            </div>
-            <div className="absolute bottom-0 left-0 w-full h-2 group-hover:bg-green-light transition-all duration-300"></div>
-          </Link>
-        </section>
-      </section>
+
+      {/* Related Page */}
+      <RelatedPage links={linksData} />
+      
     </section>
   );
 };

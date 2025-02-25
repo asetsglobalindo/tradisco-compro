@@ -5,8 +5,8 @@ import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
 const counters = [
-  { number: 530, text: "Jumlah titik BBM Satu Harga di seluruh wilayah Indonesia" },
-  { number: 70448, text: "Jumlah Desa/Kelurahan yang memiliki Pangkalan LPG Program OVOO (One Village One Outlet)" },
+  { number: 3089309, text: "Jumlah SPBU di seluruh Indonesia" },
+  { number: 70448, text: "umlah tenant tersewa di seluruh SPBU" },
   { number: 65661, text: "Jumlah UMKM binaan Pertamina Patra Niaga melalui Program Kemitraan" },
 ];
 

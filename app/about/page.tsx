@@ -1,18 +1,17 @@
 import BannerSingle from "@/components/BannerSingle";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
-import {Button} from "@/components/ui/button";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {cn} from "@/lib/utils";
 import {ContentType} from "@/types/indes";
 import {CircleArrowDown} from "lucide-react";
 import {Metadata} from "next";
-// import {cookies} from "next/headers";
+import {cookies} from "next/headers";
 import {notFound} from "next/navigation";
 import React from "react";
 import CounterData from "./counter-data/page";
 import Timeline from "./timeline/page";
+import Link from "next/link";
+import RelatedPage from "@/components/RelatedPage";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -54,9 +53,32 @@ const getData = async () => {
   }
 };
 
+
+
 const page = async () => {
   const data: ContentType = await getData();
-  // const lang = (await cookies()).get("lang")?.value || "id";
+  const lang = (await cookies()).get("lang")?.value || "id";
+
+  const linksData = [
+    {
+      href: "/about/managements",
+      image: data?.banner[0]?.images[0]?.url,
+      alt: "Manajemen",
+      title: "Manajemen",
+    },
+    {
+      href: "/about/our-values",
+      image: "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
+      alt: "Tata Nilai",
+      title: "Tata Nilai",
+    },
+    {
+      href: "/about/awards",
+      image: data?.body[6]?.images[0]?.images[0]?.url,
+      alt: "Penghargaan",
+      title: "Penghargaan",
+    },
+  ];
 
   return (
     <section>
@@ -118,7 +140,7 @@ const page = async () => {
         <p className="text-lg text-[#005CAB] font-bold text-center">{data.sub_title2}</p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">{data.sub_title3}</h1>
       </section>
-      
+
       {/* timeline */}
       <Timeline
         data={data.body
@@ -167,6 +189,9 @@ const page = async () => {
           </Accordion>
         </div>
       </section>
+
+      {/* Related Page */}
+      <RelatedPage links={linksData} />
     </section>
   );
 };
