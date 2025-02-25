@@ -6,6 +6,7 @@ import {ContentType} from "@/types/indes";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
+import {cn} from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -80,12 +81,16 @@ const page = async () => {
         <h1 className="title-3 text-green-light text-center">{data.title}</h1>
         <div className="mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
 
-        <section className="grid grid-cols-2 mt-8 lg:mt-16 md:grid-cols-4 gap-8">
-          {data?.images?.map((d) => (
-            <div key={d._id} className="flex justify-center">
-              <img className="w-full object-contain" src={d?.images[0]?.url} alt={d?.title} />
-            </div>
-          ))}
+        <section className="grid grid-cols-1 mt-8 lg:mt-16 md:grid-cols-4 gap-10">
+          {data?.images?.map((d) => {
+
+              return(
+                <div key={d._id} className="overflow-hidden w-full rounded-2xl border border-solid border-grey-100 aspect-[4/3] p-4 h-[155px]">
+                  <img className="w-full h-full object-contain" src={d?.images[0]?.url} alt={d?.title} />
+              </div>
+              )
+            }
+          )}
         </section>
       </section>
       {/* Related Page */}
