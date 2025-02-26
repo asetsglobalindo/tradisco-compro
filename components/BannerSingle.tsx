@@ -26,6 +26,7 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
     "our-values": "Tata Nilai",
     awards: "Penghargaan",
     managements: "Tata Kelola",
+    'our-programs': 'Program Kami'
   };
 
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";

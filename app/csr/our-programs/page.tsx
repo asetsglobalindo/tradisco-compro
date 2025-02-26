@@ -66,7 +66,7 @@ const page = async () => {
     },
     {
       href: "/csr/collaboration-partnership",
-      image: data?.body[6]?.images[0]?.images[0]?.url,
+      image: "/temp/kemitraan.png",
       alt: "Kolaborasi & Kemitraan",
       title: "Kolaborasi & Kemitraan",
     },
@@ -82,7 +82,7 @@ const page = async () => {
         <h1 className="title-3 text-center text-green-light">{data.title}</h1>
       </section>
 
-      <section className="container max-w-[800px] lg:mt-16 mt-8">
+      <section className="container lg:mt-16 mt-8">
         <CSRourPrograms data={dataTab} />
       </section>
 
@@ -111,11 +111,20 @@ const page = async () => {
                 key={d._id + i}
               >
                 <div className="lg:w-1/2">
-                  <img src={d?.images[0]?.images[0]?.url} alt={d?.title} />
+                  <img className="w-full rounded" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
                 </div>
                 <div className="lg:w-1/2 mt-4 lg:mt-0">
-                  <h3 className="title-4">{d.title}</h3>
-                  <div className="mt-4" dangerouslySetInnerHTML={{__html: d.text}}></div>
+                  <h3 className="title-4 text-3xl">
+                    {currentLayout === "left" ? (
+                      d.title 
+                    ) : (
+                      <>
+                        {d.title.split(" ").slice(0, -1).join(" ")}{" "}
+                        <span className="text-green-light">{d.title.split(" ").slice(-1)}</span>
+                      </>
+                    )}
+                  </h3>
+                  <div className="mt-4" dangerouslySetInnerHTML={{ __html: d.text }}></div>
                 </div>
               </section>
             );
