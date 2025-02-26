@@ -5,14 +5,12 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import {cookies} from "next/headers";
 
-const BannerSingle: React.FC<{ data: ImageType[] }> = async ({ data }) => {
+const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({ data, lang }) => {
   const ui = uiStore((state) => state);
   const { ref, inView } = useInView({ threshold: 0 });
   const pathname = usePathname();
   const { t } = useTranslation();
-  const lang = (await cookies()).get("lang")?.value || "id";
 
   useEffect(() => {
     ui.setHeaderColor(inView ? "white" : "black");
@@ -21,6 +19,8 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = async ({ data }) => {
   if (!data?.length) {
     return null;
   }
+
+  // Mapping title berdasarkan bahasa
   const titleMapping: Record<string, Record<string, string>> = {
     about: { id: "Profil", en: "Profile" },
     csr: { id: "Tanggung Jawab Sosial", en: "Corporate Social Responsibility" },
@@ -28,12 +28,14 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = async ({ data }) => {
     awards: { id: "Penghargaan", en: "Awards" },
     managements: { id: "Manajemen", en: "Management" },
     "our-programs": { id: "Program Kami", en: "Our Programs" },
+    partnership: { id: "Kerjasama", en: "Partnership" },
   };
 
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
   const normalizedTitle = rawTitle.toLowerCase();
 
   const mappedTitle = titleMapping[normalizedTitle]?.[lang] || rawTitle;
+
   const translatedTitle = t(mappedTitle.replace(/-/g, " "));
 
   return (
