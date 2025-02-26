@@ -1,4 +1,4 @@
-import BannerSingle from "@/components/BannerSingle";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
 import BusinessCarousel from "./BusinessCarousel"; // Import komponen Client
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
@@ -69,7 +69,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data?.banner} />
+        <BannerSingleMulti data={data?.banner} />
       </section>
 
       <section className="container">
