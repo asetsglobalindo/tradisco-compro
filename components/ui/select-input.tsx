@@ -25,7 +25,7 @@ const SelectInput: React.FC<selectInputProps> = ({
       <label className="text-xs">{label}</label>
       <Listbox value={selectedPerson} onChange={setSelectedPerson} name={name}>
       {({ open }) => (
-        <>
+        <section>
           <ListboxButton
             className="mt-2 w-[368px] h-[56px] text-left p-4 relative outline-1 block border border-neutral-400 rounded-lg data-[open]:border-green-light data-[open]:border-2"
           >
@@ -42,7 +42,7 @@ const SelectInput: React.FC<selectInputProps> = ({
               </ListboxOption>
             ))}
           </ListboxOptions>
-        </>
+        </section>
       )}
 
       </Listbox>

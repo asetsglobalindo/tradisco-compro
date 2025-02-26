@@ -20,8 +20,6 @@ const CollaborationPartnership = () => {
 			]
 	}]
 
-
-
 	return ( 
 		<section id="collaboration-partnership">
 			 <BannerSingle data={banner} isStatic/>

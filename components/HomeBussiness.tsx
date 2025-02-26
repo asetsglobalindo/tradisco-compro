@@ -69,7 +69,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
             {data.section2.tab
               .find((d) => d._id === selectedTabID)
               ?.content.map((d, index) => (
-                <CarouselItem key={index} className="w-full md:basis-1/3">
+                <CarouselItem key={index} className="w-full md:basis-1/4">
                   <section className="relative group rounded-2xl news-card our-business group  overflow-hidden group flex items-end justify-end transition-all">
                     <img
                       className="blur-[2px] aspect-square object-cover"

@@ -1,13 +1,22 @@
 import { Checkbox, Field, Label } from '@headlessui/react'
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-const CheckBox = () => {
-  const [enabled, setEnabled] = useState(false)
+type checkBoxProps = {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}
+
+const CheckBox:React.FC<checkBoxProps> = ({checked, onChange}) => {
+
+  const handleCheckboxChange = (e: boolean) => {
+    onChange(e);
+  };
+
   return ( 
     <Field className="flex items-center gap-2">
       <Checkbox
-        checked={enabled}
-        onChange={setEnabled}
+        checked={checked}
+        onChange={(e:boolean) => handleCheckboxChange(e)}
         className="group block border border-neutral-400 size-5 rounded border bg-white data-[checked]:bg-green-light"
       >
         {/* Checkmark icon */}
