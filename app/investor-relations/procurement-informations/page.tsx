@@ -1,14 +1,10 @@
-
 import Procurement from "@/components/InvestorRelations/Procurement";
 import BannerSingleMulti from "@/components/BannerSingleMulti";
-import {Button} from "@/components/ui/button";
-import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {ContentType} from "@/types/indes";
-import {X} from "lucide-react";
-import {Metadata} from "next";
-import {notFound} from "next/navigation";
+import { ContentType } from "@/types/indes";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -63,14 +59,19 @@ const page = async () => {
       <section className="container mt-16">
         <h1 className="title-3 text-green-light text-center">{data.title}</h1>
       </section>
-      <div className="container mt-8" dangerouslySetInnerHTML={{__html: data.description}}></div>
+      <div
+        className="container mt-8"
+        dangerouslySetInnerHTML={{ __html: data.description }}
+      ></div>
 
-      <Procurement data={data}/>
+      <Procurement data={data} />
 
-      <div className="container mt-16" dangerouslySetInnerHTML={{__html: data.small_text}}></div>
+      <div
+        className="container mt-16"
+        dangerouslySetInnerHTML={{ __html: data.small_text }}
+      ></div>
     </section>
   );
 };
 
 export default page;
-
