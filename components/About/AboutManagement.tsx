@@ -65,7 +65,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
           .map((d) => {
            return( 
             <section id="management" key={d._id}>
-              <section className="overflow-hidden cursor-pointer rounded-2xl"onClick={() => setIsOpen(d._id)}>
+              <section className="overflow-hidden cursor-pointer rounded-2xl" onClick={() => setIsOpen(d._id)}>
                 <div className="m-4">
                   <span className="md:text-lg font-bold hover:underline">{d.button_route}</span> 
                   <p className="text-xs mt-2">{d.title}</p>

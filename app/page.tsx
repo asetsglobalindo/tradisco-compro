@@ -87,7 +87,7 @@ export default async function Home() {
               key={index}
               className="relative rounded-2xl news-card overflow-hidden group flex items-end justify-end"
             >
-              <img className="blur-[2px]" src={data?.thumbnail_images[0]?.images[0]?.url} alt={data?.title} />
+              <img className="blur-[2px] w-full object-contain" src={data?.thumbnail_images[0]?.images[0]?.url} alt={data?.title} />
 
               {/* content */}
               <section className="absolute z-20  text-white px-8 py-16">
@@ -114,7 +114,7 @@ export default async function Home() {
               </section>
 
               {/* background shade */}
-              <div className="absolute top-0 left-0 w-full h-full news-card group-hover:bg-none  group-hover:bg-green-light transition-all duration-500"></div>
+              <div className="absolute top-0 left-0 w-full h-full news-card group-hover:bg-green-light/[.65] transition-all duration-500"></div>
             </section>
           ))}
         </section>
