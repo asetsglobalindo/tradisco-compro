@@ -34,7 +34,7 @@ const InputFile:React.FC<fileInputProps> = ({
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full px-4">
       <label className="text-xs">{label}</label>
       <input
         type="file"

@@ -19,7 +19,7 @@ const TextInput:React.FC<textInputProps> = ({
   onChange
 }) => {
   return ( 
-  <section id="text-input" className='my-4'>
+  <section id="text-input" className='my-4 mx-4'>
     <label className="text-xs">{label}</label>
     <div>
       <Input 

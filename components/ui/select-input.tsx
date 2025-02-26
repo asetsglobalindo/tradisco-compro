@@ -22,16 +22,15 @@ const SelectInput: React.FC<selectInputProps> = ({
   selected, 
   onChange
 }) => {
-  // const [selectedPerson, setSelectedPerson] = useState(collaborationType[0])
 
   return (
-    <section id="select-input" className='flex flex-col mb-4'>
+    <section id="select-input" className='flex flex-col mb-4 mx-4'>
       <label className="text-xs">{label}</label>
       <Listbox value={selected} onChange={onChange} name={name}>
       {({ open }) => (
         <section>
           <ListboxButton
-            className="mt-2 w-[368px] h-[56px] text-left p-4 relative outline-1 block border border-neutral-400 rounded-lg data-[open]:border-green-light data-[open]:border-2"
+            className="mt-2 w-[328px] md:w-[368px] h-[56px] text-left p-4  relative outline-1 block border border-neutral-400 rounded-lg data-[open]:border-green-light data-[open]:border-2"
           >
             {selected.name}
             <ChevronDownIcon

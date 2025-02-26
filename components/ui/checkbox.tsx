@@ -13,7 +13,7 @@ const CheckBox:React.FC<checkBoxProps> = ({checked, onChange}) => {
   };
 
   return ( 
-    <Field className="flex items-center gap-2">
+    <Field className="flex items-center gap-2 md:mx-0 mx-4">
       <Checkbox
         checked={checked}
         onChange={(e:boolean) => handleCheckboxChange(e)}
