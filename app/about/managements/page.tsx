@@ -6,6 +6,7 @@ import {ContentType} from "@/types/indes";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
+import RelatedPage from "@/components/RelatedPage";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
@@ -49,6 +50,26 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
+  const linksData = [
+    {
+      href: "/about",
+      image: "/temp/profile.png",
+      alt: "Profile",
+      title: "Profil",
+    },
+    {
+      href: "/about/our-values",
+      image: "/temp/values.png",
+      alt: "Tata Nilai",
+      title: "Tata Nilai",
+    },
+    {
+      href: "/about/awards",
+      image: '/temp/awards.png',
+      alt: "Penghargaan",
+      title: "Penghargaan",
+    },
+  ];
 
   return (
     <section>
@@ -63,6 +84,8 @@ const page = async () => {
       <section className="mt-8 lg:mt-16 container">
         <AboutManagement data={data} />
       </section>
+      {/* Related Page */}
+      <RelatedPage links={linksData} />
     </section>
   );
 };
