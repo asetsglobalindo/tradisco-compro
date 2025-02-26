@@ -5,9 +5,8 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import "@/lib/i18n";
 
-const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
+const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({ data, lang }) => {
   const ui = uiStore((state) => state);
   const { ref, inView } = useInView({ threshold: 0 });
   const pathname = usePathname();
@@ -20,19 +19,28 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
   if (!data?.length) {
     return null;
   }
-  const titleMapping: Record<string, string> = {
-    about: "Profile",
-    csr: "Tanggung Jawab Sosial",
-    "our-values": "Tata Nilai",
-    awards: "Penghargaan",
-    managements: "Manajemen",
-    'our-programs': 'Program Kami'
+
+  // Mapping title berdasarkan bahasa
+  const titleMapping: Record<string, Record<string, string>> = {
+    about: { id: "Profil", en: "Profile" },
+    csr: { id: "Tanggung Jawab Sosial", en: "Corporate Social Responsibility" },
+    "our-values": { id: "Tata Nilai", en: "Our Values" },
+    awards: { id: "Penghargaan", en: "Awards" },
+    managements: { id: "Manajemen", en: "Management" },
+    "our-programs": { id: "Program Kami", en: "Our Programs" },
+    partnership: { id: "Kerjasama", en: "Partnership" },
+    news: { id: "Berita", en: "News"},
+    career: { id: "Karir", en: "Career"},
+    "bahan-bakar": { id: "Bahan Bakar", en: "Fuel"},
+    "non-bahan-bakar": { id: "Non Bahan Bakar", en: "Non Fuel"},
+    "company-report": { id: "Laporan Perusahaan", en: "Company Report"},
+    "procurement-informations": { id: "Informasi Pengadaan", en: "Procurement Informations"}
   };
 
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
   const normalizedTitle = rawTitle.toLowerCase();
 
-  const mappedTitle = titleMapping[normalizedTitle] || rawTitle;
+  const mappedTitle = titleMapping[normalizedTitle]?.[lang] || rawTitle;
 
   const translatedTitle = t(mappedTitle.replace(/-/g, " "));
 

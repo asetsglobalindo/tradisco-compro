@@ -1,4 +1,4 @@
-import BannerSingle from "@/components/BannerSingle";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
@@ -53,7 +53,7 @@ const page = async () => {
     <section>
       {data.banner.length ? (
         <section className="relative">
-          <BannerSingle data={data.banner} />
+          <BannerSingleMulti data={data.banner} />
         </section>
       ) : null}
 

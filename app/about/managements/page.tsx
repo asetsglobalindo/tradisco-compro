@@ -1,5 +1,5 @@
 import AboutManagement from "@/components/About/AboutManagement";
-import BannerSingle from "@/components/BannerSingle";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
@@ -74,7 +74,7 @@ const page = async () => {
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data.banner} />
+        <BannerSingleMulti data={data.banner} />
       </section>
 
       <section className="container mt-16 max-w-[900px]">
