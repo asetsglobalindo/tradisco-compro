@@ -27,14 +27,14 @@ const Form = () => {
 			address:"",
 			email: "",
 			phone:"",
-			// collaboration_type: "",
+			collaboration_type: "",
 			notes:"",
-			agree: false
 		});
 
 		const [emptyFields, setEmptyFields] = useState<string[]>([]);
 		const [isChecked, setIsChecked] = useState(false);
 		const [isFormValid, setIsFormValid] = useState(false);
+		const [selectedOption, setSelectedOption] = useState( { id: 0, name: 'Jenis Kolaborasi' },);
 
 		useEffect(() => {
 			const emptyFieldsList = Object.entries(formData)
@@ -56,7 +56,14 @@ const Form = () => {
 			setIsChecked(checked);
 		}
 
-		console.log('>>', emptyFields.length !== 0 || !isChecked)
+		const handleSelectChange = (value: { id: number; name: string }) => {
+			setSelectedOption(value);
+				setFormData({
+					...formData,
+					"collaboration_type": value.id !== 0 ? value.name : ""
+				})
+		};
+
  return ( 
     <section id="form-collaboration-partnership" className="flex justify-center md:mt-10 mt-8">
 			<section>
@@ -103,6 +110,8 @@ const Form = () => {
 				<SelectInput
 					label="Jenis Kolaborasi"
 					name="collaboration_type"
+					selected={selectedOption} 
+					onChange={handleSelectChange}
 				/>
 				<InputFile
 					label="Lampiran PDF"

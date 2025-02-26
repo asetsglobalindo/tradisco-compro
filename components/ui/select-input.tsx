@@ -5,7 +5,9 @@ import { useState } from 'react'
 
 type selectInputProps = {
   label: string;
-  name: string
+  name: string;
+  selected: { id: number; name: string };
+  onChange: (value: { id: number; name: string }) => void;
 }
 
 const collaborationType = [
@@ -16,20 +18,22 @@ const collaborationType = [
 
 const SelectInput: React.FC<selectInputProps> = ({
   label,
-  name
+  name,
+  selected, 
+  onChange
 }) => {
-  const [selectedPerson, setSelectedPerson] = useState(collaborationType[0])
+  // const [selectedPerson, setSelectedPerson] = useState(collaborationType[0])
 
   return (
     <section id="select-input" className='flex flex-col mb-4'>
       <label className="text-xs">{label}</label>
-      <Listbox value={selectedPerson} onChange={setSelectedPerson} name={name}>
+      <Listbox value={selected} onChange={onChange} name={name}>
       {({ open }) => (
         <section>
           <ListboxButton
             className="mt-2 w-[368px] h-[56px] text-left p-4 relative outline-1 block border border-neutral-400 rounded-lg data-[open]:border-green-light data-[open]:border-2"
           >
-            {selectedPerson.name}
+            {selected.name}
             <ChevronDownIcon
               className={clsx("group pointer-events-none absolute top-2.5 right-2.5 size-6 fill-neutral-900", open && 'rotate-180')}
               aria-hidden="true"
