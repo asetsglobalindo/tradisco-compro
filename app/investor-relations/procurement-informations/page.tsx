@@ -1,5 +1,8 @@
-import BannerSingle from "@/components/BannerSingle";
+
 import Procurement from "@/components/InvestorRelations/Procurement";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
+import {Button} from "@/components/ui/button";
+import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
@@ -54,7 +57,7 @@ const page = async () => {
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data.banner} />
+        <BannerSingleMulti data={data.banner} />
       </section>
 
       <section className="container mt-16">

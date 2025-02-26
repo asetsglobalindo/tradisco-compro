@@ -1,4 +1,4 @@
-import BannerSingle from "@/components/BannerSingle";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
@@ -62,19 +62,19 @@ const page = async () => {
   const linksData = [
     {
       href: "/about/managements",
-      image: data?.banner[0]?.images[0]?.url,
-      alt: "Manajemen",
+      image: "/temp/management.png",
+      alt: "Management",
       title: "Manajemen",
     },
     {
       href: "/about/our-values",
-      image: "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
+      image: "/temp/values.png",
       alt: "Tata Nilai",
       title: "Tata Nilai",
     },
     {
       href: "/about/awards",
-      image: data?.body[6]?.images[0]?.images[0]?.url,
+      image: '/temp/awards.png',
       alt: "Penghargaan",
       title: "Penghargaan",
     },
@@ -83,7 +83,7 @@ const page = async () => {
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data.banner} />
+        <BannerSingleMulti data={data.banner} />
       </section>
 
       {/* top */}
