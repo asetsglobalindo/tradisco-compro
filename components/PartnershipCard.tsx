@@ -37,7 +37,7 @@ const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
           className={`w-full ${hasLink ? '' : 'bg-[#A6B0A7] text-neutral-900 font-bold pointer-events-none'} rounded-none`} 
           onClick={() => {handleButtonClick(c.bottom_button_route)}}
         >
-          {c.bottom_button_name}
+          {hasLink ? c.bottom_button_name : "Segera Hadir"}
         </Button>
 
         <Button variant={"outline"} className="w-full text-white border-white rounded-none" onClick={handleOpenModal}>
