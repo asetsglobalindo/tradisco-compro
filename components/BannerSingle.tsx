@@ -29,6 +29,12 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({ data, lan
     managements: { id: "Manajemen", en: "Management" },
     "our-programs": { id: "Program Kami", en: "Our Programs" },
     partnership: { id: "Kerjasama", en: "Partnership" },
+    news: { id: "Berita", en: "News"},
+    career: { id: "Karir", en: "Career"},
+    "bahan-bakar": { id: "Bahan Bakar", en: "Fuel"},
+    "non-bahan-bakar": { id: "Non Bahan Bakar", en: "Non Fuel"},
+    "company-report": { id: "Laporan Perusahaan", en: "Company Report"},
+    "procurement-informations": { id: "Informasi Pengadaan", en: "Procurement Informations"}
   };
 
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
