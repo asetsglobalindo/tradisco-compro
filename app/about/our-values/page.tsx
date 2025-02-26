@@ -52,19 +52,19 @@ const page = async () => {
   const linksData = [
     {
       href: "/about",
-      image: data?.banner[0]?.images[0]?.url,
+      image: "/temp/profile.png",
       alt: "Profile",
       title: "Profil",
     },
     {
-      href: "/about/our-values",
-      image: "https://pertamina.sgp1.digitaloceanspaces.com/pertamina/6351115a3ae70d03975326d7/images/c1053f3c-3af5-455b-a756-a5294e7f4c31.jpeg",
-      alt: "Tata Nilai",
-      title: "Tata Nilai",
+      href: "/about/managements",
+      image: "/temp/management.png",
+      alt: "Management",
+      title: "Manajemen",
     },
     {
       href: "/about/awards",
-      image: data?.banner[0]?.images[0]?.url,
+      image: '/temp/awards.png',
       alt: "Penghargaan",
       title: "Penghargaan",
     },

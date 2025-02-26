@@ -25,7 +25,7 @@ const BannerSingle: React.FC<{ data: ImageType[] }> = ({ data }) => {
     csr: "Tanggung Jawab Sosial",
     "our-values": "Tata Nilai",
     awards: "Penghargaan",
-    managements: "Tata Kelola",
+    managements: "Manajemen",
     'our-programs': 'Program Kami'
   };
 
