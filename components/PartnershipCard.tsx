@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import {Button} from "./ui/button";
 import Modal from "./ui/modal";
 import { X } from 'lucide-react';
+import JSCookie from "js-cookie";
 
 const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
   const c = data;
   const hasLink:boolean = c.bottom_button_route !== '#';
   const [isOpen, setIsOpen] = useState(false);
+  const lang = JSCookie.get("lang") || "id";
 
   const handleButtonClick = (url: string): void => {
 
@@ -37,7 +39,7 @@ const PartnershipCard: React.FC<{data: ContentType}> = ({data}) => {
           className={`w-full ${hasLink ? '' : 'bg-[#A6B0A7] text-neutral-900 font-bold pointer-events-none'} rounded-none`} 
           onClick={() => {handleButtonClick(c.bottom_button_route)}}
         >
-          {hasLink ? c.bottom_button_name : "Segera Hadir"}
+          {hasLink ? c.bottom_button_name : lang === 'id' ?  "Segera Hadir" : "Coming Soon"}
         </Button>
 
         <Button variant={"outline"} className="w-full text-white border-white rounded-none" onClick={handleOpenModal}>
