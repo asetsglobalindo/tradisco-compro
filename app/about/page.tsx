@@ -58,7 +58,7 @@ const getData = async () => {
 const page = async () => {
   const data: ContentType = await getData();
   const lang = (await cookies()).get("lang")?.value || "id";
-
+  
   const linksData = [
     {
       href: "/about/managements",
