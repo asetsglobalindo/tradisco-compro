@@ -52,19 +52,18 @@ const page = async () => {
   const linksData = [
     {
       href: "/csr/our-programs",
-      image: data?.banner[0]?.images[0]?.url,
+      image: "/temp/program-kami.png",
       alt: "Program Kami",
       title: "Program Kami",
     },
     {
       href: "/csr/collaboration-partnership",
-      image: data?.body[6]?.images[0]?.images[0]?.url,
+      image: "/temp/kemitraan.png",
       alt: "Kolaborasi & Kemitraan",
       title: "Kolaborasi & Kemitraan",
     },
   ];
 
-  console.log('Ini data 4 Pilar: ',data.body)
   return (
     <section>
       <section className="relative">

@@ -60,7 +60,7 @@ const page = async () => {
   const linksData = [
     {
       href: "/csr",
-      image: data?.banner[0]?.images[0]?.url,
+      image: "/temp/csr.png",
       alt: "Tanggung Jawab Sosial",
       title: "Tanggung Jawab Sosial",
     },
