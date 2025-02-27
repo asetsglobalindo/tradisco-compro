@@ -1,12 +1,15 @@
 "use client";
-import {cn} from "@/lib/utils";
+import {cn, getLanguage} from "@/lib/utils";
 import {HomeType} from "@/types/indes";
 import React from "react";
+import Chart from "./ui/chart";
+import { en_businessChartData, en_financeChartData, id_businessChartData, id_financeChartData } from "./constant";
 
 const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
   const baseColor = ["#80DC2B", "#e1222b", "#025cab"];
   const colorOption = [...baseColor, ...baseColor, ...baseColor];
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const getLang:string = getLanguage()
 
   return (
     <section className="mt-8 lg:mt-16 bg-cover bg-no-repeat">
@@ -48,11 +51,20 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
           "container flex gap-8 mt-8 flex-col "
         )}
       >
-        <img
+        <div className="lg:w-1/2">
+          <Chart
+            data={
+              getLang === 'en' ? 
+                activeIndex === 0 ? en_financeChartData : en_businessChartData
+              :  activeIndex === 0 ? id_financeChartData : id_businessChartData
+            }
+          />
+        </div>
+        {/* <img
           className="lg:w-1/2 rounded-2xl"
           src={data?.section4[activeIndex]?.image?.images[0]?.url}
           alt={data?.section4[activeIndex]?.image?.title}
-        />
+        /> */}
         <div className="lg:w-1/2">
           <h1 className="title-3">{data?.section4[activeIndex]?.title}</h1>
           <p
