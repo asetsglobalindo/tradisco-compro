@@ -211,3 +211,13 @@ export interface FooterType {
   updated_by: string;
 }
 
+export interface ChartConfig {
+  data: {
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      backgroundColor: string;
+    }[];
+  };
+}
