@@ -37,10 +37,15 @@ interface ApiServiceObject {
 }
 
 const API_URL = process.env.BASE_URL;
+const API_URL_MAP = process.env.BASE_URL_MAP;
 
 const api = axios.create({
   baseURL: API_URL,
 });
+
+const apiMap = axios.create({
+  baseURL: API_URL_MAP, // Instance baru untuk BASE_URL_MAP
+}); 
 
 const ApiService: ApiServiceObject = {
   // Security Variable
@@ -68,14 +73,40 @@ const ApiService: ApiServiceObject = {
   },
 
   // METHODS
-  async get(resource, params = {}, headers = {}) {
+  // Ubah metode get() agar bisa mengambil data dari satu atau kedua API
+  async get(
+    resource: string,
+    params: DynamicObject = {},
+    headers: DynamicObject = {},
+    useMap: boolean = false,
+    useBoth: boolean = false
+  ): Promise<AxiosResponse<any>> {
     headers = await this.setHeaderToken(headers);
-
-    return await api.get(`${resource}`, {
-      params,
-      headers,
-    });
+  
+    if (useBoth) {
+      const [apiRes, apiMapRes] = await Promise.all([
+        api.get(resource, { params, headers }),
+        apiMap.get(resource, { params, headers }),
+      ]);
+      return {
+        ...apiRes, // Mengambil struktur dari AxiosResponse pertama
+        data: [...apiRes.data.data, ...apiMapRes.data.data], // Gabungkan hasil data
+      } as AxiosResponse<any>;
+    }
+  
+    // Pilih baseURL berdasarkan useMap
+    const client = useMap ? apiMap : api;
+    return client.get(resource, { params, headers });
   },
+  // Call API OLD:
+  // async get(resource, params = {}, headers = {}) {
+  //   headers = await this.setHeaderToken(headers);
+
+  //   return await api.get(`${resource}`, {
+  //     params,
+  //     headers,
+  //   });
+  // },
   async delete(resource, data = {}, headers = {}) {
     headers = await this.setHeaderToken(headers);
     return await api.delete(`${resource}`, {

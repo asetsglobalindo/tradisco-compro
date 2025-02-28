@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   },
   env: {
     BASE_URL: process.env.BASE_URL,
+    BASE_URL_MAP: process.env.BASE_URL_MAP,
     SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
   },
 };
