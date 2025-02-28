@@ -220,3 +220,22 @@ export interface ChartConfig {
     }[];
   };
 }
+
+
+export interface ChartDataProps {
+  data: { 
+    year: string; 
+    [key: string]: number | string 
+  }[];
+  activeKeyIndex?: number
+}
+
+type ChartData = {
+  year: string;
+  [key: string]: number | string; // Dynamic keys for each series
+};
+
+export interface BarChartProps {
+  data: ChartData[];
+  activeKeyIndex: number
+}

@@ -31,6 +31,7 @@ const Form = () => {
 			phone:"",
 			collaboration_type: "",
 			notes:"",
+			attachment: ""
 		});
 
 		const [emptyFields, setEmptyFields] = useState<string[]>([]);
@@ -68,13 +69,25 @@ const Form = () => {
 
 		const sendEmail = () => {
 			const emailBody = `
+			Salam Kolaborasi Pertamina Retail! 
+			
+			Kami sangat terkesan dengan pencapaian dan reputasi Perusahaan Anda, bersama ini:
+
 				1. Nama: ${formData.name}
 				2. Perusahaan: ${formData.company}
 				3. Alamat: ${formData.address}
-				4. Email: ${formData.email}
-				5. No. Telepon: ${formData.phone}
-				6. Tipe Kolaborasi: ${formData.collaboration_type}
-				7. Catatan: ${formData.notes}
+				4. File Attachment: ${formData.attachment}
+				5. Email: ${formData.email}
+				6. No. Telepon: ${formData.phone}
+				7. Tipe Kolaborasi: ${formData.collaboration_type}
+				8. Catatan: ${formData.notes}
+
+
+				Kami melihat potensi untuk bekerja sama dalam program tersebut,  kolaborasi dapat membawa dampak positif, menciptakan solusi yang lebih efektif dan berkelanjutan.
+
+				Kami sangat menghargai perhatian Anda, serta berharap dapat membangun kolaborasi yang bermanfaat bagi masyarakat dan lingkungan.
+
+				Salam SINERGI
 			`
 				.trim()
 				.replace(/\n/g, "%0A");
@@ -82,7 +95,7 @@ const Form = () => {
 				const mailClient = 'raditprogrammer.asets@gmail.com'
 			const emailRoute = isDesktop ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
 				mailClient
-			)}&su=${encodeURIComponent("Permintaan Kolaborasi - Pertamina Retail")}&body=${emailBody}`: 
+			)}&su=${encodeURIComponent("Req. Kolaborasi & Kemitraan - Keberlanjutan")}&body=${emailBody}`: 
 			`mailto:${mailClient}?subject=Booking%20Order%20-%20Payment%20Confirmation&body=${emailBody}`
 
 			const mailtoLink = emailRoute
@@ -141,9 +154,12 @@ const Form = () => {
 						selected={selectedOption} 
 						onChange={handleSelectChange}
 					/>
-					<InputFile
-						label="Lampiran PDF"
-						placeholder="Masukkan File PDF"
+					<TextInput 
+						label={"Link PDF"}
+						name="attachment"
+						placeholder="Masukkan Link File PDF Anda"
+						type="text"
+						onChange={handleTextinput}
 					/>
 					<TextInput 
 						label={"Catatan"}
