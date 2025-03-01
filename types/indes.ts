@@ -22,6 +22,7 @@ export interface LocationType {
   name: string;
   slug: string;
   code: string;
+  listing_code: string;
   address: string;
   lat: string;
   long: string;
