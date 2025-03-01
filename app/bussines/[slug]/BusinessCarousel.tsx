@@ -8,12 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContentType } from "@/types/indes";
 
 const BusinessCarousel = ({
@@ -69,26 +64,37 @@ const BusinessCarousel = ({
       >
         <DialogContent className="max-w-4xl">
           {selectedItem && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-6 flex flex-col justify-center">
-                <DialogHeader>
-                  <DialogTitle className="text-green-light">
+            <>
+              <header className="flex items-center justify-between mt-2 mb-3">
+                <section id="title">
+                  <h2 className="text-lg text-green-light font-semibold">
                     {selectedItem.title}
-                  </DialogTitle>
-                </DialogHeader>
+                  </h2>
+                </section>
+              </header>
+              <div className="md:grid md:grid-cols-2">
+                <div className="mb-4 w-full flex justify-center md:hidden block">
+                  <img
+                    src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
+                    className="w-[85%] transition-all rounded-md"
+                    alt={selectedItem.title}
+                  />
+                </div>
                 <div
-                  className="mt-4 text-gray-700"
-                  dangerouslySetInnerHTML={{ __html: selectedItem.description }}
+                  className="pr-4 basis-1 h-full max-h-[60vh] lg:max-h-[50vh] overflow-y-auto scrollbar-custom"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedItem.description,
+                  }}
                 ></div>
+                <div className="ml-4 w-full basis-1 md:block hidden">
+                  <img
+                    src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
+                    className="w-full transition-all rounded-md"
+                    alt={selectedItem.title}
+                  />
+                </div>
               </div>
-              <div className="relative">
-                <img
-                  className="w-full h-full object-cover rounded-xl"
-                  src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
-                  alt={selectedItem.title}
-                />
-              </div>
-            </div>
+            </>
           )}
         </DialogContent>
       </Dialog>

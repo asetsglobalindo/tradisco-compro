@@ -5,7 +5,15 @@ import L from "leaflet";
 import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
 import { LocationType } from "@/types/indes";
-import { AlignJustify, ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search } from "lucide-react";
+import {
+  AlignJustify,
+  ChevronLeft,
+  Clock,
+  Coffee,
+  Fuel,
+  MoveRight,
+  Search,
+} from "lucide-react";
 import MapPopup from "../MapPopup";
 import LefleatMapIcon from "@/lib/LefleatIcon";
 import { Input } from "../ui/input";
@@ -17,7 +25,8 @@ import "react-leaflet-markercluster/styles";
 
 const OutletLocatorMap = () => {
   const [map, setMap] = useState<L.Map | null>(null);
-  const [selectedLocationDetails, setSelectedLocationDetails] = useState<LocationType | null>(null);
+  const [selectedLocationDetails, setSelectedLocationDetails] =
+    useState<LocationType | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredData, setFilteredData] = useState<LocationType[]>([]);
   const [openList, setOpenList] = useState<boolean>(false);
@@ -29,7 +38,7 @@ const OutletLocatorMap = () => {
     queryFn: async () => await getLocation(),
     onSuccess: (data) => {
       setAllLocations(data);
-      setFilteredData(data); 
+      setFilteredData(data);
     },
   });
 
@@ -59,7 +68,7 @@ const OutletLocatorMap = () => {
       const combinedResults = Array.from(uniqueLocations.values());
 
       // console.log("✅ Hasil Akhir Data yang Sudah Digabung:", combinedResults.length, combinedResults);
-      
+
       return Array.from(uniqueLocations.values());
     } catch (error) {
       console.error("Error fetching locations:", error);
@@ -73,14 +82,18 @@ const OutletLocatorMap = () => {
     let allData: LocationType[] = [];
 
     while (true) {
-      const res = await ApiService.get("/listings", { page, limit: 10 }, {}, true);
+      const res = await ApiService.get(
+        "/listings",
+        { page, limit: 10 },
+        {},
+        true
+      );
       const listings = res.data.data || [];
       if (listings.length === 0) break;
       allData = [...allData, ...listings];
       page++;
     }
     return allData;
-    
   };
 
   // 🔎 **Optimasi Pencarian dengan Fuse.js**
@@ -102,14 +115,20 @@ const OutletLocatorMap = () => {
   return (
     <section className="w-full h-screen xl:max-h-[800px] relative border rounded-2xl overflow-hidden">
       {!openList && (
-        <Button onClick={() => setOpenList(true)} className="absolute top-8 right-8 z-40 lg:hidden">
+        <Button
+          onClick={() => setOpenList(true)}
+          className="absolute top-8 right-8 z-40 lg:hidden"
+        >
           <AlignJustify />
         </Button>
       )}
 
       <section
         className={cn(
-          { "-translate-x-[100%] lg:translate-x-0": !openList, "translate-x-0 lg:translate-x-0": openList },
+          {
+            "-translate-x-[100%] lg:translate-x-0": !openList,
+            "translate-x-0 lg:translate-x-0": openList,
+          },
           "absolute h-auto top-0 z-30 bg-white w-full lg:max-w-[450px] p-8 transition-all"
         )}
       >
@@ -118,7 +137,11 @@ const OutletLocatorMap = () => {
           <Button onClick={() => setOpenList((prev) => !prev)}>Close</Button>
         </div>
         <div className="flex gap-2">
-          <Input placeholder="Search location" onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
+          <Input
+            placeholder="Search location"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+          />
           <Button>
             <Search />
           </Button>
@@ -128,8 +151,15 @@ const OutletLocatorMap = () => {
         {filteredData.length > 0 ? (
           <div className="mt-8 max-h-[calc(100vh-114px)] overflow-auto grid gap-4">
             {filteredData.slice(0, 20).map((item) => (
-              <section key={item._id} className="flex space-x-2 items-start border-b pb-4 border-black/20">
-                <img className="w-[18px]" src="/icons/green-pinpoint.svg" alt="pinpoint" />
+              <section
+                key={item._id}
+                className="flex space-x-2 items-start border-b pb-4 border-black/20"
+              >
+                <img
+                  className="w-[18px]"
+                  src="/icons/green-pinpoint.svg"
+                  alt="pinpoint"
+                />
                 <div>
                   <button
                     onClick={() => {
@@ -137,7 +167,9 @@ const OutletLocatorMap = () => {
                       setSelectedLocationDetails(item);
                     }}
                   >
-                    <h1 className="font-semibold hover:underline text-left">{item.name}</h1>
+                    <h1 className="font-semibold hover:underline text-left">
+                      {item.name}
+                    </h1>
                   </button>
                   <span className="inline-block mt-2">{item.address}</span>
                 </div>
@@ -413,4 +445,3 @@ export default OutletLocatorMap;
 // };
 
 // export default OutletLocatorMap;
-

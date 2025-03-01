@@ -1,15 +1,24 @@
 "use client";
 import React from "react";
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "./ui/carousel";
-import {cn} from "@/lib/utils";
-import {HomeType} from "@/types/indes";
-import {Button} from "./ui/button";
-import {ArrowRight} from "lucide-react";
-import Link from "next/link";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./ui/carousel";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { HomeType } from "@/types/indes";
+import { Button } from "./ui/button";
+import { ArrowRight, X } from "lucide-react";
 import JSCookie from "js-cookie";
 
-const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
-  const [selectedTabID, setSelectedTabID] = React.useState(data.section2.tab[0]._id);
+const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
+  const [selectedTabID, setSelectedTabID] = React.useState(
+    data.section2.tab[0]._id
+  );
+  const [selectedItem, setSelectedItem] = React.useState(null);
   const lang = JSCookie.get("lang") || "id";
 
   return (
@@ -19,7 +28,7 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
         <h1 className="title-3 text-center">{data.section2.title}</h1>
       </section>
 
-      {/* main bussiness */}
+      {/* main business */}
       <section className="overflow-x-auto md:overflow-x-visible md:overflow-y-visible hide-default-scrollbar container mt-8">
         <section className="grid grid-cols-2 gap-4 lg:gap-8 w-[600px] md:w-full">
           {data.section2.tab.map((d, index) => (
@@ -28,14 +37,15 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
               key={index}
               className="relative h-full max-h-[200px] group cursor-pointer"
             >
-
-            <div className="overflow-hidden w-full h-full relative rounded-2xl">
+              <div className="overflow-hidden w-full h-full relative rounded-2xl">
                 <img
-                  src={d?.image?.images[0]?.url} 
+                  src={d?.image?.images[0]?.url}
                   alt={d?.title}
                   className="blur-[2px] object-cover w-full transition-transform duration-300 transform group-hover:scale-125"
                 />
-                <span className="absolute z-20 top-1/2 left-10 title-4 text-white">{d.title}</span>
+                <span className="absolute z-20 top-1/2 left-10 title-4 text-white">
+                  {d.title}
+                </span>
                 <div
                   className={cn(
                     {
@@ -76,25 +86,24 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
                       src={d?.thumbnail_images[0]?.images[0]?.url}
                       alt={d?.title}
                     />
-
                     <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light-secondary"></div>
                     {/* content */}
                     <section className="absolute z-20 left-0 text-white px-8 py-8 transition-all flex flex-col">
-                      {/* category */}
-                      <span className="text-green-light group-hover:text-white">{d.small_text}</span>
                       {/* title */}
-                      <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%] ">{d.title}</h1>
-
-                      <Link href={"/bussines/" + d.category_id.slug}>
-                        <Button
-                          rounded
-                          size="lg"
-                          className="w-fit mt-4 shadow-sm box-border"
-                        >
-                          <span>{lang === "en" ? "Learn More" : "Selengkapnya"} </span>
-                          <ArrowRight color="white" />
-                        </Button>
-                      </Link>
+                      <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%]">
+                        {d.title}
+                      </h1>
+                      <Button
+                        rounded
+                        size="lg"
+                        className="w-fit mt-4 shadow-sm box-border"
+                        onClick={() => setSelectedItem(d)}
+                      >
+                        <span>
+                          {lang === "en" ? "Learn More" : "Selengkapnya"}
+                        </span>
+                        <ArrowRight color="white" />
+                      </Button>
                     </section>
                   </section>
                 </CarouselItem>
@@ -103,10 +112,51 @@ const HomeBussiness: React.FC<{data: HomeType}> = ({data}) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
+
+        {/* Modal */}
+        <Dialog
+          open={!!selectedItem}
+          onOpenChange={(open) => !open && setSelectedItem(null)}
+        >
+          <DialogContent className="max-w-4xl">
+            {selectedItem && (
+              <>
+                <header className="flex items-center justify-between mt-2 mb-3">
+                  <section id="title">
+                    <h2 className="text-lg text-green-light font-semibold">
+                      {selectedItem.title}
+                    </h2>
+                  </section>
+                </header>
+                <div className="md:grid md:grid-cols-2">
+                  <div className="mb-4 w-full flex justify-center md:hidden block">
+                    <img
+                      src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
+                      className="w-[85%] transition-all rounded-md"
+                      alt={selectedItem.title}
+                    />
+                  </div>
+                  <div
+                    className="pr-4 basis-1 h-full max-h-[60vh] lg:max-h-[50vh] overflow-y-auto scrollbar-custom"
+                    dangerouslySetInnerHTML={{
+                      __html: selectedItem.description,
+                    }}
+                  ></div>
+                  <div className="ml-4 w-full basis-1 md:block hidden">
+                    <img
+                      src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
+                      className="w-full transition-all rounded-md"
+                      alt={selectedItem.title}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </section>
     </section>
   );
 };
 
 export default HomeBussiness;
-
