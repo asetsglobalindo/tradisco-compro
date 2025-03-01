@@ -58,13 +58,9 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
                 activeIndex === 0 ? en_financeChartData : en_businessChartData
               :  activeIndex === 0 ? id_financeChartData : id_businessChartData
             }
+            activeKeyIndex={activeIndex}
           />
         </div>
-        {/* <img
-          className="lg:w-1/2 rounded-2xl"
-          src={data?.section4[activeIndex]?.image?.images[0]?.url}
-          alt={data?.section4[activeIndex]?.image?.title}
-        /> */}
         <div className="lg:w-1/2">
           <h1 className="title-3">{data?.section4[activeIndex]?.title}</h1>
           <p
