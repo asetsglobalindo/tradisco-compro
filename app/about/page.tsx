@@ -10,12 +10,10 @@ import CONTENT_TYPE from "@/lib/content-type";
 import { ContentType } from "@/types/indes";
 import { CircleArrowDown } from "lucide-react";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 import CounterData from "./counter-data/page";
 import Timeline from "./timeline/page";
-import Link from "next/link";
 import RelatedPage from "@/components/RelatedPage";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -60,8 +58,7 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
-  const lang = (await cookies()).get("lang")?.value || "id";
-  
+
   const linksData = [
     {
       href: "/about/managements",

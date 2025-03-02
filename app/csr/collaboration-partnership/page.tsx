@@ -59,7 +59,7 @@ const CollaborationPartnership = async () => {
     },
     {
       href: "/csr/our-programs",
-      image: "temp/program-kami.png",
+      image: "/temp/program-kami.png",
       alt: "Program Kami",
       title: "Program Kami",
     },

@@ -11,7 +11,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { HomeType } from "@/types/indes";
 import { Button } from "./ui/button";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import JSCookie from "js-cookie";
 
 const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
