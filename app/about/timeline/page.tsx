@@ -22,6 +22,7 @@ const Timeline = ({
     setActiveIndex(swiper.realIndex);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (progressRef.current) {
       const totalYears = data.length;
