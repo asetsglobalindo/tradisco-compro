@@ -1,20 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
-const counters = [
-  { number: 3089309, text: "Jumlah SPBU di seluruh Indonesia" },
-  { number: 70448, text: "Jumlah tenant tersewa di seluruh SPBU" },
-  {
-    number: 65661,
-    text: "Jumlah UMKM binaan Pertamina Patra Niaga melalui Program Kemitraan",
-  },
-];
-
 const CounterData = () => {
   const { ref, inView } = useInView({ triggerOnce: true });
+  const [counters, setCounters] = useState([
+    { number: 0, text: "Jumlah SPBU Pertamina Retail" },
+    { number: 0, text: "Jumlah Bisnis Onboarding di seluruh Indonesia" },
+    { number: 65661, text: "Jumlah UMKM binaan Pertamina Patra Niaga melalui Program Kemitraan" },
+  ]);
+
+  useEffect(() => {
+    const fetchCounters = async () => {
+      try {
+        // Ambil data jumlah SPBU Pertamina Retail dari pages -> total_data
+        const spbuResponse = await fetch(
+          "https://api-pertamina.192-168-100-100.xyz/location?page=1&limit=99999999"
+        );
+        const spbuData = await spbuResponse.json();
+        const spbuCount = spbuData.pages?.total_data || 0;
+
+        // Ambil data jumlah bisnis onboarding
+        const bisnisResponse = await fetch("https://service.asets.id/api/recap/total");
+        const bisnisData = await bisnisResponse.json();
+        const bisnisCount = bisnisData.total || 0;
+
+        setCounters([
+          { number: spbuCount, text: "Jumlah SPBU Pertamina Retail" },
+          { number: bisnisCount, text: "Jumlah Bisnis Onboarding di seluruh Indonesia" },
+          { number: 65661, text: "Jumlah UMKM binaan Pertamina Patra Niaga melalui Program Kemitraan" },
+        ]);
+      } catch (error) {
+        console.error("Error fetching counter data:", error);
+      }
+    };
+
+    fetchCounters();
+  }, []);
 
   return (
     <section className="mt-16 relative w-full bg-grey-900 overflow-hidden">
@@ -26,7 +50,7 @@ const CounterData = () => {
         draggable="false"
         decoding="async"
         loading="lazy"
-      ></img>
+      />
       <div className="absolute w-full h-full bg-[#040A28D1] z-[1]"></div>
       <div className="relative container py-16 xl:py-24 mx-auto flex flex-col gap-16 z-[3]">
         <div
