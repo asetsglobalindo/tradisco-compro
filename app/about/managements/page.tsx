@@ -7,7 +7,7 @@ import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import React from "react";
 import RelatedPage from "@/components/RelatedPage";
-
+export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 

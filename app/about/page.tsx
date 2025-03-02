@@ -15,7 +15,7 @@ import React from "react";
 import CounterData from "./counter-data/page";
 import Timeline from "./timeline/page";
 import RelatedPage from "@/components/RelatedPage";
-
+export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 
