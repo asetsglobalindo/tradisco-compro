@@ -1,4 +1,4 @@
-import BannerSingle from "@/components/BannerSingle";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
 import BusinessCarousel from "./BusinessCarousel"; // Import komponen Client
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
@@ -7,9 +7,17 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const { slug } = params;
-  const result: ContentType = await getData(slug, CONTENT_TYPE.BUSINESS_PAGE, 1);
+  const result: ContentType = await getData(
+    slug,
+    CONTENT_TYPE.BUSINESS_PAGE,
+    1
+  );
 
   return {
     title: result.meta_title,
@@ -53,21 +61,28 @@ const getData = async (slug: string, type: string, limit = 9999) => {
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const data: ContentType = await getData(slug, CONTENT_TYPE.BUSINESS_PAGE, 1);
-  const bussinessList: ContentType[] | [] = await getData(slug, CONTENT_TYPE.BUSINESS);
+  const bussinessList: ContentType[] | [] = await getData(
+    slug,
+    CONTENT_TYPE.BUSINESS
+  );
 
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data?.banner} />
+        <BannerSingleMulti data={data?.banner} />
       </section>
 
       <section className="container">
         <section className="mt-16">
-          <h1 className="title-3 text-center text-green-light">{data?.title}</h1>
-          <div className="mt-8" dangerouslySetInnerHTML={{ __html: data?.small_text }}></div>
+          <h1 className="title-3 text-center text-green-light">
+            {data?.title}
+          </h1>
+          <div
+            className="mt-8"
+            dangerouslySetInnerHTML={{ __html: data?.small_text }}
+          ></div>
         </section>
 
-        {/* Kirim data ke BusinessCarousel (Client Component) */}
         <section className="mt-8 flex flex-col">
           <BusinessCarousel bussinessList={bussinessList} />
         </section>

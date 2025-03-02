@@ -1,4 +1,5 @@
-import BannerSingle from "@/components/BannerSingle";
+import BannerSingleMulti from "@/components/BannerSingleMulti";
+import RelatedPage from "@/components/RelatedPage";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
 import {ContentType} from "@/types/indes";
@@ -48,11 +49,31 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
+  const linksData = [
+    {
+      href: "/about",
+      image: "/temp/profile.png",
+      alt: "Profile",
+      title: "Profil",
+    },
+    {
+      href: "/about/managements",
+      image: "/temp/management.png",
+      alt: "Management",
+      title: "Manajemen",
+    },
+    {
+      href: "/about/awards",
+      image: '/temp/awards.png',
+      alt: "Penghargaan",
+      title: "Penghargaan",
+    },
+  ];
 
   return (
     <section>
       <section className="relative">
-        <BannerSingle data={data.banner} />
+        <BannerSingleMulti data={data.banner} />
       </section>
 
       <section className="container mt-16 max-w-[900px]">
@@ -64,6 +85,8 @@ const page = async () => {
           ))}
         </section>
       </section>
+      {/* Related Page */}
+      <RelatedPage links={linksData} />
     </section>
   );
 };

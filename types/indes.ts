@@ -22,6 +22,7 @@ export interface LocationType {
   name: string;
   slug: string;
   code: string;
+  listing_code: string;
   address: string;
   lat: string;
   long: string;
@@ -210,3 +211,32 @@ export interface FooterType {
   updated_by: string;
 }
 
+export interface ChartConfig {
+  data: {
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      backgroundColor: string;
+    }[];
+  };
+}
+
+
+export interface ChartDataProps {
+  data: { 
+    year: string; 
+    [key: string]: number | string 
+  }[];
+  activeKeyIndex?: number
+}
+
+type ChartData = {
+  year: string;
+  [key: string]: number | string; // Dynamic keys for each series
+};
+
+export interface BarChartProps {
+  data: ChartData[];
+  activeKeyIndex: number
+}

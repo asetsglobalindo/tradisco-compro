@@ -1,6 +1,6 @@
 import OutletLocatorMapClient from "@/components/OutletLocator/OutletLocatorMapClient";
-import {Metadata} from "next";
-import {cookies} from "next/headers";
+import { Metadata } from "next";
+import { cookies } from "next/headers";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -14,7 +14,9 @@ const page = async () => {
     <React.Fragment>
       <section className="xl:container mt-16">
         <h1 className="title-3 text-center max-w-[80%] text-green-light lg:w-full mx-auto">
-          {lang === "en" ? "Find Your Nearest Pertamina Store" : "Temukan Pertamina Store Terdekat Anda"}
+          {lang === "en"
+            ? "Find Your Nearest Pertamina Store"
+            : "Temukan SPBU Pertamina Retail terdekat Anda"}
         </h1>
         <section className="mt-16">
           <OutletLocatorMapClient />
@@ -25,4 +27,3 @@ const page = async () => {
 };
 
 export default page;
-

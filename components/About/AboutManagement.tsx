@@ -1,13 +1,12 @@
 "use client";
-import {cn} from "@/lib/utils";
-import {ContentType} from "@/types/indes";
-import React, {useState} from "react";
-import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "../ui/drawer";
-import {Button} from "../ui/button";
-import {X} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ContentType } from "@/types/indes";
+import React, { useState } from "react";
+import { X } from "lucide-react";
 import JSCookie from "js-cookie";
+import Modal from "../ui/modal";
 
-const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
+const AboutManagement: React.FC<{ data: ContentType }> = ({ data }) => {
   const langValue = JSCookie.get("lang") || "id";
   const lang = langValue === "en" ? "en" : "id";
   const [activeIndex, setActiveIndex] = useState(1);
@@ -27,6 +26,7 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
       },
     },
   ];
+  const [isOpen, setIsOpen] = useState<string | null>(null);
 
   return (
     <section>
@@ -60,49 +60,75 @@ const AboutManagement: React.FC<{data: ContentType}> = ({data}) => {
       <section className="grid-cols-1 md:grid-cols-3 gap-8 grid  mx-auto mt-8 lg:mt-16">
         {data.body
           .filter((d) => d.type === activeIndex)
-          .map((d) => (
-            <Drawer key={d._id}>
-              <DrawerTrigger asChild className="cursor-pointer rounded-2xl group overflow-hidden">
-                <div className="border">
-                  <div className=" m-4">
-                    <DrawerTitle className="mt-4">
-                      <span className="title-5font-bold group-hover:underline">{d.button_route}</span>
-                    </DrawerTitle>
+          .map((d) => {
+            return (
+              <section id="management" key={d._id}>
+                <section
+                  className="overflow-hidden cursor-pointer rounded-2xl"
+                  onClick={() => setIsOpen(d._id)}
+                >
+                  <div className="m-4">
+                    <span className="md:text-lg font-bold hover:underline">
+                      {d.button_route}
+                    </span>
                     <p className="text-xs mt-2">{d.title}</p>
                   </div>
-                  <img src={d?.images[0]?.images[0]?.url} className="w-full transition-all" alt={d.button_route} />
-                </div>
-              </DrawerTrigger>
-              <DrawerContent className="border-none rounded-t-3xl px-0 container overflow-hidden">
-                <div className="mx-auto w-full ">
-                  <DrawerHeader className="bg-[#171717] flex items-center py-8 text-white">
-                    <section className="container flex justify-between items-center">
-                      <section>
-                        <h1 className="title-4">{d.button_route}</h1>
-                        <p className="mt-2">{d.title}</p>
-                      </section>
-                      <DrawerClose>
-                        <Button variant="outline" rounded className="w-fit px-3 bg-green-light/50 border-transparent">
-                          <X color="#63AE1D" />
-                        </Button>
-                      </DrawerClose>
+                  <img
+                    src={d?.images[0]?.images[0]?.url}
+                    className="w-full transition-all"
+                    alt={d.button_route}
+                  />
+                </section>
+
+                <Modal
+                  isOpen={isOpen === d._id}
+                  onClose={() => setIsOpen?.(null)}
+                >
+                  <header className="flex items-center justify-between mt-2 mb-3">
+                    <section id="title">
+                      <h2 className="text-lg text-green-light font-semibold">
+                        {d.button_route}
+                      </h2>
+                      <p className="text-xs mt-2">{d.title}</p>
                     </section>
-                  </DrawerHeader>
-                  <section className="flex flex-col-reverse lg:flex-row container items-center gap-8 lg:gap-16 mt-8 xl:mt-16 xl:mb-16">
+                    <div className="w-6 h-6 text-center hover:text-red-800 hover:cursor-pointer">
+                      <X className="w-5" onClick={() => setIsOpen?.(null)} />
+                    </div>
+                  </header>
+                  <div className="md:grid md:grid-cols-2">
+                    <div className="mb-4 w-full flex justify-center md:hidden block">
+                      <img
+                        src={d?.images[0]?.images[0]?.url}
+                        className="w-[85%] transition-all rounded-md"
+                        alt={d.button_route}
+                      />
+                    </div>
                     <div
-                      className="ddont-reset h-full max-h-[50vh] lg:max-h-[40vh] overflow-y-auto"
-                      dangerouslySetInnerHTML={{__html: d.text}}
+                      className="pr-4 basis-1 h-full max-h-[60vh] lg:max-h-[50vh]  overflow-y-auto
+                    [&::-webkit-scrollbar]:w-2
+                    [&::-webkit-scrollbar-track]:rounded-full
+                    [&::-webkit-scrollbar-track]:bg-gray-100
+                    [&::-webkit-scrollbar-thumb]:rounded-full
+                    [&::-webkit-scrollbar-thumb]:bg-[#005CAB]
+                    dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                    dark:[&::-webkit-scrollbar-thumb]:bg-[#005CAB]"
+                      dangerouslySetInnerHTML={{ __html: d.text }}
                     ></div>
-                    <img className="lg:w-[40%] rounded-2xl" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
-                  </section>
-                </div>
-              </DrawerContent>
-            </Drawer>
-          ))}
+                    <div className="ml-4 w-full basis-1 md:block hidden">
+                      <img
+                        src={d?.images[0]?.images[0]?.url}
+                        className="w-full transition-all rounded-md"
+                        alt={d.button_route}
+                      />
+                    </div>
+                  </div>
+                </Modal>
+              </section>
+            );
+          })}
       </section>
     </section>
   );
 };
 
 export default AboutManagement;
-

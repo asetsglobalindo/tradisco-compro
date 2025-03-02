@@ -1,20 +1,20 @@
 "use client";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 // import Link from "next/link";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 import JSCookie from "js-cookie";
-import {useQuery} from "react-query";
+import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
-import {FooterType} from "@/types/indes";
+import { FooterType } from "@/types/indes";
 
 const Footer = () => {
   const path = usePathname();
   const noMarginPath = ["/about/our-workers"];
   const lang = JSCookie.get("lang") || "id";
 
-  const {data: footer} = useQuery({
+  const { data: footer } = useQuery({
     queryKey: ["header", "footer", lang],
     queryFn: async () => await getHeader(),
   });
@@ -47,7 +47,11 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row md:gap-8">
             <div className="mb-6 md:mb-0 max-w-[300px] xl:max-w-[400px]">
               <a href="#" className="flex items-center mb-6 ">
-                <img src="/logo/logo-white.png" className="max-w-[200px]" alt="FlowBite Logo" />
+                <img
+                  src="/logo/logo-white.png"
+                  className="max-w-[200px]"
+                  alt="FlowBite Logo"
+                />
               </a>
               <p>{footer?.tagline}</p>
             </div>
@@ -61,7 +65,10 @@ const Footer = () => {
                     .sort((a, b) => a.order - b.order)
                     .map((route) => (
                       <li key={route._id}>
-                        <Link href={route.route || "/"} className="hover:underline">
+                        <Link
+                          href={route.route || "/"}
+                          className="hover:underline"
+                        >
                           {route.title}
                         </Link>
                       </li>
@@ -69,7 +76,10 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="w-full lg:mt-8">
-                <h2 className="mb-4 lg:mb-6 font-semibold"> {lang === "en" ? "Contact Us" : "Hubungi Kami"}</h2>
+                <h2 className="mb-4 lg:mb-6 font-semibold">
+                  {" "}
+                  {lang === "en" ? "Contact Us" : "Hubungi Kami"}
+                </h2>
                 <ul className="space-y-2">
                   {footer?.address?.length ? (
                     <li>
@@ -83,7 +93,10 @@ const Footer = () => {
                   {footer?.mail?.length ? (
                     <li>
                       {footer.url_mail.length ? ( //copyright_link will act as a link for tel url
-                        <a href={footer.url_mail} className="hover:underline flex items-start space-x-1">
+                        <a
+                          href={footer.url_mail}
+                          className="hover:underline flex items-start space-x-1"
+                        >
                           <img src="/icons/call.svg" alt="call" />
                           <span>{footer.mail}</span>
                         </a>
@@ -98,7 +111,10 @@ const Footer = () => {
                   {footer?.tel?.length ? (
                     <li>
                       {footer.copyright_link.length ? ( //copyright_link will act as a link for tel url
-                        <a href={footer.copyright_link} className="hover:underline flex items-start space-x-1">
+                        <a
+                          href={footer.copyright_link}
+                          className="hover:underline flex items-start space-x-1"
+                        >
                           <img src="/icons/call.svg" alt="call" />
                           <span>{footer.tel}</span>
                         </a>
@@ -116,7 +132,11 @@ const Footer = () => {
                 suppressHydrationWarning
                 className="max-w-[300px] min-w-fit flex flex-col items-center justify-center space-y-8 lg:mt-8"
               >
-                <img className="max-w-[77px]" src="/icons/call-center.png" alt="call-center" />
+                <img
+                  className="max-w-[77px]"
+                  src="/icons/call-center.png"
+                  alt="call-center"
+                />
                 <a
                   target="_blank"
                   className="rounded-full border-2 border-white/40 py-2 min-w-fit pl-2 pr-3 flex transition-all items-center gap-[6px] hover:border-white"
@@ -124,12 +144,20 @@ const Footer = () => {
                 >
                   <img src="/icons/pertamina-clean.svg" alt="pertamina-celan" />
                   <div>
-                    <p className="text-white font-bold text-xs">Whistle Blowing System</p>
-                    <div className="text-white font-normal text-[8px]">https://pertaminaclean.tipoffs.info/</div>
+                    <p className="text-white font-bold text-xs">
+                      Whistle Blowing System
+                    </p>
+                    <div className="text-white font-normal text-[8px]">
+                      https://pertaminaclean.tipoffs.info/
+                    </div>
                   </div>
                 </a>
                 <Link suppressHydrationWarning href="/bazma">
-                  <img className="max-w-[230px]" src="/logo/bazma.png" alt="bazma" />
+                  <img
+                    className="max-w-[230px]"
+                    src="/logo/bazma.png"
+                    alt="bazma"
+                  />
                 </Link>
               </div>
             </div>
@@ -141,22 +169,46 @@ const Footer = () => {
             <ul className="flex space-x-4">
               {footer?.url_facebook?.length ? (
                 <li>
-                  <a href={footer.url_facebook} target="_blank" className="hover:underline">
-                    <img className="w-10" src="/icons/youtube.png" alt="youtube" />
+                  <a
+                    href={footer.url_facebook}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    <img
+                      className="w-10"
+                      src="/icons/youtube.png"
+                      alt="youtube"
+                    />
                   </a>
                 </li>
               ) : null}
               {footer?.url_instagram?.length ? (
                 <li>
-                  <a href={footer.url_instagram} target="_blank" className="hover:underline">
-                    <img className="w-10" src="/icons/instagram.png" alt="instagram" />
+                  <a
+                    href={footer.url_instagram}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    <img
+                      className="w-10"
+                      src="/icons/instagram.png"
+                      alt="instagram"
+                    />
                   </a>
                 </li>
               ) : null}
               {footer?.url_linkedin?.length ? (
                 <li>
-                  <a href={footer?.url_linkedin} target="_blank" className="hover:underline">
-                    <img className="w-10" src="/icons/tiktok.png" alt="tiktok" />
+                  <a
+                    href={footer?.url_linkedin}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    <img
+                      className="w-10"
+                      src="/icons/tiktok.png"
+                      alt="tiktok"
+                    />
                   </a>
                 </li>
               ) : null}
@@ -169,4 +221,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
