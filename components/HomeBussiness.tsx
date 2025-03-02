@@ -79,24 +79,29 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
             {data.section2.tab
               .find((d) => d._id === selectedTabID)
               ?.content.map((d, index) => (
-                <CarouselItem key={index} className="w-full md:basis-1/4">
+                <CarouselItem
+                  key={index}
+                  className="w-full basis-1/2 md:basis-1/3 lg:basis-1/4"
+                >
                   <section className="relative group rounded-2xl news-card our-business group  overflow-hidden group flex items-end justify-end transition-all">
                     <img
-                      className="blur-[2px] aspect-square object-cover"
+                      className="aspect-square object-cover"
                       src={d?.thumbnail_images[0]?.images[0]?.url}
                       alt={d?.title}
                     />
                     <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light-secondary"></div>
-                    {/* content */}
-                    <section className="absolute z-20 left-0 text-white px-8 py-8 transition-all flex flex-col">
-                      {/* title */}
-                      <h1 className="mt-2 text-lg font-semibold lg:max-w-[70%]">
+
+                    {/* Content */}
+                    <section className="absolute z-20 left-0 text-white px-6 py-6 md:px-8 md:py-8 transition-all flex flex-col w-full">
+                      {/* Title */}
+                      <h1 className="mt-2 text-base md:text-lg font-semibold lg:max-w-[70%]">
                         {d.title}
                       </h1>
+
                       <Button
                         rounded
-                        size="lg"
-                        className="w-fit mt-4 shadow-sm box-border"
+                        size="sm"
+                        className="w-full md:w-fit md:h-12 md:px-8 md:text-base h-9 px-3 text-sm mt-4 shadow-sm box-border"
                         onClick={() => setSelectedItem(d)}
                       >
                         <span>
