@@ -30,7 +30,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
 
       {/* main business */}
       <section className="overflow-x-auto md:overflow-x-visible md:overflow-y-visible hide-default-scrollbar container mt-8">
-        <section className="grid grid-cols-2 gap-4 lg:gap-8 w-[600px] md:w-full">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 w-[350px] md:w-full place-items-center">
           {data.section2.tab.map((d, index) => (
             <section
               onClick={() => setSelectedTabID(d._id)}
@@ -81,11 +81,11 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
               ?.content.map((d, index) => (
                 <CarouselItem
                   key={index}
-                  className="w-full basis-1/2 md:basis-1/3 lg:basis-1/4"
+                  className="w-full md:basis-1/3 lg:basis-1/4"
                 >
                   <section className="relative group rounded-2xl news-card our-business group  overflow-hidden group flex items-end justify-end transition-all">
                     <img
-                      className="aspect-square object-cover"
+                      className="blur-[1px] aspect-square object-cover"
                       src={d?.thumbnail_images[0]?.images[0]?.url}
                       alt={d?.title}
                     />
