@@ -2,16 +2,16 @@ import HomeBanner from "@/components/HomeBanner";
 import HomeBussiness from "@/components/HomeBussiness";
 import HomeGrowth from "@/components/HomeGrowth";
 import ApiService from "@/lib/ApiService";
-import {HomeType} from "@/types/indes";
-import {Metadata} from "next";
+import { HomeType } from "@/types/indes";
+import { Metadata } from "next";
 import moment from "moment";
 
 // Import Swiper styles
 import "swiper/css";
 import Link from "next/link";
-import {Button} from "@/components/ui/button";
-import {ArrowRight} from "lucide-react";
-import {cookies} from "next/headers";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { cookies } from "next/headers";
 import HomeLocatorClient from "@/components/HomeLocatorClient";
 import PartnershipCard from "@/components/PartnershipCard";
 
@@ -31,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const getHomeContent = async () => {
   try {
     const response = await ApiService.get("/home/content");
+    console.log(response.data);
     if (response.data.status !== 200) {
       throw new Error(response.data.message || response.data.err);
     }
@@ -58,7 +59,10 @@ export default async function Home() {
 
       <section className="relative mt-8 lg:mt-16 container">
         <h1 className="title-3 text-center">{content.section4a.title}</h1>
-        <div className="mt-8" dangerouslySetInnerHTML={{__html: content.section4a.description}}></div>
+        <div
+          className="mt-8"
+          dangerouslySetInnerHTML={{ __html: content.section4a.description }}
+        ></div>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
           {content.section4a.content.map((c) => (
             <PartnershipCard data={c} key={c._id} />
@@ -87,17 +91,25 @@ export default async function Home() {
               key={index}
               className="relative rounded-2xl news-card overflow-hidden group flex items-end justify-end"
             >
-              <img className="blur-[2px] w-full object-contain" src={data?.thumbnail_images[0]?.images[0]?.url} alt={data?.title} />
+              <img
+                className="blur-[2px] w-full object-contain"
+                src={data?.thumbnail_images[0]?.images[0]?.url}
+                alt={data?.title}
+              />
 
               {/* content */}
               <section className="absolute z-20  text-white px-8 py-16">
                 {/* category */}
-                <span className="text-green-light group-hover:text-white">{data.category_id.name}</span>
+                <span className="text-green-light group-hover:text-white">
+                  {data.category_id.name}
+                </span>
 
                 {/* title */}
                 <h1 className="title-4 mt-4">{data.title}</h1>
                 <p className="mt-4 line-clamp-3">{data.small_text}</p>
-                <span className="text-xs mt-8 inline-block">{moment(data.created_at).format("DD/MMMM/YYYY")}</span>
+                <span className="text-xs mt-8 inline-block">
+                  {moment(data.created_at).format("DD/MMMM/YYYY")}
+                </span>
 
                 <div className="mt-8">
                   <Link href={"/news/" + data.slug}>
@@ -122,4 +134,3 @@ export default async function Home() {
     </section>
   );
 }
-
