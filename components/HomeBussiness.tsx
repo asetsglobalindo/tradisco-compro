@@ -123,7 +123,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
           open={!!selectedItem}
           onOpenChange={(open) => !open && setSelectedItem(null)}
         >
-          <DialogContent className="max-w-4xl">
+          <DialogContent className="max-w-4xl z-[90]">
             {selectedItem && (
               <>
                 <header className="flex items-center justify-between mt-2 mb-3">
