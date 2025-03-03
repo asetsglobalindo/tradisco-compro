@@ -15,7 +15,7 @@ import React from "react";
 import CounterData from "./counter-data/page";
 import Timeline from "./timeline/page";
 import RelatedPage from "@/components/RelatedPage";
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 
@@ -68,13 +68,13 @@ const page = async () => {
     },
     {
       href: "/about/our-values",
-      image: "/temp/values.png",
+      image: "/temp/our-values.png",
       alt: "Tata Nilai",
       title: "Tata Nilai",
     },
     {
       href: "/about/awards",
-      image: "/temp/awards.png",
+      image: "/temp/award.png",
       alt: "Penghargaan",
       title: "Penghargaan",
     },

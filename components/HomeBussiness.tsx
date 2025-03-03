@@ -43,7 +43,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
                   alt={d?.title}
                   className="blur-[2px] object-cover w-full transition-transform duration-300 transform group-hover:scale-125"
                 />
-                <span className="absolute z-20 top-1/2 left-10 title-4 text-white">
+                <span className="absolute z-10 top-1/2 left-10 title-4 text-white">
                   {d.title}
                 </span>
                 <div
