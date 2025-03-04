@@ -6,7 +6,7 @@ import { ContentType } from "@/types/indes";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 
@@ -58,7 +58,7 @@ const page = async () => {
     },
     {
       href: "/about/our-values",
-      image: "/temp/values.png",
+      image: "/temp/our-values.png",
       alt: "Tata Nilai",
       title: "Tata Nilai",
     },

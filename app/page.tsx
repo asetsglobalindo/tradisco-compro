@@ -53,9 +53,11 @@ export default async function Home() {
   return (
     <section>
       <HomeBanner data={content} />
+
       {/* our bussiness */}
       <HomeBussiness data={content} />
 
+      {/* home locator */}
       <HomeLocatorClient data={content} />
 
       {/* growth revenue */}
