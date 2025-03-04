@@ -30,7 +30,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
 
       {/* main business */}
       <section className="overflow-x-auto md:overflow-x-visible md:overflow-y-visible hide-default-scrollbar container mt-8">
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 w-[350px] md:w-full place-items-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 w-full place-items-center">
           {data.section2.tab.map((d, index) => (
             <section
               onClick={() => setSelectedTabID(d._id)}
