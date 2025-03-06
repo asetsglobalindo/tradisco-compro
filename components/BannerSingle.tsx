@@ -1,8 +1,8 @@
 "use client";
 import uiStore from "@/app/store/uiStore";
 import { ImageType } from "@/types/indes";
-import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import React, { useEffect, useState } from "react";
+// import { useInView } from "react-intersection-observer";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
@@ -11,14 +11,34 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
   lang,
 }) => {
   const ui = uiStore((state) => state);
-  const { ref, inView } = useInView({ threshold: 0 });
+  // const { ref, inView } = useInView({ threshold: 0 });
   const pathname = usePathname();
   const { t } = useTranslation();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const [isVisible, setIsVisible] = useState(true); // Initially true
+
   useEffect(() => {
-    ui.setHeaderColor(inView ? "white" : "black");
-  }, [inView]);
+    // When the page loads, header should be white
+    ui.setHeaderColor("white");
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Updates header color based on visibility
+    ui.setHeaderColor(isVisible ? "white" : "black");
+  }, [isVisible]);
 
   if (!data?.length) {
     return null;
@@ -92,7 +112,7 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
   const translatedTitle = t(mappedTitle.replace(/-/g, " "));
 
   return (
-    <div ref={ref} className="relative w-full">
+    <div className="relative w-full">
       {data.slice(0, 1).map((img) => (
         <picture key={img._id} className="relative w-full">
           <source media="(min-width:768px)" srcSet={img?.images[0]?.url} />
