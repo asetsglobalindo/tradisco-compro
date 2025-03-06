@@ -141,7 +141,7 @@ const page = async () => {
 
       {/* motto */}
       <section className="container lg:mt-16 mt-8 border-b pb-16">
-        <p className="text-xl text-[#005CAB] font-bold text-center">
+        <p className="title-3 text-[#005CAB] font-bold text-center">
           {data.sub_title2}
         </p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">

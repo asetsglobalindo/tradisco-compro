@@ -71,7 +71,7 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
       en: "Our Programs",
     },
     partnership: {
-      id: "Kerjasama",
+      id: "Kemitraan",
       en: "Partnership",
     },
     news: {

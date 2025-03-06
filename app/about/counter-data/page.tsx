@@ -7,11 +7,14 @@ import { useInView } from "react-intersection-observer";
 const CounterData = () => {
   const { ref, inView } = useInView({ triggerOnce: true });
   const [counters, setCounters] = useState([
-    { number: 0, text: "Jumlah SPBU Pertamina Retail di seluruh Indonesia" },
-    { number: 0, text: "Jumlah Bisnis Onboarding di seluruh Indonesia" },
     {
       number: 0,
-      text: "Total jumlah Jam Kerja Selamat (JKS) Pertamina Retail",
+      text: "Jumlah SPBU yang dikelola Pertamina Retail di seluruh Indonesia",
+    },
+    { number: 0, text: "Jumlah Tenant Onboard di seluruh Indonesia" },
+    {
+      number: 0,
+      text: "Total Jam Kerja Selamat (JKS) Pertamina Retail",
     },
   ]);
 
@@ -19,7 +22,7 @@ const CounterData = () => {
     try {
       console.log("Memuat data...");
       const spbuResponse = await fetch(
-        "http://pertare.tradisco.co.id:7052/location"
+        "https://api-pertare.tradisco.co.id/location"
       );
 
       if (!spbuResponse.ok) {
@@ -41,7 +44,7 @@ const CounterData = () => {
 
       const bisnisData = await bisnisResponse.json();
       console.log("Data Bisnis:", bisnisData);
-      const bisnisCount = bisnisData.data?.total_tenant || 0;
+      const bisnisCount = bisnisData.data?.total_onboard || 0;
 
       // Update state
       setCounters((prevCounters) =>
