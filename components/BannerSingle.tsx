@@ -1,8 +1,8 @@
 "use client";
 import uiStore from "@/app/store/uiStore";
 import { ImageType } from "@/types/indes";
-import React, { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import React, { useEffect, useState } from "react";
+// import { useInView } from "react-intersection-observer";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
@@ -11,13 +11,34 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
   lang,
 }) => {
   const ui = uiStore((state) => state);
-  const { ref, inView } = useInView({ threshold: 0 });
+  // const { ref, inView } = useInView({ threshold: 0 });
   const pathname = usePathname();
   const { t } = useTranslation();
 
+  const [isVisible, setIsVisible] = useState(true); // Initially true
+
   useEffect(() => {
-    ui.setHeaderColor(inView ? "white" : "black");
-  }, [inView]);
+    // When the page loads, header should be white
+    ui.setHeaderColor("white");
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Updates header color based on visibility
+    ui.setHeaderColor(isVisible ? "white" : "black");
+  }, [isVisible]);
 
   if (!data?.length) {
     return null;
@@ -25,62 +46,66 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
 
   // Mapping title berdasarkan bahasa
   const titleMapping: Record<string, Record<string, string>> = {
-    about: { 
-      id: "Profil", 
-      en: "Profile" 
+    about: {
+      id: "Profil",
+      en: "Profile",
     },
-    csr: { 
-      id: "Tanggung Jawab Sosial", 
-      en: "Corporate Social Responsibility" 
+    csr: {
+      id: "Tanggung Jawab Sosial",
+      en: "Corporate Social Responsibility",
     },
-    "our-values": { 
-      id: "Tata Nilai", 
-      en: "Our Values"
+    hsse: {
+      id: "HSSE",
+      en: "HSSE",
     },
-    awards: { 
-      id: "Penghargaan", 
-      en: "Awards" 
+    "our-values": {
+      id: "Tata Nilai",
+      en: "Our Values",
     },
-    managements: { 
-      id: "Manajemen", 
-      en: "Management" 
+    awards: {
+      id: "Penghargaan",
+      en: "Awards",
     },
-    "our-programs": { 
-      id: "Program Kami", 
-      en: "Our Programs" 
+    managements: {
+      id: "Manajemen",
+      en: "Management",
     },
-    partnership: { 
-      id: "Kerjasama", 
-      en: "Partnership" 
+    "our-programs": {
+      id: "Program Kami",
+      en: "Our Programs",
     },
-    news: { 
-      id: "Berita", 
-      en: "News" 
+    partnership: {
+      id: "Kemitraan",
+      en: "Partnership",
     },
-    career: { 
-      id: "Karir", 
-      en: "Career" 
+    news: {
+      id: "Berita",
+      en: "News",
     },
-    "bahan-bakar": { 
-      id: "Bahan Bakar", 
-      en: "Fuel" 
+    career: {
+      id: "Karir",
+      en: "Career",
     },
-    "non-bahan-bakar": { 
-      id: "Non Bahan Bakar", 
-      en: "Non Fuel" 
+    "bahan-bakar": {
+      id: "Bahan Bakar",
+      en: "Fuel",
     },
-    "company-report": { 
-      id: "Laporan Perusahaan", 
-      en: "Company Report" 
+    "non-bahan-bakar": {
+      id: "Non Bahan Bakar",
+      en: "Non Fuel",
+    },
+    "company-report": {
+      id: "Laporan Perusahaan",
+      en: "Company Report",
     },
     "procurement-informations": {
       id: "Informasi Pengadaan",
       en: "Procurement Informations",
     },
-    "collaboration-partnership":{
+    "collaboration-partnership": {
       id: "Kolaborasi & Kemitraan",
-      en: "Collaboration & Partnership"
-    }
+      en: "Collaboration & Partnership",
+    },
   };
 
   const rawTitle = pathname?.split("/").filter(Boolean).pop() || "Home";
@@ -91,7 +116,7 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
   const translatedTitle = t(mappedTitle.replace(/-/g, " "));
 
   return (
-    <div ref={ref} className="relative w-full">
+    <div className="relative w-full">
       {data.slice(0, 1).map((img) => (
         <picture key={img._id} className="relative w-full">
           <source media="(min-width:768px)" srcSet={img?.images[0]?.url} />
@@ -104,9 +129,9 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
           <h1
             className="
               absolute left-[10px] bottom-[10px] 
-              sm:left-[20px] sm:bottom-[10px] 
+              sm:left-[20px] sm:bottom-[20px] 
               md:left-[50px] md:bottom-[50px] 
-              lg:left-[100px] lg:bottom-[120px] 
+              lg:left-[80px] lg:bottom-[80px] 
               text-white 
               text-[30px]      
               sm:text-[30px]   

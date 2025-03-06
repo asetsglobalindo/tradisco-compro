@@ -2,14 +2,13 @@ import BannerSingleMulti from "@/components/BannerSingleMulti";
 import CSRourPrograms from "@/components/CSR/CSRourPrograms";
 import ApiService from "@/lib/ApiService";
 import CONTENT_TYPE from "@/lib/content-type";
-import {cn} from "@/lib/utils";
-import {ContentType} from "@/types/indes";
-import {Metadata} from "next";
-import {notFound} from "next/navigation";
+import { cn } from "@/lib/utils";
+import { ContentType } from "@/types/indes";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
-import Link from "next/link";
 import RelatedPage from "@/components/RelatedPage";
-
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
 
@@ -52,7 +51,7 @@ const getData = async (type: string) => {
 
 const page = async () => {
   const data: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
-  console.log("isis data: ", data)
+  console.log("isis data: ", data);
   const dataTab: ContentType = await getData(CONTENT_TYPE.CSR_CONTENT);
   let count = 0;
   let currentLayout = "right";
@@ -78,9 +77,9 @@ const page = async () => {
         <BannerSingleMulti data={data.banner} />
       </section>
 
-      <section className="mt-16">
+      {/* <section className="mt-16">
         <h1 className="title-3 text-center text-green-light">{data.title}</h1>
-      </section>
+      </section> */}
 
       <section className="container lg:mt-16 mt-8">
         <CSRourPrograms data={dataTab} />
@@ -111,20 +110,29 @@ const page = async () => {
                 key={d._id + i}
               >
                 <div className="lg:w-1/2">
-                  <img className="w-full rounded" src={d?.images[0]?.images[0]?.url} alt={d?.title} />
+                  <img
+                    className="w-full rounded"
+                    src={d?.images[0]?.images[0]?.url}
+                    alt={d?.title}
+                  />
                 </div>
                 <div className="lg:w-1/2 mt-4 lg:mt-0">
                   <h3 className="title-4 text-3xl">
                     {currentLayout === "left" ? (
-                      d.title 
+                      d.title
                     ) : (
                       <>
                         {d.title.split(" ").slice(0, -1).join(" ")}{" "}
-                        <span className="text-green-light">{d.title.split(" ").slice(-1)}</span>
+                        <span className="text-green-light">
+                          {d.title.split(" ").slice(-1)}
+                        </span>
                       </>
                     )}
                   </h3>
-                  <div className="mt-4" dangerouslySetInnerHTML={{ __html: d.text }}></div>
+                  <div
+                    className="mt-4"
+                    dangerouslySetInnerHTML={{ __html: d.text }}
+                  ></div>
                 </div>
               </section>
             );
@@ -138,4 +146,3 @@ const page = async () => {
 };
 
 export default page;
-
