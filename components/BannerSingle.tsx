@@ -125,9 +125,9 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
           <h1
             className="
               absolute left-[10px] bottom-[10px] 
-              sm:left-[20px] sm:bottom-[10px] 
+              sm:left-[20px] sm:bottom-[20px] 
               md:left-[50px] md:bottom-[50px] 
-              lg:left-[100px] lg:bottom-[120px] 
+              lg:left-[80px] lg:bottom-[80px] 
               text-white 
               text-[30px]      
               sm:text-[30px]   
