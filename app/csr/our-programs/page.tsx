@@ -8,7 +8,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 import RelatedPage from "@/components/RelatedPage";
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
 
@@ -77,9 +77,9 @@ const page = async () => {
         <BannerSingleMulti data={data.banner} />
       </section>
 
-      <section className="mt-16">
+      {/* <section className="mt-16">
         <h1 className="title-3 text-center text-green-light">{data.title}</h1>
-      </section>
+      </section> */}
 
       <section className="container lg:mt-16 mt-8">
         <CSRourPrograms data={dataTab} />

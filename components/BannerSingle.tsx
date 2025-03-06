@@ -54,6 +54,10 @@ const BannerSingle: React.FC<{ data: ImageType[]; lang: string }> = ({
       id: "Tanggung Jawab Sosial",
       en: "Corporate Social Responsibility",
     },
+    hsse: {
+      id: "HSSE",
+      en: "HSSE",
+    },
     "our-values": {
       id: "Tata Nilai",
       en: "Our Values",
