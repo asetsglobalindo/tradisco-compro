@@ -1,15 +1,20 @@
 "use client";
-import {cn, getLanguage} from "@/lib/utils";
-import {HomeType} from "@/types/indes";
+import { cn, getLanguage } from "@/lib/utils";
+import { HomeType } from "@/types/indes";
 import React from "react";
 import Chart from "./ui/chart";
-import { en_businessChartData, en_financeChartData, id_businessChartData, id_financeChartData } from "./constant";
+import {
+  en_businessChartData,
+  en_financeChartData,
+  id_businessChartData,
+  id_financeChartData,
+} from "./constant";
 
-const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
+const HomeGrowth: React.FC<{ data: HomeType }> = ({ data }) => {
   const baseColor = ["#80DC2B", "#e1222b", "#025cab"];
   const colorOption = [...baseColor, ...baseColor, ...baseColor];
   const [activeIndex, setActiveIndex] = React.useState(0);
-  const getLang:string = getLanguage()
+  const getLang: string = getLanguage();
 
   return (
     <section className="mt-8 lg:mt-16 bg-cover bg-no-repeat">
@@ -51,12 +56,16 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
           "container flex gap-8 mt-8 flex-col "
         )}
       >
-        <div className="lg:w-1/2">
+        <div className="lg:w-1/2 overflow-x-auto w-full">
           <Chart
             data={
-              getLang === 'en' ? 
-                activeIndex === 0 ? en_financeChartData : en_businessChartData
-              :  activeIndex === 0 ? id_financeChartData : id_businessChartData
+              getLang === "en"
+                ? activeIndex === 0
+                  ? en_financeChartData
+                  : en_businessChartData
+                : activeIndex === 0
+                ? id_financeChartData
+                : id_businessChartData
             }
             activeKeyIndex={activeIndex}
           />
@@ -65,7 +74,9 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
           <h1 className="title-3">{data?.section4[activeIndex]?.title}</h1>
           <p
             className="mt-8 text-justify"
-            dangerouslySetInnerHTML={{__html: data?.section4[activeIndex]?.description}}
+            dangerouslySetInnerHTML={{
+              __html: data?.section4[activeIndex]?.description,
+            }}
           ></p>
         </div>
       </section>
@@ -74,4 +85,3 @@ const HomeGrowth: React.FC<{data: HomeType}> = ({data}) => {
 };
 
 export default HomeGrowth;
-

@@ -106,7 +106,7 @@ const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
                     </p>
                   ) : null}
                   {banner.button_route.length > 1 ? (
-                    <a href={banner.button_route} target="_blank">
+                    <a href={banner.button_route}>
                       <Button className="mt-8" size={"lg"} rounded>
                         <span className="tracking-wider">
                           {lang === "en" ? "Learn More" : "Selengkapnya"}
