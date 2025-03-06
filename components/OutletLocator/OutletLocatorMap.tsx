@@ -1,38 +1,61 @@
 "use client";
-import React, {useState} from "react";
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import React, { useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
-import {useQuery} from "react-query";
+import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
-import {LocationType} from "@/types/indes";
-import {AlignJustify, ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search, Compass} from "lucide-react";
+import { LocationType } from "@/types/indes";
+import {
+  AlignJustify,
+  ChevronLeft,
+  Clock,
+  Coffee,
+  Fuel,
+  MoveRight,
+  Search,
+  Compass,
+} from "lucide-react";
 import MapPopup from "../MapPopup";
 import LefleatMapIcon from "@/lib/LefleatIcon";
-import {Input} from "../ui/input";
-import {Button} from "../ui/button";
-import {cn} from "@/lib/utils";
-import {useDebounce} from "use-debounce";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useDebounce } from "use-debounce";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/styles";
 import axios from "axios";
 
 const OutletLocatorMap = () => {
   const [map, setMap] = useState<L.Map | null>(null);
-  const [selectedLocationDetails, setSelectedLocationDetails] = useState<LocationType | null>(null);
+  const [selectedLocationDetails, setSelectedLocationDetails] =
+    useState<LocationType | null>(null);
   const [value, setValue] = useState<string>("");
   const [locationQuery] = useDebounce(value, 1000);
   const [openList, setOpenList] = useState<boolean>(false);
-  const [surroundingArea, setSurroundingArea] = useState<string[]>(); 
+  const [surroundingArea, setSurroundingArea] = useState<string[]>();
   const [facilities, setFacilities] = useState<string[]>([]);
 
-  const {data: locationData, refetch} = useQuery({
+  const { data: locationData, refetch } = useQuery({
     queryKey: ["outlet-locator"],
-    queryFn: async () => await getLocation({limit: 99999999, search: locationQuery}),
+    queryFn: async () =>
+      await getLocation({ limit: 99999999, search: locationQuery }),
   });
 
-  const getLocation = async ({limit, search}: {limit: number; search?: string}) => {
+  const getLocation = async ({
+    limit,
+    search,
+  }: {
+    limit: number;
+    search?: string;
+  }) => {
     try {
-      const query: {page: number; limit: number; query?: string; lat: number | null; long: number | null} = {
+      const query: {
+        page: number;
+        limit: number;
+        query?: string;
+        lat: number | null;
+        long: number | null;
+      } = {
         page: 1,
         limit: limit,
         lat: null,
@@ -58,22 +81,34 @@ const OutletLocatorMap = () => {
   const fetchSurroundingArea = async (code: string) => {
     try {
       console.log("Fetching API with code:", code);
-      const res = await axios.get(`https://pertare.asets.id/api/listings/${code}`);
-  
+      const res = await axios.get(
+        `https://pertare.asets.id/api/listings/${code}`
+      );
+
       if (!res.data.success || !res.data.data) {
-        throw new Error(res.data.message || "Failed to fetch surrounding area data");
+        throw new Error(
+          res.data.message || "Failed to fetch surrounding area data"
+        );
       }
-  
+
       // Get data surrounding area
-      const surroundingAreas: { surrounding_area_name: string }[] = res.data.data.surrounding_areas || [];
-      setSurroundingArea(surroundingAreas.length ? surroundingAreas.map(a => a.surrounding_area_name) : ["-"]);
-  
+      const surroundingAreas: { surrounding_area_name: string }[] =
+        res.data.data.surrounding_areas || [];
+      setSurroundingArea(
+        surroundingAreas.length
+          ? surroundingAreas.map((a) => a.surrounding_area_name)
+          : ["-"]
+      );
+
       // Get data facilities
-      const facilitiesData: { facility_name: string }[] = res.data.data.facilities || [];
-      const newFacilities = facilitiesData.length ? facilitiesData.map(f => f.facility_name) : ["-"];
+      const facilitiesData: { facility_name: string }[] =
+        res.data.data.facilities || [];
+      const newFacilities = facilitiesData.length
+        ? facilitiesData.map((f) => f.facility_name)
+        : ["-"];
 
       setFacilities(newFacilities);
-  
+
       console.log("Facilities:", facilitiesData);
     } catch (error) {
       console.error("Error fetching surrounding area:", error);
@@ -82,10 +117,9 @@ const OutletLocatorMap = () => {
     }
   };
 
-  
   const handleSelectLocation = (item: LocationType) => {
     setSelectedLocationDetails(item);
-    setSurroundingArea([]); 
+    setSurroundingArea([]);
     setFacilities([]);
     if (item.code) {
       fetchSurroundingArea(item.code);
@@ -95,7 +129,10 @@ const OutletLocatorMap = () => {
   return (
     <section className="w-full h-screen xl:max-h-[800px] relative border rounded-2xl overflow-hidden">
       {!openList ? (
-        <Button onClick={() => setOpenList(true)} className="absolute top-8 right-8 z-40 lg:hidden">
+        <Button
+          onClick={() => setOpenList(true)}
+          className="absolute top-8 right-8 z-40 lg:hidden"
+        >
           <AlignJustify />
         </Button>
       ) : null}
@@ -113,7 +150,11 @@ const OutletLocatorMap = () => {
           <Button onClick={() => setOpenList((prev) => !prev)}>Close</Button>
         </div>
         <div className="flex gap-2 ">
-          <Input placeholder="Search location" onChange={(e) => setValue(e.target.value)} value={value} />
+          <Input
+            placeholder="Search location"
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+          />
           <Button onClick={() => refetch()}>
             <Search />
           </Button>
@@ -126,9 +167,14 @@ const OutletLocatorMap = () => {
               onClick={() => setSelectedLocationDetails(null)}
               className="flex items-center border-b pb-2 mb-4 w-full"
             >
-              <ChevronLeft /> <span className="leading-none underline font-medium">BACK TO RESULT</span>
+              <ChevronLeft />{" "}
+              <span className="leading-none underline font-medium">
+                BACK TO RESULT
+              </span>
             </button>
-            <h1 className="lg:text-lg uppercase font-semibold">{selectedLocationDetails.name}</h1>
+            <h1 className="lg:text-lg uppercase font-semibold">
+              {selectedLocationDetails.name}
+            </h1>
             <p className="mt-2">{selectedLocationDetails.address}</p>
 
             {selectedLocationDetails?.operational_hour?.length ? (
@@ -137,7 +183,9 @@ const OutletLocatorMap = () => {
                   <Clock size={18} />
                   operating hours :{" "}
                 </p>
-                <p className="mt-2">{selectedLocationDetails.operational_hour}</p>
+                <p className="mt-2">
+                  {selectedLocationDetails.operational_hour}
+                </p>
               </div>
             ) : null}
             {selectedLocationDetails?.fuel?.length ? (
@@ -154,17 +202,16 @@ const OutletLocatorMap = () => {
               </div>
             ) : null}
 
-            {(selectedLocationDetails?.facility?.length || (facilities && facilities.length)) ? (
+            {selectedLocationDetails?.facility?.length ||
+            (facilities && facilities.length) ? (
               <div className="mt-4">
                 <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
                   <Coffee /> Facility :{" "}
                 </p>
                 <ul className="grid grid-cols-2 mt-2 gap-1">
-                  {selectedLocationDetails?.facility
-                    ?.split(",")
-                    .map((f) => (
-                      <li key={f.trim()}>{f.trim()}</li> 
-                    ))}
+                  {selectedLocationDetails?.facility?.split(",").map((f) => (
+                    <li key={f.trim()}>{f.trim()}</li>
+                  ))}
 
                   {/* Filtered Data */}
                   {facilities
@@ -172,7 +219,7 @@ const OutletLocatorMap = () => {
                       (f) =>
                         !selectedLocationDetails?.facility
                           ?.split(",")
-                          .map((item) => item.trim().toLowerCase()) 
+                          .map((item) => item.trim().toLowerCase())
                           .includes(f.trim().toLowerCase())
                     )
                     .map((f, index) => (
@@ -182,7 +229,7 @@ const OutletLocatorMap = () => {
               </div>
             ) : null}
 
-            {surroundingArea && surroundingArea.length ? (
+            {surroundingArea && surroundingArea.length > 0 ? (
               <div className="mt-4">
                 <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
                   <Compass /> Surrounding Area:{" "}
@@ -200,7 +247,10 @@ const OutletLocatorMap = () => {
                 className="mt-4 w-full block"
                 target="_blank"
                 href={
-                  "http://www.google.com/maps/place/" + selectedLocationDetails.lat + "," + selectedLocationDetails.long
+                  "http://www.google.com/maps/place/" +
+                  selectedLocationDetails.lat +
+                  "," +
+                  selectedLocationDetails.long
                 }
               >
                 <Button className="w-full flex justify-center items-center">
@@ -219,8 +269,15 @@ const OutletLocatorMap = () => {
             )}
           >
             {locationData?.slice(0, 20)?.map((item) => (
-              <section key={item._id} className="flex space-x-2 items-start border-b pb-4 border-black/20">
-                <img className="w-[18px]" src="/icons/green-pinpoint.svg" alt="pinpoint" />
+              <section
+                key={item._id}
+                className="flex space-x-2 items-start border-b pb-4 border-black/20"
+              >
+                <img
+                  className="w-[18px]"
+                  src="/icons/green-pinpoint.svg"
+                  alt="pinpoint"
+                />
                 <div>
                   <button
                     onClick={() => {
@@ -228,7 +285,9 @@ const OutletLocatorMap = () => {
                       handleSelectLocation(item);
                     }}
                   >
-                    <h1 className="font-semibold hover:underline text-left">{item.name}</h1>
+                    <h1 className="font-semibold hover:underline text-left">
+                      {item.name}
+                    </h1>
                   </button>
                   <span className="inline-block mt-2">{item.address}</span>
                 </div>
