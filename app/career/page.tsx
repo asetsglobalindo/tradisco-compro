@@ -64,13 +64,15 @@ const page = async () => {
         <BannerSingleMulti data={data.banner} />
       </section>
 
+      {/*       
       <section className=" bg-[#F2F2F2]">
         <section className="container py-8 lg:py-16">
           <h1 className="title-3 text-green-light my-16 text-center">
             {data.title}
           </h1>
         </section>
-      </section>
+      </section> 
+      */}
 
       <section className="mt-16 container">
         <h1 className="title-3 text-green-light text-center">
@@ -96,7 +98,7 @@ const page = async () => {
                       />
                       <div className="bg-[#005CAB] lg:flex lg:h-full flex-col justify-center rounded-3xl p-8 text-white -mt-[100px] lg:-mt-0 lg:py-24 lg:pr-16 lg:pl-[calc(100px_+_64px)] lg:ml-[150px]">
                         <div
-                          className="xl:text-2xl mt-[100px] lg:mt-0"
+                          className="flex items-center justify-center h-64 overflow-auto xl:text-2xl mt-[100px] lg:mt-0"
                           dangerouslySetInnerHTML={{ __html: d.text }}
                         ></div>
                         <h1 className="title-4 mt-8">{d.title}</h1>
