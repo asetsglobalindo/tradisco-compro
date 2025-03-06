@@ -32,7 +32,7 @@ const CheckBox: React.FC<checkBoxProps> = ({ checked, onChange }) => {
         </svg>
       </Checkbox>
       <Label className="cursor-pointer">
-        Saya Setuju dengan ketentuan dari PT Pertamina Retail
+        Saya setuju dengan Syarat & Ketentuan dari PT Pertamina Reta il
       </Label>
     </Field>
   );

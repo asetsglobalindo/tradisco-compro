@@ -97,7 +97,7 @@ const Form = () => {
       .trim()
       .replace(/\n/g, "%0A");
 
-    const mailClient = "raditprogrammer.asets@gmail.com";
+    const mailClient = "corcompertare@gmail.com";
     const emailRoute = isDesktop
       ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
           mailClient
@@ -119,9 +119,10 @@ const Form = () => {
       <section>
         <header className="text-center">
           {renderTitle()}
-          <p className="mt-4">
+          <p className="mt-4 text-center">
+            Ruang kolaborasi untuk berkontribusi bagi negeri <br />
             Salurkan aspirasi anda melalui berbagai bentuk kegiatan kerja sama
-            CSR
+            CSR:
           </p>
         </header>
         <div className="md:px-0">
@@ -167,14 +168,14 @@ const Form = () => {
             onChange={handleSelectChange}
           />
           <TextInput
-            label={"Link PDF"}
+            label={"Lampiran (khusus untuk permintaan bantuan) *Link PDF"}
             name="attachment"
-            placeholder="Masukkan Link File PDF Anda"
+            placeholder="Masukkan lampiran Anda"
             type="text"
             onChange={handleTextinput}
           />
           <TextInput
-            label={"Catatan"}
+            label={"Catatan (tulis deskripsi permohonan kolaborasi)"}
             name="notes"
             placeholder="Masukkan catatan Anda disini"
             type="text"
