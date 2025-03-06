@@ -12,7 +12,7 @@ import { ContentType } from "@/types/indes";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
-
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 
@@ -62,9 +62,9 @@ const page = async () => {
         <BannerSingleMulti data={data.banner} />
       </section>
 
-      <section className="container my-16">
+      {/* <section className="container my-16">
         <h1 className="title-3 text-green-light text-center">{data.title}</h1>
-      </section>
+      </section> */}
 
       <section className="bg-[#F2F2F2] py-8">
         <section className="container">

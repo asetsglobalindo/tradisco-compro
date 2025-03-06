@@ -1,33 +1,49 @@
 "use client";
 import uiStore from "@/app/store/uiStore";
-import React, {useEffect} from "react";
-import {useInView} from "react-intersection-observer";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Autoplay, Pagination, Navigation, EffectFade} from "swiper/modules";
-import {HomeType} from "@/types/indes";
+import React, { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
+import { HomeType } from "@/types/indes";
 import JSCookie from "js-cookie";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-import {Button} from "./ui/button";
-import {ArrowRight} from "lucide-react";
+import { Button } from "./ui/button";
+import { ArrowRight } from "lucide-react";
 
-const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
+const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
   const lang = JSCookie.get("lang") || "id";
   const [activeIndex, setActiveIndex] = React.useState(0);
   const ui = uiStore((state) => state);
-  const {ref, inView} = useInView({
-    threshold: 0,
-  });
+  const [isVisible, setIsVisible] = useState(true); // Initially true
 
   useEffect(() => {
-    ui.setHeaderColor(inView ? "white" : "black");
-  }, [inView]); // eslint-disable-line
+    // When the page loads, header should be white
+    ui.setHeaderColor("white");
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Updates header color based on visibility
+    ui.setHeaderColor(isVisible ? "white" : "black");
+  }, [isVisible]);
 
   return (
-    <section ref={ref} className="relative">
+    <section className="relative">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -44,16 +60,31 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
           el: ".banner-pagination",
           type: "bullets",
           renderBullet: function (_, className) {
-            return '<span class="' + className + '">' + "<em>" + "</em>" + "<i></i>" + "<b></b>" + "</span>";
+            return (
+              '<span class="' +
+              className +
+              '">' +
+              "<em>" +
+              "</em>" +
+              "<i></i>" +
+              "<b></b>" +
+              "</span>"
+            );
           },
         }}
         slidesPerView={1}
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
       >
         {data.banner.map((banner) => (
-          <SwiperSlide className="w-full flex items-center relative" key={banner._id}>
+          <SwiperSlide
+            className="w-full flex items-center relative"
+            key={banner._id}
+          >
             <picture key={banner?._id}>
-              <source media="(min-width:768px)" srcSet={banner?.images[0]?.url} />
+              <source
+                media="(min-width:768px)"
+                srcSet={banner?.images[0]?.url}
+              />
               <img
                 className="w-full h-screen brightness-[70%] object-cover"
                 src={banner?.images_mobile[0]?.url}
@@ -64,16 +95,22 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
               <section className="flex items-center h-full z-20">
                 <div className="container text-white">
                   {banner.title.length > 1 ? (
-                    <h1 className="title-2 leading-tight max-w-[600px] uppercase">{banner.title}</h1>
+                    <h1 className="title-2 leading-tight max-w-[600px] uppercase">
+                      {banner.title}
+                    </h1>
                   ) : null}
 
                   {banner.description.length > 1 ? (
-                    <p className="text-lg font-normal mt-4 max-w-[600px]">{banner.description}</p>
+                    <p className="text-lg font-normal mt-4 max-w-[600px]">
+                      {banner.description}
+                    </p>
                   ) : null}
                   {banner.button_route.length > 1 ? (
-                    <a href={banner.button_route} target="_blank">
+                    <a href={banner.button_route}>
                       <Button className="mt-8" size={"lg"} rounded>
-                        <span className="tracking-wider">{lang === "en" ? "Learn More" : "Selengkapnya"}</span>
+                        <span className="tracking-wider">
+                          {lang === "en" ? "Learn More" : "Selengkapnya"}
+                        </span>
                         <ArrowRight />
                       </Button>
                     </a>
@@ -103,4 +140,3 @@ const HomeBanner: React.FC<{data: HomeType}> = ({data}) => {
 };
 
 export default HomeBanner;
-
