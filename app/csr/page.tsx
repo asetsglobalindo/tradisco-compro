@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 import RelatedPage from "@/components/RelatedPage";
-
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 
@@ -72,15 +72,14 @@ const page = async () => {
       {/* Section Direksi  */}
       <section className="container mt-16">
         <h1 className="mb-8 text-center text-5xl font-bold">
-          <span className="text-black">Komitmen</span>{" "}
-          <span className="text-green-light">Berkelanjutan</span>
+          <span className="text-black">Komitmen Keberlanjutan</span>
         </h1>
         <section className="flex items-center gap-8">
           <div className="bg-[#9CA9B1] relative h-[340px] rounded-2xl p-6 flex-shrink-0 w-1/3 flex flex-col items-start justify-end">
             <img
-              src="/temp/pak-zibali.png"
+              src="/temp/zibali2.jpeg"
               alt="Zibali Hisbul Masih"
-              className="absolute h-full w-auto bottom-0 right-[10%] rounded-lg object-contain"
+              className="absolute inset-0 w-full h-full rounded-lg object-cover object-left-top"
             />
             <div className="text-white text-left mt-4 relative z-[1]">
               <h3 className="font-bold text-lg relative inline-block pb-1 border-b border-white">

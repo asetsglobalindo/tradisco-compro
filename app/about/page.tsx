@@ -10,14 +10,12 @@ import CONTENT_TYPE from "@/lib/content-type";
 import { ContentType } from "@/types/indes";
 import { CircleArrowDown } from "lucide-react";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 import CounterData from "./counter-data/page";
 import Timeline from "./timeline/page";
-import Link from "next/link";
 import RelatedPage from "@/components/RelatedPage";
-
+export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const result: ContentType = await getData();
 
@@ -60,8 +58,7 @@ const getData = async () => {
 
 const page = async () => {
   const data: ContentType = await getData();
-  const lang = (await cookies()).get("lang")?.value || "id";
-  
+
   const linksData = [
     {
       href: "/about/managements",
@@ -71,13 +68,13 @@ const page = async () => {
     },
     {
       href: "/about/our-values",
-      image: "/temp/values.png",
+      image: "/temp/our-values.png",
       alt: "Tata Nilai",
       title: "Tata Nilai",
     },
     {
       href: "/about/awards",
-      image: "/temp/awards.png",
+      image: "/temp/award.png",
       alt: "Penghargaan",
       title: "Penghargaan",
     },
@@ -144,7 +141,7 @@ const page = async () => {
 
       {/* motto */}
       <section className="container lg:mt-16 mt-8 border-b pb-16">
-        <p className="text-xl text-[#005CAB] font-bold text-center">
+        <p className="title-3 text-[#005CAB] font-bold text-center">
           {data.sub_title2}
         </p>
         <h1 className="text-3xl text-center font-bold font-Kalam mt-4">
