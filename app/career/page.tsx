@@ -98,7 +98,7 @@ const page = async () => {
                       />
                       <div className="bg-[#005CAB] lg:flex lg:h-full flex-col justify-center rounded-3xl p-8 text-white -mt-[100px] lg:-mt-0 lg:py-24 lg:pr-16 lg:pl-[calc(100px_+_64px)] lg:ml-[150px]">
                         <div
-                          className="flex items-center justify-center h-64 overflow-auto xl:text-2xl mt-[100px] lg:mt-0"
+                          className="flex items-center justify-center h-64 overflow-y-auto xl:text-2xl pt-8 md:pt-0 mt-[100px] lg:mt-0"
                           dangerouslySetInnerHTML={{ __html: d.text }}
                         ></div>
                         <h1 className="title-4 mt-8">{d.title}</h1>
