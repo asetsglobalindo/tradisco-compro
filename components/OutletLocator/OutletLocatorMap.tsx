@@ -4,14 +4,24 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
-import {LocationType} from "@/types/indes";
-import {AlignJustify, ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search, Compass} from "lucide-react";
+import { LocationType } from "@/types/indes";
+import {
+  AlignJustify,
+  ChevronLeft,
+  Clock,
+  Coffee,
+  Compass,
+  Fuel,
+  MoveRight,
+  Search,
+} from "lucide-react";
 import MapPopup from "../MapPopup";
 import LefleatMapIcon from "@/lib/LefleatIcon";
-import {Input} from "../ui/input";
-import {Button} from "../ui/button";
-import {cn} from "@/lib/utils";
-import {useDebounce} from "use-debounce";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useDebounce } from "use-debounce";
+// import moment from "moment";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/styles";
 import axios from "axios";
@@ -213,7 +223,7 @@ const OutletLocatorMap = () => {
             {surroundingArea && surroundingArea.length ? (
               <div className="mt-4">
                 <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
-                  <Compass /> Surrounding Area:{" "}
+                  <Compass/> Surrounding Area:{" "}
                 </p>
                 <ul className="grid grid-cols-2 mt-2 gap-1">
                   {surroundingArea.map((area, index) => (
