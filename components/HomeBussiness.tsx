@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -11,8 +11,9 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { HomeType } from "@/types/indes";
 import { Button } from "./ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import JSCookie from "js-cookie";
+import Modal from "./ui/modal";
 
 const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
   const [selectedTabID, setSelectedTabID] = React.useState(
@@ -20,6 +21,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
   );
   const [selectedItem, setSelectedItem] = React.useState(null);
   const lang = JSCookie.get("lang") || "id";
+  const [isOpen, setIsOpen] = useState<string | null>(null);
 
   return (
     <section className="relative mt-16">
@@ -79,39 +81,78 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
             {data.section2.tab
               .find((d) => d._id === selectedTabID)
               ?.content.map((d, index) => (
-                <CarouselItem
-                  key={index}
-                  className="w-full md:basis-1/3 lg:basis-1/4"
-                >
-                  <section className="relative group rounded-2xl news-card our-business group  overflow-hidden group flex items-end justify-end transition-all">
-                    <img
-                      className="blur-[1px] aspect-square object-cover"
-                      src={d?.thumbnail_images[0]?.images[0]?.url}
-                      alt={d?.title}
-                    />
-                    <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light-secondary"></div>
+                <>
+                  <CarouselItem
+                    key={index}
+                    className="w-full md:basis-1/3 lg:basis-1/4"
+                  >
+                    <section className="relative group rounded-2xl news-card our-business group  overflow-hidden group flex items-end justify-end transition-all">
+                      <img
+                        className="blur-[1px] aspect-square object-cover"
+                        src={d?.thumbnail_images[0]?.images[0]?.url}
+                        alt={d?.title}
+                      />
+                      <div className="absolute top-0 opacity-0 group-hover:opacity-100 transition-all left-0 w-full h-full bg-green-light-secondary"></div>
 
-                    {/* Content */}
-                    <section className="absolute z-20 left-0 text-white px-6 py-6 md:px-8 md:py-8 transition-all flex flex-col w-full">
-                      {/* Title */}
-                      <h1 className="mt-2 text-base md:text-lg font-semibold lg:max-w-[70%]">
-                        {d.title}
-                      </h1>
+                      {/* Content */}
+                      <section className="absolute z-20 left-0 text-white px-6 py-6 md:px-8 md:py-8 transition-all flex flex-col w-full">
+                        {/* Title */}
+                        <h1 className="mt-2 text-base md:text-lg font-semibold lg:max-w-[70%]">
+                          {d.title}
+                        </h1>
 
-                      <Button
-                        rounded
-                        size="sm"
-                        className="w-full md:w-fit md:h-12 md:px-8 md:text-base h-9 px-3 text-sm mt-4 shadow-sm box-border"
-                        onClick={() => setSelectedItem(d)}
-                      >
-                        <span>
-                          {lang === "en" ? "Learn More" : "Selengkapnya"}
-                        </span>
-                        <ArrowRight color="white" />
-                      </Button>
+                        <Button
+                          rounded
+                          size="sm"
+                          className="w-full md:w-fit md:h-12 md:px-8 md:text-base h-9 px-3 text-sm mt-4 shadow-sm box-border"
+                          onClick={() => setIsOpen(d._id)}
+                        >
+                          <span>
+                            {lang === "en" ? "Learn More" : "Selengkapnya"}
+                          </span>
+                          <ArrowRight color="white" />
+                        </Button>
+                      </section>
                     </section>
-                  </section>
-                </CarouselItem>
+                  </CarouselItem>
+                  <Modal
+                    isOpen={isOpen === d._id}
+                    onClose={() => setIsOpen?.(null)}
+                  >
+                    <header className="flex items-center justify-between mt-2 mb-3">
+                      <section id="title">
+                        <p className="text-lg text-green-light font-semibold">
+                          {d.title}
+                        </p>
+                      </section>
+                      <div className="w-6 h-6 text-center hover:text-red-800 hover:cursor-pointer">
+                        <X className="w-5" onClick={() => setIsOpen?.(null)} />
+                      </div>
+                    </header>
+                    <div className="md:grid md:grid-cols-2 ">
+                      <div className="mb-4 w-full flex justify-center md:hidden block">
+                        <img
+                          src={d?.thumbnail_images[0]?.images[0]?.url}
+                          className="w-[85%] transition-all rounded-md"
+                          alt={d.title}
+                        />
+                      </div>
+                      <div
+                        className="pr-4 basis-1 h-full max-h-[60vh] lg:max-h-[50vh] overflow-y-auto scrollbar-custom"
+                        dangerouslySetInnerHTML={{
+                          __html: d.description,
+                        }}
+                      ></div>
+                      <div className="ml-4 basis-1 md:block hidden">
+                        <img
+                          src={d?.thumbnail_images[0]?.images[0]?.url}
+                          className="aspect-square object-cover transition-all rounded-md"
+                          alt={d.title}
+                        />
+                      </div>
+                    </div>
+                  </Modal>
+                </>
               ))}
           </CarouselContent>
           <CarouselPrevious />
@@ -119,7 +160,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
         </Carousel>
 
         {/* Modal */}
-        <Dialog
+        {/* <Dialog
           open={!!selectedItem}
           onOpenChange={(open) => !open && setSelectedItem(null)}
         >
@@ -133,7 +174,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
                     </h2>
                   </section>
                 </header>
-                <div className="md:grid md:grid-cols-2">
+                <div className="md:grid md:grid-cols-2 ">
                   <div className="mb-4 w-full flex justify-center md:hidden block">
                     <img
                       src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
@@ -147,10 +188,10 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
                       __html: selectedItem.description,
                     }}
                   ></div>
-                  <div className="ml-4 w-full basis-1 md:block hidden">
+                  <div className="ml-4 basis-1 md:block hidden w-[418px] h-[280px]">
                     <img
                       src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
-                      className="w-full transition-all rounded-md"
+                      className="w-full h-full object-cover object-center transition-all rounded-md"
                       alt={selectedItem.title}
                     />
                   </div>
@@ -158,7 +199,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
               </>
             )}
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </section>
     </section>
   );
