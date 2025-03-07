@@ -35,7 +35,7 @@ const getData = async (slug: string, type: string, limit = 9999) => {
       category_slug: slug,
       active_status: true,
       sort_at: "order",
-      sort_by: -1,
+      sort_by: 1,
       type: type,
       limit: limit,
       show_single_language: "yes",
@@ -65,6 +65,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     slug,
     CONTENT_TYPE.BUSINESS
   );
+
 
   return (
     <section>

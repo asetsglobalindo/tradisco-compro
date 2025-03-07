@@ -86,7 +86,7 @@ const BusinessCarousel = ({
                     __html: selectedItem.description,
                   }}
                 ></div>
-                <div className="ml-4 w-full basis-1 md:block hidden">
+                <div className="ml-4 w-full basis-1 md:block hidden w-[418px] h-[280px]">
                   <img
                     src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
                     className="w-full transition-all rounded-md"
