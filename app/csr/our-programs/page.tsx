@@ -77,16 +77,12 @@ const page = async () => {
         <BannerSingleMulti data={data.banner} />
       </section>
 
-      {/* <section className="mt-16">
-        <h1 className="title-3 text-center text-green-light">{data.title}</h1>
-      </section> */}
-
       <section className="container lg:mt-16 mt-8">
         <CSRourPrograms data={dataTab} />
       </section>
 
       <section className="container mt-8">
-        <section className="border-t pt-8 flex flex-col gap-8">
+        <section className="flex flex-col gap-8" style={{marginTop: '70px'}}>
           {data.body.map((d, i) => {
             if (count == 2) {
               count = 1;
@@ -99,16 +95,37 @@ const page = async () => {
               count = count + 1;
             }
 
+            // Category by index section
+            const categories = ["Pertamina Cerdas", "Pertamina Sehat", "Pertamina Berdikari", "Pertamina Hijau"];
+            const category = categories[i % categories.length]; 
+
+            // Category Possition
+            const categoryPosition = currentLayout === "left" ? "left-0" : "right-0"; 
+
             return (
               <section
                 className={cn(
                   {
                     "flex-row-reverse": currentLayout == "left",
                   },
-                  "lg:flex gap-8"
+                  "lg:flex gap-8 relative pt-8"
                 )}
                 key={d._id + i}
               >
+                {/* Green line section */}
+                <div className="absolute top-0 w-full border-t border-green-light">
+                  <span
+                    className={cn(
+                      "bg-green-light px-4 py-2 text-white font-semibold text-sm absolute",
+                      categoryPosition
+                    )}
+                    style={{ top: "-20px", borderRadius: "10px" }}
+                  >
+                    {category}
+                  </span>
+                </div>
+
+                {/* Image */}
                 <div className="lg:w-1/2">
                   <img
                     className="w-full rounded"
@@ -116,6 +133,8 @@ const page = async () => {
                     alt={d?.title}
                   />
                 </div>
+
+                {/* Content */}
                 <div className="lg:w-1/2 mt-4 lg:mt-0">
                   <h3 className="title-4 text-3xl">
                     {currentLayout === "left" ? (

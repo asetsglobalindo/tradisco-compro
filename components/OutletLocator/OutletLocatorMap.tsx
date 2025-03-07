@@ -4,14 +4,23 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
-import {LocationType} from "@/types/indes";
-import {AlignJustify, ChevronLeft, Clock, Coffee, Fuel, MoveRight, Search, Compass} from "lucide-react";
+import { LocationType } from "@/types/indes";
+import {
+  AlignJustify,
+  ChevronLeft,
+  Clock,
+  Coffee,
+  Fuel,
+  MoveRight,
+  Search,
+  Compass,
+} from "lucide-react";
 import MapPopup from "../MapPopup";
 import LefleatMapIcon from "@/lib/LefleatIcon";
-import {Input} from "../ui/input";
-import {Button} from "../ui/button";
-import {cn} from "@/lib/utils";
-import {useDebounce} from "use-debounce";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useDebounce } from "use-debounce";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "react-leaflet-markercluster/styles";
 import axios from "axios";
@@ -23,7 +32,7 @@ const OutletLocatorMap = () => {
   const [value, setValue] = useState<string>("");
   const [locationQuery] = useDebounce(value, 1000);
   const [openList, setOpenList] = useState<boolean>(false);
-  const [surroundingArea, setSurroundingArea] = useState<string[]>(); 
+  const [surroundingArea, setSurroundingArea] = useState<string[]>();
   const [facilities, setFacilities] = useState<string[]>([]);
 
   const { data: locationData, refetch } = useQuery({
@@ -72,22 +81,34 @@ const OutletLocatorMap = () => {
   const fetchSurroundingArea = async (code: string) => {
     try {
       console.log("Fetching API with code:", code);
-      const res = await axios.get(`https://pertare.asets.id/api/listings/${code}`);
-  
+      const res = await axios.get(
+        `https://pertare.asets.id/api/listings/${code}`
+      );
+
       if (!res.data.success || !res.data.data) {
-        throw new Error(res.data.message || "Failed to fetch surrounding area data");
+        throw new Error(
+          res.data.message || "Failed to fetch surrounding area data"
+        );
       }
-  
+
       // Get data surrounding area
-      const surroundingAreas: { surrounding_area_name: string }[] = res.data.data.surrounding_areas || [];
-      setSurroundingArea(surroundingAreas.length ? surroundingAreas.map(a => a.surrounding_area_name) : ["-"]);
-  
+      const surroundingAreas: { surrounding_area_name: string }[] =
+        res.data.data.surrounding_areas || [];
+      setSurroundingArea(
+        surroundingAreas.length
+          ? surroundingAreas.map((a) => a.surrounding_area_name)
+          : ["-"]
+      );
+
       // Get data facilities
-      const facilitiesData: { facility_name: string }[] = res.data.data.facilities || [];
-      const newFacilities = facilitiesData.length ? facilitiesData.map(f => f.facility_name) : ["-"];
+      const facilitiesData: { facility_name: string }[] =
+        res.data.data.facilities || [];
+      const newFacilities = facilitiesData.length
+        ? facilitiesData.map((f) => f.facility_name)
+        : ["-"];
 
       setFacilities(newFacilities);
-  
+
       console.log("Facilities:", facilitiesData);
     } catch (error) {
       console.error("Error fetching surrounding area:", error);
@@ -96,10 +117,9 @@ const OutletLocatorMap = () => {
     }
   };
 
-  
   const handleSelectLocation = (item: LocationType) => {
     setSelectedLocationDetails(item);
-    setSurroundingArea([]); 
+    setSurroundingArea([]);
     setFacilities([]);
     if (item.code) {
       fetchSurroundingArea(item.code);
@@ -182,17 +202,16 @@ const OutletLocatorMap = () => {
               </div>
             ) : null}
 
-            {(selectedLocationDetails?.facility?.length || (facilities && facilities.length)) ? (
+            {selectedLocationDetails?.facility?.length ||
+            (facilities && facilities.length) ? (
               <div className="mt-4">
                 <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
                   <Coffee /> Facility :{" "}
                 </p>
                 <ul className="grid grid-cols-2 mt-2 gap-1">
-                  {selectedLocationDetails?.facility
-                    ?.split(",")
-                    .map((f) => (
-                      <li key={f.trim()}>{f.trim()}</li> 
-                    ))}
+                  {selectedLocationDetails?.facility?.split(",").map((f) => (
+                    <li key={f.trim()}>{f.trim()}</li>
+                  ))}
 
                   {/* Filtered Data */}
                   {facilities
@@ -200,7 +219,7 @@ const OutletLocatorMap = () => {
                       (f) =>
                         !selectedLocationDetails?.facility
                           ?.split(",")
-                          .map((item) => item.trim().toLowerCase()) 
+                          .map((item) => item.trim().toLowerCase())
                           .includes(f.trim().toLowerCase())
                     )
                     .map((f, index) => (
@@ -210,7 +229,7 @@ const OutletLocatorMap = () => {
               </div>
             ) : null}
 
-            {surroundingArea && surroundingArea.length ? (
+            {surroundingArea && surroundingArea.length > 0 ? (
               <div className="mt-4">
                 <p className="font-medium uppercase flex items-center gap-2 leading-none border-b pb-2">
                   <Compass /> Surrounding Area:{" "}
