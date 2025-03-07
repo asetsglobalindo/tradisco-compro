@@ -66,6 +66,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     CONTENT_TYPE.BUSINESS
   );
 
+
   return (
     <section>
       <section className="relative">

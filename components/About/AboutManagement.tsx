@@ -117,7 +117,7 @@ const AboutManagement: React.FC<{ data: ContentType }> = ({ data }) => {
                     <div className="ml-4 w-full basis-1 md:block hidden">
                       <img
                         src={d?.images[0]?.images[0]?.url}
-                        className="w-full transition-all rounded-md"
+                        className="w-full transition-all rounded-md aspect-square object-cover object-top"
                         alt={d.button_route}
                       />
                     </div>
