@@ -11,7 +11,9 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
 
   // Tab List: Mengganti tab ke-2 dengan "Sosial"
   const tabList = data.body.map((d, i) =>
-    i === 1 ? { label: "Sosial", value: "sosial" } : { label: d.title, value: d._id }
+    i === 1
+      ? { label: "Sosial", value: "sosial" }
+      : { label: d.title, value: d._id }
   );
 
   // Pilihan gambar random untuk tab "Sosial"
@@ -19,8 +21,8 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
   const descriptionText = [
     "Donasi Kegiatan Management Walkthrough Direksi kepada Panti Asuhan Rumah Bahagia Pelita Kasih Pekanbaru Riau",
     "Donasi Bantuan Pekerja Terdampak Banjir Sumatera Utara",
-    "Donasi Pembuatan Jembatan Penghubung antar Kampung Kel. Kuningan Timur Jakarta Selatan"
-  ]
+    "Donasi Pembuatan Jembatan Penghubung antar Kampung Kel. Kuningan Timur Jakarta Selatan",
+  ];
   // Data hardcoded untuk tab "Sosial"
   const socialData = Array.from({ length: 30 }, (_, i) => ({
     id: i + 1,
@@ -72,9 +74,12 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
         {activeIndex === 1 ? (
           <>
             {/* Grid Card (Skala 1:1) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full md:w-[800px] mx-auto">
               {paginatedCards.map((card) => (
-                <div key={card.id} className="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer">
+                <div
+                  key={card.id}
+                  className="relative group overflow-hidden rounded-xl shadow-lg cursor-pointer"
+                >
                   {/* Background Image with Overlay */}
                   <div className="relative w-full aspect-square">
                     <img
@@ -88,7 +93,7 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
                   {/* Title & Description */}
                   <div className="absolute bottom-0 p-4 text-white z-10">
                     {/* <h3 className="text-lg font-bold">{card.title}</h3> */}
-                    <p className="text-sm mt-1">{card.description}</p>
+                    <p className="text-xs mt-1">{card.description}</p>
                   </div>
                 </div>
               ))}
@@ -102,7 +107,7 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => prev - 1)}
               >
-                <ChevronLeft size={24} className="text-green-light"/>
+                <ChevronLeft size={24} className="text-green-light" />
               </button>
 
               {/* Page Numbers */}
@@ -111,7 +116,9 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
                   key={i}
                   className={cn(
                     "px-3 py-1 rounded text-sm",
-                    currentPage === i + 1 ? "font-bold text-green-600" : "text-gray-500"
+                    currentPage === i + 1
+                      ? "font-bold text-green-600"
+                      : "text-gray-500"
                   )}
                   onClick={() => setCurrentPage(i + 1)}
                 >
@@ -133,7 +140,12 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
           // Jika bukan tab "Sosial", tampilkan content default dari API
           <>
             {data.body[activeIndex]?.text?.length ? (
-              <div className="mt-8 dont-reset" dangerouslySetInnerHTML={{ __html: data.body[activeIndex].text }}></div>
+              <div
+                className="mt-8 dont-reset"
+                dangerouslySetInnerHTML={{
+                  __html: data.body[activeIndex].text,
+                }}
+              ></div>
             ) : null}
 
             {data.body[activeIndex]?.images?.length ? (
