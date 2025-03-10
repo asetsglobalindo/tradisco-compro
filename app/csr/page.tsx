@@ -46,18 +46,35 @@ const getData = async () => {
   }
 };
 
+const getDataBannerOurPrograms = async () => {
+  const paramsOurPrograms = {
+    limit: 1,
+    page: 1,
+    active_status: true,
+    type: CONTENT_TYPE.CSR_LIST,
+    show_single_language: "yes",
+  };
+
+  const responseOurPrograms = await ApiService.get(
+    "/content/banner",
+    paramsOurPrograms
+  );
+  return responseOurPrograms.data;
+};
+
 const page = async () => {
   const data: ContentType = await getData();
+  const dataOurPrograms: any = await getDataBannerOurPrograms();
   const linksData = [
     {
       href: "/csr/our-programs",
-      image: "/temp/program-kami.png",
+      image: dataOurPrograms.data.id.banner[0].id.images[0].url,
       alt: "Program Kami",
-      title: "Program Kami",
+      title: dataOurPrograms.data.id.page_title,
     },
     {
       href: "/csr/collaboration-partnership",
-      image: "/temp/kemitraan.png",
+      image: "/temp/banner-collaboration-partnership.png",
       alt: "Kolaborasi & Kemitraan",
       title: "Kolaborasi & Kemitraan",
     },
@@ -86,7 +103,9 @@ const page = async () => {
               <h3 className="font-bold text-lg relative inline-block pb-1 border-b border-white">
                 <span className="text-white">Zibali Hisbul Masih</span>
               </h3>
-              <p className="text-sm mt-[8px]">Direktur Utama PT Pertamina Retail</p>
+              <p className="text-sm mt-[8px]">
+                Direktur Utama PT Pertamina Retail
+              </p>
             </div>
           </div>
 
@@ -94,19 +113,19 @@ const page = async () => {
           <div className="w-full sm:w-2/3">
             <blockquote className="text-gray-600 text-lg">
               “Sebagai bagian dari subholding C&T keluarga besar Pertamina, kami
-              berkomitmen untuk mendukung pencapaian Sustainable Development Goals
-              (SDGs) melalui integrasi prinsip Environmental, Social, dan Governance
-              (ESG). Dalam upaya mencapai Net Zero Emission 2060, kami terus
-              mengembangkan inisiatif energi bersih dan ramah lingkungan yang sejalan
-              dengan transisi energi berkelanjutan.
+              berkomitmen untuk mendukung pencapaian Sustainable Development
+              Goals (SDGs) melalui integrasi prinsip Environmental, Social, dan
+              Governance (ESG). Dalam upaya mencapai Net Zero Emission 2060,
+              kami terus mengembangkan inisiatif energi bersih dan ramah
+              lingkungan yang sejalan dengan transisi energi berkelanjutan.
               <br />
               <br />
               Serta melalui pilar-pilar CSR, seperti pemberdayaan komunitas,
-              pendidikan, pelestarian lingkungan, serta kesehatan dan keselamatan, kami
-              percaya bahwa tanggung jawab sosial harus memberikan dampak nyata. Dengan
-              ber-SINERGI, kami optimis dapat menghadirkan perubahan positif bagi
-              masyarakat dan lingkungan, demi masa depan yang lebih hijau dan
-              inklusif.”
+              pendidikan, pelestarian lingkungan, serta kesehatan dan
+              keselamatan, kami percaya bahwa tanggung jawab sosial harus
+              memberikan dampak nyata. Dengan ber-SINERGI, kami optimis dapat
+              menghadirkan perubahan positif bagi masyarakat dan lingkungan,
+              demi masa depan yang lebih hijau dan inklusif.”
             </blockquote>
           </div>
         </section>

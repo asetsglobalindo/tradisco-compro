@@ -51,7 +51,7 @@ const CounterData = () => {
         prevCounters.map((counter, index) => {
           if (index === 0) return { ...counter, number: spbuCount };
           if (index === 1) return { ...counter, number: bisnisCount };
-          if (index === 2) return { ...counter, number: 1284152 };
+          if (index === 2) return { ...counter, number: 48137856 };
           return counter;
         })
       );

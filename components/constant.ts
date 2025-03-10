@@ -8,11 +8,11 @@ export const en_financeChartData = [
 ]
 
 export const id_financeChartData = [
-  { year: "2019", "Keuntungan": 13.74},
-  { year: "2020", "Keuntungan": 11.90},
-  { year: "2021", "Keuntungan": 14.19},
-  { year: "2022", "Keuntungan": 19.95},
-  { year: "2023", "Keuntungan": 24.36},
+  { year: "2019", "Pendapatan": 13.74},
+  { year: "2020", "Pendapatan": 11.90},
+  { year: "2021", "Pendapatan": 14.19},
+  { year: "2022", "Pendapatan": 19.95},
+  { year: "2023", "Pendapatan": 24.36},
 ]
 
 
