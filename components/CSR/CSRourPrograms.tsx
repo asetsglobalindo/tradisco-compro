@@ -12,7 +12,7 @@ const CSRourPrograms: React.FC<{ data: ContentType }> = ({ data }) => {
   // Tab List: Mengganti tab ke-2 dengan "Sosial"
   const tabList = data.body.map((d, i) =>
     i === 1
-      ? { label: "Sosial", value: "sosial" }
+      ? { label: "Social", value: "sosial" }
       : { label: d.title, value: d._id }
   );
 
