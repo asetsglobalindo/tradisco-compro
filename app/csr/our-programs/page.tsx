@@ -64,7 +64,6 @@ const getDataBannerCSR = async () => {
 
 const page = async () => {
   const data: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
-  console.log("isis data: ", data);
   const dataTab: ContentType = await getData(CONTENT_TYPE.CSR_CONTENT);
   const dataCSR: any = await getDataBannerCSR();
   let count = 0;

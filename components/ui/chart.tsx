@@ -1,13 +1,62 @@
 "use client";
 import { BarChartProps } from "@/types/indes";
-import ReactApexChart from "react-apexcharts";
+import { useEffect, useState } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+// Define a type for the chart data items
+interface ChartDataItem {
+  tahun: string | number;
+  [key: string]: string | number | undefined; // This allows any string as a property name
+}
 
 const Chart: React.FC<BarChartProps> = ({ data, activeKeyIndex = 0 }) => {
-  const categories = data.map((item) => item.year);
-  console.log(data);
+  const [chartData, setChartData] = useState<ChartDataItem[]>([]);
 
+  useEffect(() => {
+    // Transform the data for Recharts
+    const transformedData: ChartDataItem[] = data.map((item) => {
+      const newItem: ChartDataItem = { tahun: item.tahun };
+
+      // Process kolom1
+      if (item.kolom1 !== undefined) {
+        const kolom1Name = activeKeyIndex === 0 ? "Revenue" : "SPBU";
+        newItem[kolom1Name] = item.kolom1;
+      }
+
+      // Process kolom2
+      if (item.kolom2 !== undefined) {
+        newItem["Bright"] = item.kolom2;
+      }
+
+      return newItem;
+    });
+
+    setChartData(transformedData);
+  }, [data, activeKeyIndex]);
+
+  // Check if data exists and is not empty
+  if (!data || data.length === 0) {
+    return <div>No data available</div>;
+  }
+
+  // Get series names (excluding tahun)
+  const getSeriesNames = () => {
+    if (chartData.length === 0) return [];
+    return Object.keys(chartData[0]).filter((key) => key !== "tahun");
+  };
+
+  // Get color for a series
   const getColor = (seriesName: string) => {
-    if (seriesName.includes("Revenue") || seriesName.includes("Keuntungan")) {
+    if (seriesName === "Revenue" || seriesName === "SPBU") {
       return "#63AE1D";
     }
     if (seriesName === "Bright") {
@@ -16,59 +65,71 @@ const Chart: React.FC<BarChartProps> = ({ data, activeKeyIndex = 0 }) => {
     return "#005CAB";
   };
 
-  const series = Object.keys(data[0])
-    .filter((key) => key !== "year")
-    .map((key) => ({
-      name: key,
-      data: data.map((item) => item[key] as number),
-    }));
+  // Calculate width
+  const totalBars =
+    data.length *
+    Object.keys(data[0]).filter((key) => key !== "tahun" && key !== "_id")
+      .length;
+  const chartWidth = Math.max(totalBars * 70, 400);
 
-  const colors = series.map((s) => getColor(s.name));
-
-  const totalBars = data.reduce((acc, item) => {
-    return acc + Object.keys(item).length - 1; // Exclude "year"
-  }, 0);
-
-  const chartWidth = totalBars * 70 + "px";
-
-  const chartOptions: ApexCharts.ApexOptions = {
-    chart: {
-      type: "bar",
-      stacked: false,
-      toolbar: false,
-    },
-    xaxis: {
-      categories: categories,
-    },
-    colors: colors,
-    plotOptions: {
-      bar: {
-        borderRadius: 10,
-        columnWidth: "50px",
-        dataLabels: {
-          position: "top", // top, center, bottom
-        },
-      },
-    },
-    legend: {
-      position: "top",
-    },
-    tooltip: {
-      y: {
-        formatter: (value) =>
-          activeKeyIndex > 0 ? `${value} unit` : `Rp${value} T`,
-      },
-    },
+  // Custom tooltip formatter
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          style={{
+            backgroundColor: "#fff",
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+        >
+          <p style={{ margin: 0 }}>{`Year: ${label}`}</p>
+          {payload.map((entry: any, index: number) => (
+            <p
+              key={`tooltip-${index}`}
+              style={{
+                color: entry.color,
+                margin: "5px 0 0 0",
+              }}
+            >
+              {`${entry.name}: ${entry.value} ${
+                activeKeyIndex > 0 ? "unit" : "Rp T"
+              }`}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
-    <section id="chart" style={{ minWidth: chartWidth }}>
-      <ReactApexChart
-        options={chartOptions}
-        series={series}
-        type="bar"
-        height={350}
-      />
+    <section
+      id="chart"
+      style={{ minWidth: `${chartWidth}px`, height: "350px" }}
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={chartData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="tahun" />
+          <YAxis />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          {getSeriesNames().map((seriesName) => (
+            <Bar
+              key={seriesName}
+              dataKey={seriesName}
+              fill={getColor(seriesName)}
+              radius={[10, 10, 0, 0]}
+              barSize={50}
+            />
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
     </section>
   );
 };

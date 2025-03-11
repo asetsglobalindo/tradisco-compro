@@ -35,7 +35,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const getHomeContent = async () => {
   try {
     const response = await ApiService.get("/home/content");
-    console.log(response.data);
     if (response.data.status !== 200) {
       throw new Error(response.data.message || response.data.err);
     }
