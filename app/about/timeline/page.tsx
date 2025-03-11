@@ -22,12 +22,27 @@ const Timeline = ({
     setActiveIndex(swiper.realIndex);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (progressRef.current) {
       const totalYears = data.length;
-      const activeWidth = ((activeIndex + 1) / totalYears) * 100;
-      progressRef.current.style.width = `${activeWidth}%`;
+      
+      if (activeIndex === 0) {
+        // Reset progress non animated
+        progressRef.current.style.transition = "none";
+        progressRef.current.style.width = "0%";
+        
+        // After reset, back to normal
+        setTimeout(() => {
+          if (progressRef.current) {
+            progressRef.current.style.transition = `width ${SLIDE_DURATION}ms linear`;
+            progressRef.current.style.width = `${(1 / totalYears) * 100}%`;
+          }
+        }, 50); // Delay to prevent flickering
+      } else {
+        // Normal progress update
+        progressRef.current.style.transition = `width ${SLIDE_DURATION}ms linear`;
+        progressRef.current.style.width = `${((activeIndex + 1) / totalYears) * 100}%`;
+      }
     }
   }, [activeIndex]);
 
@@ -42,26 +57,30 @@ const Timeline = ({
         className="swiper-container"
         ref={swiperRef}
       >
-        {data?.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full h-screen">
-              <img
-                src={item.image}
-                alt={item.year}
-                className="absolute w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
-              <div className="relative flex flex-col items-start h-full container mx-auto text-white pt-[90px]">
-                <h2 className="text-6xl font-normal mb-4 transition-all duration-700 opacity-100 translate-y-0">
-                  {item.year}
-                </h2>
-                <div className="text-sm transition-all duration-700 delay-300 opacity-100 translate-y-0">
-                  {item.description.replace(/<[^>]*>/g, "")}
+        {data.length > 0 ? (
+          data?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <div className="relative w-full h-screen">
+                <img
+                  src={item.image}
+                  alt={item.year}
+                  loading="lazy"
+                  className="absolute w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
+                <div className="relative flex flex-col items-start h-full container mx-auto text-white pt-[90px]">
+                  <h2 className="text-6xl font-normal mb-4 transition-all duration-700 opacity-100 translate-y-0">
+                    {item.year}
+                  </h2>
+                  <div className="text-sm transition-all duration-700 delay-300 opacity-100 translate-y-0">
+                    {item.description.replace(/<[^>]*>/g, "")}
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        )) || []}
+            </SwiperSlide>
+          )) || []) : (
+            <div className="text-white text-center">No data available</div>
+          )}
       </Swiper>
 
       {/* Timeline Navigation */}
@@ -98,6 +117,7 @@ const Timeline = ({
                     <img
                       src={item.image}
                       alt="Preview"
+                      loading="lazy"
                       className="w-full h-full object-cover rounded cursor-pointer"
                       onClick={() =>
                         swiperRef.current?.swiper.slideToLoop(index)
