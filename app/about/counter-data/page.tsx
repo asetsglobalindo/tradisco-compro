@@ -20,7 +20,6 @@ const CounterData = () => {
 
   const fetchCounters = useCallback(async () => {
     try {
-      console.log("Memuat data...");
       const spbuResponse = await fetch(
         "https://api-pertare.tradisco.co.id/location"
       );
@@ -30,7 +29,6 @@ const CounterData = () => {
       }
 
       const spbuData = await spbuResponse.json();
-      console.log("Data SPBU:", spbuData);
       const spbuCount = spbuData.pages?.total_data || 0;
       const bisnisResponse = await fetch(
         "https://service.asets.id/api/recap/total"
@@ -43,7 +41,6 @@ const CounterData = () => {
       }
 
       const bisnisData = await bisnisResponse.json();
-      console.log("Data Bisnis:", bisnisData);
       const bisnisCount = bisnisData.data?.total_onboard || 0;
 
       // Update state
