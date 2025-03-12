@@ -63,13 +63,10 @@ export default async function Home() {
       <HomeGrowth data={content} />
 
       <section className="relative mt-8 lg:mt-16 container">
-        <h1 className="title-3 text-center">{content.section4a.title}</h1>
-        <div
-          className="mt-8"
-          dangerouslySetInnerHTML={{ __html: content.section4a.description }}
-        ></div>
+        <h1 className="title-3 text-center">{content?.section4a.title}</h1>
+        <div className="mt-8" dangerouslySetInnerHTML={{ __html: content?.section4a.description }}></div>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
-          {content.section4a.content.map((c) => (
+          {content?.section4a.content?.map((c) => (
             <PartnershipCard data={c} key={c._id} />
           ))}
         </section>
@@ -79,11 +76,11 @@ export default async function Home() {
       <section className="relative mt-8 lg:mt-16">
         {/* heading */}
         <section className="container flex justify-between items-center">
-          <h1 className="title-3">{content.section5.title}</h1>
+          <h1 className="title-3">{content?.section5.title}</h1>
 
-          <Link href={content.section5.button_route}>
+          <Link href={content?.section5.button_route}>
             <Button variant={"outline"} rounded size={"lg"}>
-              <span>{content.section5.button_name}</span>
+              <span>{content?.section5.button_name}</span>
               <ArrowRight />
             </Button>
           </Link>
@@ -91,7 +88,7 @@ export default async function Home() {
 
         {/* news */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 container mt-8">
-          {content.section5.content.map((data, index) => (
+          {content?.section5.content?.map((data, index) => (
             <section
               key={index}
               className="relative rounded-2xl news-card overflow-hidden group flex items-end justify-end"
