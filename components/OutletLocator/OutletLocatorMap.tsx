@@ -80,7 +80,6 @@ const OutletLocatorMap = () => {
 
   const fetchSurroundingArea = async (code: string) => {
     try {
-      console.log("Fetching API with code:", code);
       const res = await axios.get(
         `https://pertare.asets.id/api/listings/${code}`
       );
@@ -109,7 +108,6 @@ const OutletLocatorMap = () => {
 
       setFacilities(newFacilities);
 
-      console.log("Facilities:", facilitiesData);
     } catch (error) {
       console.error("Error fetching surrounding area:", error);
       setSurroundingArea(["-"]);

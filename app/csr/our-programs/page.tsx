@@ -49,23 +49,36 @@ const getData = async (type: string) => {
   }
 };
 
+const getDataBannerCSR = async () => {
+  const paramsCSR = {
+    limit: 1,
+    page: 1,
+    active_status: true,
+    type: CONTENT_TYPE.CSR,
+    show_single_language: "yes",
+  };
+
+  const responseCSR = await ApiService.get("/content/banner", paramsCSR);
+  return responseCSR.data;
+};
+
 const page = async () => {
   const data: ContentType = await getData(CONTENT_TYPE.CSR_LIST);
-  console.log("isis data: ", data);
   const dataTab: ContentType = await getData(CONTENT_TYPE.CSR_CONTENT);
+  const dataCSR: any = await getDataBannerCSR();
   let count = 0;
   let currentLayout = "right";
 
   const linksData = [
     {
       href: "/csr",
-      image: "/temp/csr.png",
+      image: dataCSR.data.id.banner[0].id.images[0].url,
       alt: "Tanggung Jawab Sosial",
-      title: "Tanggung Jawab Sosial",
+      title: dataCSR.data.id.page_title,
     },
     {
       href: "/csr/collaboration-partnership",
-      image: "/temp/kemitraan.png",
+      image: "/temp/banner-collaboration-partnership.png",
       alt: "Kolaborasi & Kemitraan",
       title: "Kolaborasi & Kemitraan",
     },
@@ -82,7 +95,7 @@ const page = async () => {
       </section>
 
       <section className="container mt-8">
-        <section className="flex flex-col gap-8" style={{marginTop: '70px'}}>
+        <section className="flex flex-col gap-8" style={{ marginTop: "70px" }}>
           {data.body.map((d, i) => {
             if (count == 2) {
               count = 1;
@@ -96,11 +109,17 @@ const page = async () => {
             }
 
             // Category by index section
-            const categories = ["Pertamina Cerdas", "Pertamina Sehat", "Pertamina Berdikari", "Pertamina Hijau"];
-            const category = categories[i % categories.length]; 
+            const categories = [
+              "Pertamina Cerdas",
+              "Pertamina Sehat",
+              "Pertamina Berdikari",
+              "Pertamina Hijau",
+            ];
+            const category = categories[i % categories.length];
 
             // Category Possition
-            const categoryPosition = currentLayout === "left" ? "left-0" : "right-0"; 
+            const categoryPosition =
+              currentLayout === "left" ? "left-0" : "right-0";
 
             return (
               <section
@@ -136,18 +155,7 @@ const page = async () => {
 
                 {/* Content */}
                 <div className="lg:w-1/2 mt-4 lg:mt-0">
-                  <h3 className="title-4 text-3xl">
-                    {currentLayout === "left" ? (
-                      d.title
-                    ) : (
-                      <>
-                        {d.title.split(" ").slice(0, -1).join(" ")}{" "}
-                        <span className="text-green-light">
-                          {d.title.split(" ").slice(-1)}
-                        </span>
-                      </>
-                    )}
-                  </h3>
+                  <h3 className="title-4 text-3xl">{d.title}</h3>
                   <div
                     className="mt-4"
                     dangerouslySetInnerHTML={{ __html: d.text }}

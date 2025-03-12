@@ -107,7 +107,7 @@ export interface ContentType {
         lists: [];
       }[]
     | [];
-  body2: {_id: string; title: string; text: string}[];
+  body2: { _id: string; title: string; text: string }[];
   active_status: boolean;
   total_view: number;
   order: number;
@@ -169,6 +169,8 @@ export interface HomeType {
   };
   section4:
     | {
+        diagram1: ChartData[];
+        diagram2: ChartData[];
         _id: string;
         title: string;
         tab: string;
@@ -222,13 +224,12 @@ export interface ChartConfig {
   };
 }
 
-
 export interface ChartDataProps {
-  data: { 
-    year: string; 
-    [key: string]: number | string 
+  data: {
+    year: string;
+    [key: string]: number | string;
   }[];
-  activeKeyIndex?: number
+  activeKeyIndex?: number;
 }
 
 type ChartData = {
@@ -238,5 +239,5 @@ type ChartData = {
 
 export interface BarChartProps {
   data: ChartData[];
-  activeKeyIndex: number
+  activeKeyIndex: number;
 }

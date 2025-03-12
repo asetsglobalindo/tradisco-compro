@@ -47,28 +47,52 @@ const getData = async () => {
   }
 };
 
+const getDataBanner = async (type: string) => {
+  const params = {
+    limit: 1,
+    page: 1,
+    active_status: true,
+    type,
+    show_single_language: "yes",
+  };
+
+  const response = await ApiService.get("/content/banner", params);
+  return response.data;
+};
+
 const page = async () => {
   const data: ContentType = await getData();
-  const linksData = [
+  const types = [
     {
+      key: "about",
+      type: CONTENT_TYPE.ABOUT_PROFILE,
       href: "/about",
-      image: "/temp/profile.png",
       alt: "Profile",
-      title: "Profil",
     },
     {
-      href: "/about/our-values",
-      image: "/temp/our-values.png",
-      alt: "Tata Nilai",
-      title: "Tata Nilai",
-    },
-    {
+      key: "management",
+      type: CONTENT_TYPE.ABOUT_MANAGEMENT,
       href: "/about/managements",
-      image: "/temp/management.png",
       alt: "Management",
-      title: "Manajemen",
+    },
+    {
+      key: "ourValue",
+      type: CONTENT_TYPE.ABOUT_VALUE,
+      href: "/about/our-values",
+      alt: "Tata Nilai",
     },
   ];
+
+  const bannerData = await Promise.all(
+    types.map(({ type }) => getDataBanner(type))
+  );
+
+  const linksData = types.map((item, index) => ({
+    href: item.href,
+    image: bannerData[index].data.id.banner[0].id.images[0].url,
+    alt: item.alt,
+    title: bannerData[index].data.id.page_title,
+  }));
 
   return (
     <section>

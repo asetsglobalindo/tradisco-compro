@@ -7,7 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { HomeType } from "@/types/indes";
 import { Button } from "./ui/button";

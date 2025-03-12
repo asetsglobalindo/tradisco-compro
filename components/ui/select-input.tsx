@@ -17,7 +17,9 @@ type selectInputProps = {
 const collaborationType = [
   { id: 0, name: "Jenis Kolaborasi" },
   { id: 1, name: "Kerjasama Komunitas" },
-  { id: 2, name: "Ide/Inisiatif Program" },
+  { id: 2, name: "Ide/Inisiatif" },
+  { id: 3, name: "Co-Funding" },
+  { id: 4, name: "Lainnya" },
 ];
 
 const SelectInput: React.FC<selectInputProps> = ({

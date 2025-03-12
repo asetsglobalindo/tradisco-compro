@@ -87,7 +87,9 @@ const NewsList = () => {
                   </div>
                 </div>
 
-                <h1 className="mt-4 font-semibold title-5">{data.title}</h1>
+                <h1 className="mt-3 font-semibold title-5 h-[65px] line-clamp-3 overflow-none">
+                  {data.title}
+                </h1>
                 <p className="mt-2 line-clamp-2 text-xs">{data.small_text}</p>
 
                 <Link
