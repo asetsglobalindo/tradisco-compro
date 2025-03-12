@@ -64,7 +64,10 @@ export default async function Home() {
 
       <section className="relative mt-8 lg:mt-16 container">
         <h1 className="title-3 text-center">{content?.section4a.title}</h1>
-        <div className="mt-8" dangerouslySetInnerHTML={{ __html: content?.section4a.description }}></div>
+        <div
+          className="mt-8"
+          dangerouslySetInnerHTML={{ __html: content?.section4a.description }}
+        ></div>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
           {content?.section4a.content?.map((c) => (
             <PartnershipCard data={c} key={c._id} />
@@ -94,7 +97,7 @@ export default async function Home() {
               className="relative rounded-2xl news-card overflow-hidden group flex items-end justify-end"
             >
               <img
-                className="blur-[2px] w-full object-contain"
+                className="blur-[2px] w-full object-cover h-[400px] md:h-[500px]"
                 src={data?.thumbnail_images[0]?.images[0]?.url}
                 alt={data?.title}
               />
@@ -107,7 +110,7 @@ export default async function Home() {
                 </span>
 
                 {/* title */}
-                <h1 className="title-4 mt-4">{data.title}</h1>
+                <h1 className="title-4 mt-4 line-clamp-3">{data.title}</h1>
                 <p className="mt-4 line-clamp-3">{data.small_text}</p>
                 <span className="text-xs mt-8 inline-block">
                   {moment(data.created_at).format("DD/MMMM/YYYY")}
