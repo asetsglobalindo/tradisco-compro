@@ -39,7 +39,7 @@ const AnnualReportTab: React.FC<{data: ContentType[] | []}> = ({data}) => {
                 <div className="h-[2px] w-full bg-[#EAEAEA] my-5"></div>
                 <button className="flex mx-auto space-x-1 text-white  border-green-light bg-green-light w-fit border px-6 py-3 rounded-full items-center ">
                   <span>{item.button_name}</span>
-                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="https://www.w3.org/2000/svg">
                     <path
                       d="M3.21216 8.63376H12.721M12.721 8.63376L9.1552 4.51709M12.721 8.63376L9.1552 12.7504"
                       stroke="white"

@@ -189,7 +189,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         onClick={scrollPrev}
         {...props}
       >
-        <svg className="scale-150 rotate-180" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="scale-150 rotate-180" viewBox="0 0 16 17" fill="none" xmlns="https://www.w3.org/2000/svg">
           <path
             className="stroke-green-light group-hover:stroke-white"
             d="M3.21216 8.63376H12.721M12.721 8.63376L9.1552 4.51709M12.721 8.63376L9.1552 12.7504"
@@ -225,7 +225,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         onClick={scrollNext}
         {...props}
       >
-        <svg className="scale-150" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="scale-150" viewBox="0 0 16 17" fill="none" xmlns="https://www.w3.org/2000/svg">
           <path
             className="stroke-green-light group-hover:stroke-white"
             d="M3.21216 8.63376H12.721M12.721 8.63376L9.1552 4.51709M12.721 8.63376L9.1552 12.7504"

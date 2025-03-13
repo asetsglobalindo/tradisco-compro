@@ -105,7 +105,7 @@ const NavItem: React.FC<{
       >
         {/* <div className={cn({" -top-6": side === "bottom"}, "absolute")}>
           <div className="rotate-180">
-            <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="40" height="40" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
               <path
                 d="M10.4332 4.43083H7.05863H4.01988C3.49988 4.43083 3.23988 5.05917 3.60822 5.4275L6.41405 8.23333C6.86363 8.68291 7.59488 8.68291 8.04447 8.23333L9.11155 7.16625L10.8503 5.4275C11.2132 5.05917 10.9532 4.43083 10.4332 4.43083Z"
                 fill="white"

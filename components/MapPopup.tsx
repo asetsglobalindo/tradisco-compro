@@ -13,7 +13,7 @@ const MapPopup: React.FC<{item: LocationType}> = ({item}) => {
           <a
             className="mt-4 w-full block"
             target="_blank"
-            href={"http://www.google.com/maps/place/" + item.lat + "," + item.long}
+            href={"https://www.google.com/maps/place/" + item.lat + "," + item.long}
           >
             <Button className="w-full flex justify-center items-center">
               Direction <MoveRight />

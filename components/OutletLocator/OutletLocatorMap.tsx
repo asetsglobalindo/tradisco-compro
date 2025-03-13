@@ -245,7 +245,7 @@ const OutletLocatorMap = () => {
                 className="mt-4 w-full block"
                 target="_blank"
                 href={
-                  "http://www.google.com/maps/place/" +
+                  "https://www.google.com/maps/place/" +
                   selectedLocationDetails.lat +
                   "," +
                   selectedLocationDetails.long
