@@ -429,7 +429,7 @@ const Header = () => {
       </header>
 
       {/* header spacer */}
-      {ui.headerColor === "black" ? <div className="h-20 w-full" /> : null}
+      {/* {ui.headerColor === "black" ? <div className="h-20 w-full" /> : null} */}
     </React.Fragment>
   );
 };
