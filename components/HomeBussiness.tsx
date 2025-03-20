@@ -35,7 +35,7 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
           {data.section2.tab.map((d, index) => (
             <section
               onClick={() => setSelectedTabID(d._id)}
-              key={index}
+              key={d._id || index}
               className="relative h-full max-h-[200px] group cursor-pointer"
             >
               <div className="overflow-hidden w-full h-full relative rounded-2xl">
@@ -80,12 +80,9 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
             {data.section2.tab
               .find((d) => d._id === selectedTabID)
               ?.content.map((d, index) => (
-                <>
-                  <CarouselItem
-                    key={index}
-                    className="w-full md:basis-1/3 lg:basis-1/4"
-                  >
-                    <section className="relative group rounded-2xl news-card our-business group  overflow-hidden group flex items-end justify-end transition-all">
+                <React.Fragment key={d._id || `content-${index}`}>
+                  <CarouselItem className="w-full md:basis-1/3 lg:basis-1/4">
+                    <section className="relative group rounded-2xl news-card our-business group overflow-hidden group flex items-end justify-end transition-all">
                       <img
                         className="blur-[1px] aspect-square object-cover"
                         src={d?.thumbnail_images[0]?.images[0]?.url}
@@ -151,54 +148,12 @@ const HomeBussiness: React.FC<{ data: HomeType }> = ({ data }) => {
                       </div>
                     </div>
                   </Modal>
-                </>
+                </React.Fragment>
               ))}
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-
-        {/* Modal */}
-        {/* <Dialog
-          open={!!selectedItem}
-          onOpenChange={(open) => !open && setSelectedItem(null)}
-        >
-          <DialogContent className="max-w-4xl z-[90]">
-            {selectedItem && (
-              <>
-                <header className="flex items-center justify-between mt-2 mb-3">
-                  <section id="title">
-                    <h2 className="text-lg text-green-light font-semibold">
-                      {selectedItem.title}
-                    </h2>
-                  </section>
-                </header>
-                <div className="md:grid md:grid-cols-2 ">
-                  <div className="mb-4 w-full flex justify-center md:hidden block">
-                    <img
-                      src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
-                      className="w-[85%] transition-all rounded-md"
-                      alt={selectedItem.title}
-                    />
-                  </div>
-                  <div
-                    className="pr-4 basis-1 h-full max-h-[60vh] lg:max-h-[50vh] overflow-y-auto scrollbar-custom"
-                    dangerouslySetInnerHTML={{
-                      __html: selectedItem.description,
-                    }}
-                  ></div>
-                  <div className="ml-4 basis-1 md:block hidden w-[418px] h-[280px]">
-                    <img
-                      src={selectedItem?.thumbnail_images[0]?.images[0]?.url}
-                      className="w-full h-full object-cover object-center transition-all rounded-md"
-                      alt={selectedItem.title}
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-          </DialogContent>
-        </Dialog> */}
       </section>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 import uiStore from "@/app/store/uiStore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
 import { HomeType } from "@/types/indes";
@@ -13,34 +13,40 @@ import "swiper/css/effect-fade";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 
-const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
+const HomeBanner: React.FC<{ data: HomeType | undefined }> = ({ data }) => {
   const lang = JSCookie.get("lang") || "id";
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const ui = uiStore((state) => state);
-  const [isVisible, setIsVisible] = useState(true); // Initially true
+  const headerColorSet = useRef(false);
 
+  // Set header color only once when component mounts
   useEffect(() => {
-    // When the page loads, header should be white
-    ui.setHeaderColor("white");
+    if (!headerColorSet.current) {
+      ui.setHeaderColor("white");
+      headerColorSet.current = true;
+    }
 
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    // Cleanup function
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      headerColorSet.current = false;
     };
-  }, []);
+  }, []); // Empty dependency array to run only on mount
 
-  useEffect(() => {
-    // Updates header color based on visibility
-    ui.setHeaderColor(isVisible ? "white" : "black");
-  }, [isVisible]);
+  // Check if data exists and has banner property
+  if (
+    !data ||
+    !data.banner ||
+    !Array.isArray(data.banner) ||
+    data.banner.length === 0
+  ) {
+    return (
+      <section className="relative h-screen bg-gray-900 flex items-center justify-center">
+        <div className="container text-white text-center">
+          <h1 className="text-xl">Loading banner content...</h1>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative">
@@ -86,7 +92,8 @@ const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
                 srcSet={banner?.images[0]?.url}
               />
               <img
-                className="w-full h-screen brightness-[70%] object-cover object-top"
+                className="w-full h-screen object-cover border image-cover"
+                style={{ filter: "brightness(60%)" }} // Consistent darkening for better text visibility
                 src={banner?.images_mobile[0]?.url}
                 alt={banner?.images[0]?.url}
               />
@@ -94,18 +101,18 @@ const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
             <section className="absolute top-0 h-full w-full">
               <section className="flex items-center h-full z-20">
                 <div className="container text-white">
-                  {banner.title.length > 1 ? (
-                    <h1 className="title-2 leading-tight max-w-[600px] uppercase">
+                  {banner.title && banner.title.length > 1 ? (
+                    <h1 className="title-2 leading-tight max-w-[600px] uppercase font-bold text-shadow-lg">
                       {banner.title}
                     </h1>
                   ) : null}
 
-                  {banner.description.length > 1 ? (
-                    <p className="text-lg font-normal mt-4 max-w-[600px]">
+                  {banner.description && banner.description.length > 1 ? (
+                    <p className="text-lg font-normal mt-4 max-w-[600px] text-shadow-md">
                       {banner.description}
                     </p>
                   ) : null}
-                  {banner.button_route.length > 1 ? (
+                  {banner.button_route && banner.button_route.length > 1 ? (
                     <a href={banner.button_route}>
                       <Button className="mt-8" size={"lg"} rounded>
                         <span className="tracking-wider">
@@ -123,7 +130,9 @@ const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
       </Swiper>
 
       <section className="absolute bottom-10 z-40 container left-1/2 -translate-x-1/2 text-white">
-        <p className="uppercase">{data.banner[activeIndex].button_name}</p>
+        <p className="uppercase">
+          {data.banner[activeIndex]?.button_name || ""}
+        </p>
         <div className="banner-pagination flex gap-2 mt-4"></div>
         <p className="mt-4">
           {Number(activeIndex + 1)

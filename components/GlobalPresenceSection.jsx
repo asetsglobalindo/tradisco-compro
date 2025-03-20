@@ -15,7 +15,7 @@ const GlobalPresenceMap = dynamic(() => import("./GlobalPresenceMap"), {
 
 const GlobalPresenceSection = ({ data }) => {
   return (
-    <div className="container-fluid py-5" id="global">
+    <div className="container-fluid py-5 scroll-mt-28">
       <div className="container py-5">
         {/* Section Header */}
         <div className="text-center mb-8">

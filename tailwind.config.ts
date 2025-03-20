@@ -20,9 +20,9 @@ export default {
         Kalam: ["Kalam", "serif"],
       },
       colors: {
-        green: "#1AAC29",
-        "green-light": "#63AE1D",
-        "green-lighter": "#48EF59",
+        green: "#070A5B",
+        "green-light": "#070A5B",
+        "green-lighter": "#ac1a1a",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
