@@ -86,7 +86,7 @@ const HomeBanner: React.FC<{ data: HomeType }> = ({ data }) => {
                 srcSet={banner?.images[0]?.url}
               />
               <img
-                className="w-full h-screen brightness-[70%] object-cover"
+                className="w-full h-screen brightness-[70%] object-cover object-top"
                 src={banner?.images_mobile[0]?.url}
                 alt={banner?.images[0]?.url}
               />
