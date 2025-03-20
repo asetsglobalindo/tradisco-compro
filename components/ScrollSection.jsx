@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 const ScrollSection = ({ id, className = "", children }) => {
-  // Gunakan pendekatan alternatif tanpa ref
   useEffect(() => {
-    // Fungsi untuk mengatur scroll margin
     const setScrollMargin = () => {
       const sectionElement = document.getElementById(id);
       if (!sectionElement) return;
@@ -17,25 +15,29 @@ const ScrollSection = ({ id, className = "", children }) => {
       }
     };
 
-    // Atur scroll margin saat komponen dimount
+    // Set scroll margin when component mounts
     setScrollMargin();
 
-    // Lakukan pembaruan saat scroll
-    const handleScroll = () => {
-      setScrollMargin();
+    // Create a debounced version of setScrollMargin for better performance
+    let debounceTimer;
+    const debouncedSetScrollMargin = () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(setScrollMargin, 100);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", setScrollMargin);
+    // Add event listeners with debounced function
+    window.addEventListener("scroll", debouncedSetScrollMargin);
+    window.addEventListener("resize", debouncedSetScrollMargin);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", setScrollMargin);
+      window.removeEventListener("scroll", debouncedSetScrollMargin);
+      window.removeEventListener("resize", debouncedSetScrollMargin);
+      clearTimeout(debounceTimer);
     };
   }, [id]);
 
   return (
-    <div id={id} className={`scroll-mt-28 ${className}`}>
+    <div id={id} className={`scroll-section ${className}`}>
       {children}
     </div>
   );

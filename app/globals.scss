@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -114,18 +118,34 @@ h1.text-green-light {
 }
 
 .news-card {
-  background: linear-gradient(73.38deg,rgba(0,0,0,.8) 1%,rgba(0,0,0,.1) 76%);
-  &.our-business{
-    background: linear-gradient(43.96deg, rgba(52, 51, 51, 0) 1.09%, #000000 98.91%);
+  background: linear-gradient(
+    73.38deg,
+    rgba(0, 0, 0, 0.8) 1%,
+    rgba(0, 0, 0, 0.1) 76%
+  );
+  &.our-business {
+    background: linear-gradient(
+      43.96deg,
+      rgba(52, 51, 51, 0) 1.09%,
+      #000000 98.91%
+    );
   }
 }
 
 .bussiness-card {
-  background: linear-gradient(90.55deg, rgba(18, 18, 18, 0.82) 0.55%, rgba(45, 45, 45, 0) 100.75%);
+  background: linear-gradient(
+    90.55deg,
+    rgba(18, 18, 18, 0.82) 0.55%,
+    rgba(45, 45, 45, 0) 100.75%
+  );
 }
 
 .bussiness-card-active {
-  background: linear-gradient(90.55deg, rgba(0, 92, 171, 0.82) 0.55%, rgba(0, 37, 69, 0) 100.75%);
+  background: linear-gradient(
+    90.55deg,
+    rgba(0, 92, 171, 0.82) 0.55%,
+    rgba(0, 37, 69, 0) 100.75%
+  );
 }
 
 .banner-pagination {
@@ -190,7 +210,10 @@ h1.text-green-light {
   }
 }
 
-.bg-green-light-secondary{
-  background: linear-gradient(45deg, rgba(16, 202, 31, 0.6) 0.49%, rgba(0, 0, 0, 0.3) 90%);
-
+.bg-green-light-secondary {
+  background: linear-gradient(
+    45deg,
+    rgba(16, 202, 31, 0.6) 0.49%,
+    rgba(0, 0, 0, 0.3) 90%
+  );
 }
