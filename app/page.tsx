@@ -1,6 +1,7 @@
 import HomeBanner from "@/components/HomeBanner";
 import HomeBussiness from "@/components/HomeBussiness";
 import HomeGrowth from "@/components/HomeGrowth";
+import GlobalPresenceSection from "@/components/GlobalPresenceSection";
 import ApiService from "@/lib/ApiService";
 import { HomeType } from "@/types/indes";
 import { Metadata } from "next";
@@ -18,6 +19,7 @@ import { ArrowRight } from "lucide-react";
 import { cookies } from "next/headers";
 import HomeLocatorClient from "@/components/HomeLocatorClient";
 import PartnershipCard from "@/components/PartnershipCard";
+import OurPartner from "../components/OurPartner";
 
 export async function generateMetadata(): Promise<Metadata> {
   const result: HomeType = await getHomeContent();
@@ -74,6 +76,11 @@ export default async function Home() {
           ))}
         </section>
       </section>
+
+      <GlobalPresenceSection data={content} />
+
+      {/* Our Partners - New Section */}
+      <OurPartner data={content} />
 
       {/* News */}
       <section className="relative mt-8 lg:mt-16">
