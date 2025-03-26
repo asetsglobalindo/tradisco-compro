@@ -1,44 +1,45 @@
 "use client";
-import uiStore from "@/app/store/uiStore";
+
 import React, { useEffect, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
 import { HomeType } from "@/types/indes";
 import JSCookie from "js-cookie";
+import { Button } from "./ui/button";
+import { ArrowRight } from "lucide-react";
+import uiStore from "@/app/store/uiStore";
 
+// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-import { Button } from "./ui/button";
-import { ArrowRight } from "lucide-react";
 
-const HomeBanner: React.FC<{ data: HomeType | undefined }> = ({ data }) => {
+interface HomeBannerProps {
+  data: HomeType | undefined;
+}
+
+const HomeBanner: React.FC<HomeBannerProps> = ({ data }) => {
   const lang = JSCookie.get("lang") || "id";
   const [activeIndex, setActiveIndex] = useState(0);
-  const ui = uiStore((state) => state);
-  const headerColorSet = useRef(false);
+  const { setHeaderColor } = uiStore();
+  const isInitialMount = useRef(true);
 
-  // Set header color only once when component mounts
+  // Set header color on mount with proper cleanup
   useEffect(() => {
-    if (!headerColorSet.current) {
-      ui.setHeaderColor("white");
-      headerColorSet.current = true;
+    if (isInitialMount.current) {
+      setHeaderColor("white");
+      isInitialMount.current = false;
     }
 
-    // Cleanup function
+    // Clean up when component unmounts
     return () => {
-      headerColorSet.current = false;
+      isInitialMount.current = true;
     };
-  }, []); // Empty dependency array to run only on mount
+  }, [setHeaderColor]);
 
-  // Check if data exists and has banner property
-  if (
-    !data ||
-    !data.banner ||
-    !Array.isArray(data.banner) ||
-    data.banner.length === 0
-  ) {
+  // Early return for loading state
+  if (!data?.banner?.length) {
     return (
       <section className="relative h-screen bg-gray-900 flex items-center justify-center">
         <div className="container text-white text-center">
@@ -48,15 +49,18 @@ const HomeBanner: React.FC<{ data: HomeType | undefined }> = ({ data }) => {
     );
   }
 
+  // Helper function for pagination numbering
+  const formatPaginationNumber = (num: number): string => {
+    return num.toString().padStart(2, "0");
+  };
+
   return (
-    <section className="relative">
+    <section className="relative h-screen overflow-hidden">
       <Swiper
-        spaceBetween={30}
+        spaceBetween={0}
         centeredSlides={true}
         effect="fade"
-        onSlideChange={(swiper) => {
-          setActiveIndex(swiper.activeIndex);
-        }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         autoplay={{
           delay: 6000,
           disableOnInteraction: false,
@@ -65,85 +69,84 @@ const HomeBanner: React.FC<{ data: HomeType | undefined }> = ({ data }) => {
           clickable: true,
           el: ".banner-pagination",
           type: "bullets",
-          renderBullet: function (_, className) {
-            return (
-              '<span class="' +
-              className +
-              '">' +
-              "<em>" +
-              "</em>" +
-              "<i></i>" +
-              "<b></b>" +
-              "</span>"
-            );
-          },
+          renderBullet: (_, className) =>
+            `<span class="${className}"><em></em><i></i><b></b></span>`,
         }}
         slidesPerView={1}
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
+        className="h-full"
       >
         {data.banner.map((banner) => (
-          <SwiperSlide
-            className="w-full flex items-center relative"
-            key={banner._id}
-          >
-            <picture key={banner?._id}>
-              <source
-                media="(min-width:768px)"
-                srcSet={banner?.images[0]?.url}
-              />
-              <img
-                className="w-full h-screen object-cover border image-cover"
-                style={{ filter: "brightness(60%)" }} // Consistent darkening for better text visibility
-                src={banner?.images_mobile[0]?.url}
-                alt={banner?.images[0]?.url}
-              />
-            </picture>
-            <section className="absolute top-0 h-full w-full">
-              <section className="flex items-center h-full z-20">
-                <div className="container text-white">
-                  {banner.title && banner.title.length > 1 ? (
-                    <h1 className="title-2 leading-tight max-w-[600px] uppercase font-bold text-shadow-lg">
-                      {banner.title}
-                    </h1>
-                  ) : null}
+          <SwiperSlide className="w-full h-full relative" key={banner._id}>
+            {/* Image container with proper aspect ratio handling */}
+            <div className="absolute inset-0 w-full h-full">
+              <picture>
+                {/* Desktop image */}
+                <source
+                  media="(min-width:768px)"
+                  srcSet={banner?.images[0]?.url}
+                />
+                {/* Mobile image with proper alt text */}
+                <img
+                  className="w-full h-full object-cover object-top"
+                  style={{ filter: "brightness(80%)" }}
+                  src={banner?.images_mobile[0]?.url}
+                  alt={banner?.title || "Banner image"}
+                  loading="eager" // First image loads immediately
+                />
+              </picture>
+              {/* Additional overlay for better text visibility */}
+              <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-filter"></div>
+            </div>
+            {/* Content overlay with proper semantic structure */}
+            <div className="relative h-full w-full z-10 flex flex-col items-center justify-center">
+              <div className="container text-white">
+                <p
+                  className="uppercase text-white text-center text-2xl font-bold"
+                  style={{ color: "#A3BB29" }}
+                >
+                  Tradisco Global Inovasi
+                </p>
+                <h1 className="title-2 leading-tight mx-auto uppercase font-bold text-shadow-lg text-center sm:w-1/2">
+                  Trading Digital And Construction
+                </h1>
 
-                  {banner.description && banner.description.length > 1 ? (
-                    <p className="text-lg font-normal mt-4 max-w-[600px] text-shadow-md">
-                      {banner.description}
-                    </p>
-                  ) : null}
-                  {banner.button_route && banner.button_route.length > 1 ? (
-                    <a href={banner.button_route}>
-                      <Button className="mt-8" size={"lg"} rounded>
-                        <span className="tracking-wider">
-                          {lang === "en" ? "Learn More" : "Selengkapnya"}
-                        </span>
-                        <ArrowRight />
-                      </Button>
-                    </a>
-                  ) : null}
+                {/* Email subscription form - positioned properly */}
+                <div className="mt-6 flex max-w-md mx-auto">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="px-4 py-2 w-full border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800"
+                    aria-label="Email address"
+                  />
+                  <button
+                    className="px-4 py-2 bg-orange-500 text-white font-medium rounded-r hover:bg-orange-600 transition duration-200"
+                    aria-label="Subscribe"
+                  >
+                    Subscribe
+                  </button>
                 </div>
-              </section>
-            </section>
+              </div>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <section className="absolute bottom-10 z-40 container left-1/2 -translate-x-1/2 text-white">
-        <p className="uppercase">
-          {data.banner[activeIndex]?.button_name || ""}
+      {/* Pagination section with improved accessibility */}
+      <div className="absolute bottom-10 z-40 container left-1/2 -translate-x-1/2 text-white">
+        {data.banner[activeIndex]?.button_name && (
+          <p className="uppercase">{data.banner[activeIndex].button_name}</p>
+        )}
+        <div
+          className="banner-pagination flex gap-2 mt-4"
+          role="navigation"
+          aria-label="Banner navigation"
+        ></div>
+        <p className="mt-4" aria-live="polite">
+          {formatPaginationNumber(activeIndex + 1)} /{" "}
+          {formatPaginationNumber(data.banner.length)}
         </p>
-        <div className="banner-pagination flex gap-2 mt-4"></div>
-        <p className="mt-4">
-          {Number(activeIndex + 1)
-            .toString()
-            .padStart(2, "0")}{" "}
-          /{" "}
-          {Number(data.banner.length || 0)
-            .toString()
-            .padStart(2, "0")}
-        </p>
-      </section>
+      </div>
     </section>
   );
 };

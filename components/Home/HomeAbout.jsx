@@ -2,7 +2,7 @@ import React from "react";
 
 const HomeAbout = () => {
   return (
-    <section className="container lg:mt-16 mt-8 border-b pb-16">
+    <section className="container lg:mt-16 mt-8 pb-16">
       <p className="title-3 text-[#005CAB] font-bold text-center font-Kalam">
         Company History Timeline
       </p>

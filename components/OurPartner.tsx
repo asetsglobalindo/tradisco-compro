@@ -8,43 +8,79 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const OurPartner = ({ data }) => {
-  // Dummy partner data with images from a CDN
+  // Partner data with local images from public/partner directory
   const partners = [
     {
       id: 1,
       name: "Partner 1",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
+      logo: "/partner/1.png",
       url: "https://partner1.com",
     },
     {
       id: 2,
       name: "Partner 2",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg",
+      logo: "/partner/2.png",
       url: "https://partner2.com",
     },
     {
       id: 3,
       name: "Partner 3",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazon/amazon-original.svg",
+      logo: "/partner/3.png",
       url: "https://partner3.com",
     },
     {
       id: 4,
       name: "Partner 4",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg",
+      logo: "/partner/4.png",
       url: "https://partner4.com",
     },
     {
       id: 5,
       name: "Partner 5",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg",
+      logo: "/partner/5.png",
       url: "https://partner5.com",
     },
     {
       id: 6,
       name: "Partner 6",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg",
+      logo: "/partner/6.png",
       url: "https://partner6.com",
+    },
+    {
+      id: 7,
+      name: "Partner 7",
+      logo: "/partner/7.png",
+      url: "https://partner7.com",
+    },
+    {
+      id: 8,
+      name: "Partner 8",
+      logo: "/partner/8.png",
+      url: "https://partner8.com",
+    },
+    {
+      id: 9,
+      name: "Partner 9",
+      logo: "/partner/9.png",
+      url: "https://partner9.com",
+    },
+    {
+      id: 10,
+      name: "Partner 10",
+      logo: "/partner/10.png",
+      url: "https://partner10.com",
+    },
+    {
+      id: 11,
+      name: "Partner 11",
+      logo: "/partner/11.png",
+      url: "https://partner11.com",
+    },
+    {
+      id: 12,
+      name: "Partner 12",
+      logo: "/partner/12.png",
+      url: "https://partner12.com",
     },
   ];
 

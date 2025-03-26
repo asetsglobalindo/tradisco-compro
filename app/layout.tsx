@@ -7,7 +7,7 @@ import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import ProgressBar from "@/components/ProgressBar";
 
 export const metadata: Metadata = {
-  title: "Pertamina Retail",
+  title: "Tradisco Global Inovasi",
   description: "",
   icons: "/favicon.ico",
 };

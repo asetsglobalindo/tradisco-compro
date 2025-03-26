@@ -1,13 +1,12 @@
 "use client";
-
 import React, { useEffect } from "react";
 
 const ScrollSection = ({ id, className = "", children }) => {
   useEffect(() => {
-    const setScrollMargin = () => {
-      const sectionElement = document.getElementById(id);
-      if (!sectionElement) return;
+    const sectionElement = document.getElementById(id);
+    if (!sectionElement) return;
 
+    const updateScrollMargin = () => {
       const headerElement = document.querySelector("header");
       if (headerElement) {
         const headerHeight = headerElement.getBoundingClientRect().height;
@@ -15,31 +14,35 @@ const ScrollSection = ({ id, className = "", children }) => {
       }
     };
 
-    // Set scroll margin when component mounts
-    setScrollMargin();
+    // Update immediately on mount
+    updateScrollMargin();
 
-    // Create a debounced version of setScrollMargin for better performance
-    let debounceTimer;
-    const debouncedSetScrollMargin = () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(setScrollMargin, 100);
-    };
+    // Use ResizeObserver to detect header size changes
+    const headerElement = document.querySelector("header");
+    if (headerElement && typeof ResizeObserver !== "undefined") {
+      const resizeObserver = new ResizeObserver(() => {
+        updateScrollMargin();
+      });
 
-    // Add event listeners with debounced function
-    window.addEventListener("scroll", debouncedSetScrollMargin);
-    window.addEventListener("resize", debouncedSetScrollMargin);
+      resizeObserver.observe(headerElement);
 
+      // Clean up observer on unmount
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+
+    // Fallback for browsers without ResizeObserver
+    window.addEventListener("resize", updateScrollMargin);
     return () => {
-      window.removeEventListener("scroll", debouncedSetScrollMargin);
-      window.removeEventListener("resize", debouncedSetScrollMargin);
-      clearTimeout(debounceTimer);
+      window.removeEventListener("resize", updateScrollMargin);
     };
   }, [id]);
 
   return (
-    <div id={id} className={`scroll-section ${className}`}>
+    <section id={id} className={className}>
       {children}
-    </div>
+    </section>
   );
 };
 

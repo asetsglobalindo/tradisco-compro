@@ -101,7 +101,7 @@ const GlobalPresenceMap = () => {
           // Add permanent tooltips
           marker.bindTooltip(location.title, {
             permanent: true,
-            direction: "top",
+            direction: "bottom", // Ubah dari "top" ke "bottom"
             className: "leaflet-tooltip-global",
           });
         });

@@ -1,18 +1,20 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-// import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import JSCookie from "js-cookie";
 import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
 import { FooterType } from "@/types/indes";
+import { motion } from "framer-motion";
+import uiStore from "../app/store/uiStore";
 
 const Footer = () => {
   const path = usePathname();
   const noMarginPath = ["/about/our-workers"];
   const lang = JSCookie.get("lang") || "id";
+  const ui = uiStore((state) => state);
 
   const { data: footer } = useQuery({
     queryKey: ["header", "footer", lang],
@@ -33,189 +35,171 @@ const Footer = () => {
     }
   };
 
+  const isTransparent = ui.headerColor === "white";
+
   return (
     <footer
       className={cn(
         {
           "mt-48": !noMarginPath.includes(path),
         },
-        "bg-[#171717] text-white "
+        "bg-white text-black border-t border-gray-200 relative"
       )}
     >
-      <section className="container pt-16">
-        <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-          <div className="flex flex-col lg:flex-row md:gap-8">
-            <div className="mb-6 md:mb-0 max-w-[300px] xl:max-w-[400px]">
-              <a href="#" className="flex items-center mb-6 ">
-                <img
-                  src="/logo/logo-white.png"
-                  className="max-w-[200px]"
-                  alt="FlowBite Logo"
-                />
-              </a>
-              <p>{footer?.tagline}</p>
+      <section className="container py-16">
+        <div className="mx-auto w-full max-w-screen-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-3 justify-center items-start gap-8">
+            {/* Column 1 - Logo and Description */}
+            <div>
+              <Link href="/" className="inline-block mb-6">
+                <img className="h-6" src="/logo/logo.png" alt="Tradisco Logo" />
+              </Link>
+              <p className="text-gray-600 mb-8">
+                Tradisco is a prominent holding company, tech provider, and
+                consulting firm with a rich legacy rooted in latest development
+                from energy and natural resources. Over three decades, Tradisco
+                has evolved to become a leader in tech and investment
+                infrastructure, driving innovation across diverse industries.
+              </p>
+              <div>
+                <div className="flex items-center mb-4">
+                  <h3 className="font-medium">Follow Us :</h3>
+                </div>
+                <div className="flex space-x-4">
+                  <a href="#" target="_blank" className="hover:opacity-80">
+                    <img
+                      className="w-8 h-8"
+                      src="/icons/youtube.png"
+                      alt="YouTube"
+                    />
+                  </a>
+                  <a href="#" target="_blank" className="hover:opacity-80">
+                    <img
+                      className="w-8 h-8"
+                      src="/icons/instagram.png"
+                      alt="Instagram"
+                    />
+                  </a>
+                  <a href="#" target="_blank" className="hover:opacity-80">
+                    <img
+                      className="w-8 h-8"
+                      src="/icons/tiktok.png"
+                      alt="TikTok"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="min-w-fit max-w-[300px] lg:mt-8">
-                <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">
-                  {lang === "en" ? "Link" : "Tautan"}
-                </h2>
-                <ul className="space-y-2">
-                  {footer?.other_routes
-                    .sort((a, b) => a.order - b.order)
-                    .map((route) => (
-                      <li key={route._id}>
-                        <Link
-                          href={route.route || "/"}
-                          className="hover:underline"
-                        >
-                          {route.title}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-              <div className="w-full lg:mt-8">
-                <h2 className="mb-4 lg:mb-6 font-semibold">
-                  {" "}
-                  {lang === "en" ? "Contact Us" : "Hubungi Kami"}
-                </h2>
-                <ul className="space-y-2">
-                  {footer?.address?.length ? (
-                    <li>
-                      <p className="flex items-start space-x-1">
-                        <img src="/icons/location.svg" alt="location" />
-                        <span>{footer?.address}</span>
-                      </p>
-                    </li>
-                  ) : null}
 
-                  {footer?.mail?.length ? (
-                    <li>
-                      {footer.url_mail.length ? ( //copyright_link will act as a link for tel url
-                        <a
-                          href={footer.url_mail}
-                          className="hover:underline flex items-start space-x-1"
-                        >
-                          <img src="/icons/call.svg" alt="call" />
-                          <span>{footer.mail}</span>
-                        </a>
-                      ) : (
-                        <p className="flex items-start space-x-1">
-                          <img src="/icons/call.svg" alt="call" />
-                          <span>{footer.mail}</span>
-                        </p>
-                      )}
-                    </li>
-                  ) : null}
-                  {footer?.tel?.length ? (
-                    <li>
-                      {footer.copyright_link.length ? ( //copyright_link will act as a link for tel url
-                        <a
-                          href={footer.copyright_link}
-                          className="hover:underline flex items-start space-x-1"
-                        >
-                          <img src="/icons/call.svg" alt="call" />
-                          <span>{footer.tel}</span>
-                        </a>
-                      ) : (
-                        <p className="flex items-start space-x-1">
-                          <img src="/icons/call.svg" alt="call" />
-                          <span>{footer.tel}</span>
-                        </p>
-                      )}
-                    </li>
-                  ) : null}
-                </ul>
+            {/* Column 2 - Tautan */}
+            <div className="flex flex-col">
+              <div className="flex items-center mb-6">
+                <h2 className="text-xl font-bold">Tautan</h2>
               </div>
-              <div
-                suppressHydrationWarning
-                className="max-w-[300px] min-w-fit flex flex-col items-center justify-center space-y-8 lg:mt-8"
-              >
-                <img
-                  className="max-w-[77px]"
-                  src="/icons/call-center.png"
-                  alt="call-center"
-                />
-                <a
-                  target="_blank"
-                  className="rounded-full border-2 border-white/40 py-2 min-w-fit pl-2 pr-3 flex transition-all items-center gap-[6px] hover:border-white"
-                  href="https://pertaminaclean.tipoffs.info/"
+              <div className="flex flex-col space-y-4 pl-0">
+                <Link
+                  href="/karir"
+                  className="text-gray-600 hover:text-blue-600"
                 >
-                  <img src="/icons/pertamina-clean.svg" alt="pertamina-celan" />
-                  <div>
-                    <p className="text-white font-bold text-xs">
-                      Whistle Blowing System
-                    </p>
-                    <div className="text-white font-normal text-[8px]">
-                      https://pertaminaclean.tipoffs.info/
-                    </div>
-                  </div>
-                </a>
-                <Link suppressHydrationWarning href="/bazma">
-                  <img
-                    className="max-w-[230px]"
-                    src="/logo/bazma.png"
-                    alt="bazma"
-                  />
+                  Karir
+                </Link>
+                <Link
+                  href="/hsse"
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  HSSE
+                </Link>
+                <Link
+                  href="/laporan-tahunan"
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Laporan Tahunan
+                </Link>
+                <Link
+                  href="/kemitraan"
+                  className="text-gray-600 hover:text-blue-600"
+                >
+                  Kemitraan
                 </Link>
               </div>
             </div>
+
+            {/* Column 3 - Contact Us */}
+            <div>
+              <div className="flex items-center mb-6">
+                <h2 className="text-xl font-bold">Contact Us</h2>
+              </div>
+              <div className="flex flex-col space-y-4">
+                <div className="flex items-start">
+                  <img
+                    src="/icons/location2.png"
+                    alt="Location"
+                    className="w-5 h-5 mt-1 mr-3"
+                  />
+                  <span className="text-gray-600">
+                    Menara Palma Jl. H. R. Rasuna Said, DKI Jakarta 12950
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <img
+                    src="/icons/call2.png"
+                    alt="Phone"
+                    className="w-5 h-5 mr-3"
+                  />
+                  <a
+                    href="tel:0895-4046-02222"
+                    className="text-gray-600 hover:text-blue-600"
+                  >
+                    0895-4046-02222
+                  </a>
+                </div>
+                <div className="flex items-center">
+                  <img
+                    src="/icons/mail2.png"
+                    alt="Email"
+                    className="w-5 h-5 mr-3"
+                  />
+                  <a
+                    href="mailto:team@tradisco.co.id"
+                    className="text-gray-600 hover:text-blue-600"
+                  >
+                    team@tradisco.co.id
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="min-w-fit max-w-[300px] mt-8">
-            <h2 className="mb-4 lg:mb-6 font-semibold text-base tracking-wide">
-              {lang === "en" ? "Follow Us" : "Ikuti Kami"} :
-            </h2>
-            <ul className="flex space-x-4">
-              {footer?.url_facebook?.length ? (
-                <li>
-                  <a
-                    href={footer.url_facebook}
-                    target="_blank"
-                    className="hover:underline"
-                  >
-                    <img
-                      className="w-10"
-                      src="/icons/youtube.png"
-                      alt="youtube"
-                    />
-                  </a>
-                </li>
-              ) : null}
-              {footer?.url_instagram?.length ? (
-                <li>
-                  <a
-                    href={footer.url_instagram}
-                    target="_blank"
-                    className="hover:underline"
-                  >
-                    <img
-                      className="w-10"
-                      src="/icons/instagram.png"
-                      alt="instagram"
-                    />
-                  </a>
-                </li>
-              ) : null}
-              {footer?.url_linkedin?.length ? (
-                <li>
-                  <a
-                    href={footer?.url_linkedin}
-                    target="_blank"
-                    className="hover:underline"
-                  >
-                    <img
-                      className="w-10"
-                      src="/icons/tiktok.png"
-                      alt="tiktok"
-                    />
-                  </a>
-                </li>
-              ) : null}
-            </ul>
+
+          {/* Footer Bottom / Copyright */}
+          <div className="pt-12 mt-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-500 mb-4 md:mb-0">
+              © 2024 Tradisco Global Inovasi. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <Link
+                href="/privacy-policy"
+                className="text-gray-500 hover:text-blue-600"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms-of-use"
+                className="text-gray-500 hover:text-blue-600"
+              >
+                Term Of Use
+              </Link>
+              <Link
+                href="/sitemap"
+                className="text-gray-500 hover:text-blue-600"
+              >
+                Sitemap
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+      {/* Colored line at the bottom of the footer */}
+      <div className="h-1 w-full bg-gradient-to-r from-blue-400 via-teal-400 to-orange-400"></div>
     </footer>
   );
 };

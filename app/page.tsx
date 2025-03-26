@@ -1,6 +1,5 @@
-import HomeBanner from "@/components/HomeBanner";
-import GlobalPresenceSection from "@/components/GlobalPresenceSection";
-import ScrollSection from "@/components/ScrollSection";
+// This file remains a server component
+import HomeClient from "@/components/Home/HomeClient";
 import ApiService from "@/lib/ApiService";
 import { HomeType } from "@/types/indes";
 import { Metadata } from "next";
@@ -11,19 +10,16 @@ export const revalidate = 0;
 
 // Import Swiper styles
 import "swiper/css";
-import OurPartner from "../components/OurPartner";
-import HomeAbout from "@/components/Home/HomeAbout";
-import HomeNews from "@/components/Home/HomeNews";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const result: HomeType = await getHomeContent();
+export async function generateMetadata() {
+  const result = await getHomeContent();
 
   return {
-    title: result.meta_title,
-    description: result.meta_description,
+    title: result?.meta_title || "Tradisco",
+    description: result?.meta_description || "",
     openGraph: {
-      title: result.meta_title,
-      description: result.meta_description,
+      title: result?.meta_title || "Tradisco",
+      description: result?.meta_description || "",
     },
   };
 }
@@ -38,41 +34,12 @@ const getHomeContent = async () => {
     return response.data.data;
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
 
 export default async function Home() {
-  const content: HomeType = await getHomeContent();
+  const content = await getHomeContent();
 
-  return (
-    <>
-      <HomeBanner data={content} />
-      <ScrollSection
-        id="about-us"
-        className="container lg:mt-16 mt-8 border-b pb-16"
-      >
-        <HomeAbout />
-      </ScrollSection>
-      <ScrollSection
-        id="global-presence"
-        className="container lg:mt-16 mt-8 border-b pb-16"
-      >
-        {/* Konten about us */}
-        <GlobalPresenceSection data={content} />
-      </ScrollSection>
-      <ScrollSection
-        id="our-partners"
-        className="container lg:mt-16 mt-8 border-b pb-16"
-      >
-        {/* Our Partners - New Section */}
-        <OurPartner data={content} />
-      </ScrollSection>
-      <ScrollSection
-        id="news"
-        className="container lg:mt-16 mt-8 border-b pb-16"
-      >
-        <HomeNews content={content} />
-      </ScrollSection>
-    </>
-  );
+  return <HomeClient content={content} />;
 }

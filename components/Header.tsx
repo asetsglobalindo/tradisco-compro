@@ -38,8 +38,8 @@ const hardcodedNavItems = [
   {
     _id: "nav1",
     name: "Home",
-    route: "/",
-    isScroll: false,
+    route: "#banner",
+    isScroll: true,
     childs: [],
   },
   {
@@ -80,51 +80,36 @@ const hardcodedNavItems = [
 ];
 
 // Helper function for smooth scrolling with a more reliable approach
-const scrollToSection = (e: React.MouseEvent, sectionId: string): void => {
+// Replace the scrollToSection function in your Header.jsx file
+const scrollToSection = (e: any, sectionId: any) => {
   e.preventDefault();
 
   // Remove the # symbol if it exists
   const id = sectionId.startsWith("#") ? sectionId.substring(1) : sectionId;
+  const element = document.getElementById(id);
 
-  // Set a timeout to account for potential header size changes
-  setTimeout(() => {
-    const element = document.getElementById(id);
-    if (!element) return;
+  if (!element) return;
 
-    // Get current header height
-    const headerElement = document.querySelector("header");
-    const headerHeight = headerElement
-      ? headerElement.getBoundingClientRect().height
-      : 80;
+  // Get current header height
+  const headerElement = document.querySelector("header");
+  const headerHeight = headerElement
+    ? headerElement.getBoundingClientRect().height
+    : 80;
 
-    // Use scrollIntoView with a calculated margin
-    const yOffset = -headerHeight - 20; // Additional 20px buffer
-    const y =
-      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  // Calculate position with offset
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition =
+    elementPosition + window.pageYOffset - headerHeight - 20;
 
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
+  // Perform the scroll
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: "smooth",
+  });
 
-    // Final adjustment after animation completes
-    setTimeout(() => {
-      // Recalculate after header may have changed size
-      const newHeaderHeight = headerElement
-        ? headerElement.getBoundingClientRect().height
-        : 80;
-      const newY =
-        element.getBoundingClientRect().top +
-        window.pageYOffset -
-        newHeaderHeight -
-        20;
-
-      window.scrollTo({
-        top: newY,
-        behavior: "auto", // Instant jump to final position
-      });
-    }, 1000); // Allow time for the smooth scroll to complete
-  }, 10); // Small delay to ensure component state updates
+  // Update URL hash for bookmarking (optional)
+  // This doesn't affect the scroll behavior
+  window.history.pushState(null, null, `#${id}`);
 };
 
 interface NavItemProps {
@@ -138,7 +123,8 @@ interface NavItemProps {
   color?: string;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ data, side = "bottom", color }) => {
+// This replaces the NavItem component in your Header.jsx
+const NavItem = ({ data, side = "bottom", color }: any) => {
   const ui = uiStore((state) => state);
   const [isOpen, setIsOpen] = useState(false);
   const path = usePathname();
@@ -152,7 +138,37 @@ const NavItem: React.FC<NavItemProps> = ({ data, side = "bottom", color }) => {
     return (
       <a
         href={data.route}
-        onClick={(e) => scrollToSection(e, data.route)}
+        onClick={(e) => {
+          e.preventDefault();
+
+          // Remove the # symbol if it exists
+          const id = data.route.startsWith("#")
+            ? data.route.substring(1)
+            : data.route;
+          const element = document.getElementById(id);
+
+          if (!element) return;
+
+          // Get header
+          const headerElement = document.querySelector("header");
+          const headerHeight = headerElement
+            ? headerElement.getBoundingClientRect().height
+            : 80;
+
+          // Calculate position with fixed offset
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition =
+            elementPosition + window.pageYOffset - headerHeight - 20;
+
+          // Perform the scroll
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+
+          // Update URL hash for bookmarking (optional)
+          window.history.pushState(null, null, `#${id}`);
+        }}
         className="cursor-pointer"
       >
         {data.name}
@@ -254,7 +270,6 @@ const NavItem: React.FC<NavItemProps> = ({ data, side = "bottom", color }) => {
     </Popover>
   );
 };
-
 interface NavItemMobileProps {
   data: {
     name: string;
@@ -466,6 +481,7 @@ const Header: React.FC = () => {
 
       // Find all section elements and determine which one is in view
       const sections = [
+        document.getElementById("home"),
         document.getElementById("about-us"),
         document.getElementById("global-presence"),
         document.getElementById("our-partners"),
@@ -575,7 +591,7 @@ const Header: React.FC = () => {
           >
             {/* Home icon and Navigation */}
             <div className="flex items-center space-x-6">
-              <Link href="/" className="text-current">
+              <Link href="#home" className="text-current">
                 <svg
                   width="21"
                   height="20"
@@ -615,12 +631,13 @@ const Header: React.FC = () => {
             {/* Logo on right side */}
             <Link href="/">
               <motion.img
-                className={cn("h-10 w-auto transition-all duration-300", {
+                className={cn("h-6 w-auto transition-all duration-300", {
                   "brightness-0 invert": isTransparent, // This makes the logo white when header is transparent
                 })}
                 src="/logo/logo.png" // Only need one logo file now
                 alt="tradisco-logo"
-                whileHover={{ scale: 1.05 }}
+                style={{ scale: isTransparent ? 1.55 : 1.2 }}
+                whileHover={{ scale: 1.55 }}
                 transition={{ duration: 0.2 }}
               />
             </Link>
