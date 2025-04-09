@@ -46,6 +46,14 @@ const Timeline = () => {
 
   const data = [
     {
+      year: "1990",
+      title: "Formation and Early Years",
+      subtitle: "The Beginning",
+      image: "/images/timeline-1996.jpg",
+      description:
+        "Thirty years ago, Tradisco began as a pioneering company rooted in Indonesia'  s rich natural resources. Established to harness the potential of the nation's abundant energy and mining sectors, Tradisco initially focused on engineering, mechanical solutions and consulting services, providing essential support to the booming industrial landscape.",
+    },
+    {
       year: "2010",
       title: "Early Beginnings",
       subtitle: "Energy & Natural Resources",

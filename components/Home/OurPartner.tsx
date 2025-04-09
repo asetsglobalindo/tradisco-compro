@@ -43,7 +43,7 @@ const OurPartner = ({ data }) => {
     {
       id: 6,
       name: "Partner 6",
-      logo: "/partner/6.png",
+      logo: "/partner/6.svg",
       url: "https://partner6.com",
     },
     {
@@ -85,9 +85,9 @@ const OurPartner = ({ data }) => {
   ];
 
   return (
-    <section className="relative mt-8 lg:mt-16 bg-gray-50 py-12">
+    <section className="relative mt-8 lg:mt-16 py-12">
       <div className="container">
-        <h1 className="title-3 text-center mb-8">Our Partners</h1>
+        <h1 className="title-3 text-center mb-20">Our Partners</h1>
 
         <Swiper
           modules={[Autoplay]}
@@ -118,11 +118,17 @@ const OurPartner = ({ data }) => {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center h-24 transition-transform hover:scale-110"
               >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="max-h-16 max-w-full grayscale hover:grayscale-0 transition-all duration-300"
-                />
+                <div className="w-full h-16 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="object-contain w-auto h-auto max-h-16 max-w-full grayscale hover:grayscale-0 transition-all duration-300"
+                    style={{
+                      aspectRatio: "auto",
+                      objectPosition: "center",
+                    }}
+                  />
+                </div>
               </a>
             </SwiperSlide>
           ))}

@@ -30,7 +30,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Hardcoded navigation data with section IDs
@@ -38,35 +38,56 @@ const hardcodedNavItems = [
   {
     _id: "nav1",
     name: "Home",
-    route: "#banner",
+    route: "/",
+    homeScrollId: "#banner",
     isScroll: true,
     childs: [],
   },
   {
     _id: "nav2",
     name: "About Us",
-    route: "#about-us",
+    route: "/",
+    homeScrollId: "#about-us",
+    isScroll: true,
+    childs: [],
+  },
+  {
+    _id: "our-business",
+    name: "Our Business",
+    route: "/",
+    homeScrollId: "#our-business",
     isScroll: true,
     childs: [],
   },
   {
     _id: "nav3",
     name: "Global Presence",
-    route: "#global-presence",
+    route: "/",
+    homeScrollId: "#global-presence",
     isScroll: true,
     childs: [],
   },
   {
     _id: "nav4",
     name: "Partners",
-    route: "#our-partners",
+    route: "/",
+    homeScrollId: "#our-partners",
+    isScroll: true,
+    childs: [],
+  },
+  {
+    _id: "project-reference",
+    name: "Project Reference",
+    route: "/",
+    homeScrollId: "#project-reference",
     isScroll: true,
     childs: [],
   },
   {
     _id: "nav5",
     name: "News",
-    route: "#news",
+    route: "/",
+    homeScrollId: "#news",
     isScroll: true,
     childs: [],
   },
@@ -80,8 +101,7 @@ const hardcodedNavItems = [
 ];
 
 // Helper function for smooth scrolling with a more reliable approach
-// Replace the scrollToSection function in your Header.jsx file
-const scrollToSection = (e: any, sectionId: any) => {
+const scrollToSection = (e, sectionId) => {
   e.preventDefault();
 
   // Remove the # symbol if it exists
@@ -108,26 +128,36 @@ const scrollToSection = (e: any, sectionId: any) => {
   });
 
   // Update URL hash for bookmarking (optional)
-  // This doesn't affect the scroll behavior
   window.history.pushState(null, null, `#${id}`);
 };
 
-interface NavItemProps {
-  data: {
-    name: string;
-    route: string;
-    isScroll?: boolean;
-    childs: any[];
-  };
-  side?: "left" | "right" | "bottom" | "top";
-  color?: string;
-}
+// Function to handle navigation from non-home pages to home page sections
+const handleNavigation = (e, path, data, router) => {
+  e.preventDefault();
 
-// This replaces the NavItem component in your Header.jsx
-const NavItem = ({ data, side = "bottom", color }: any) => {
+  // If we're already on the homepage, just scroll
+  if (path === "/") {
+    scrollToSection(e, data.homeScrollId);
+    return;
+  }
+
+  // Save state before navigation
+  // Store exact target scroll position for more reliable scrolling
+  const targetId = data.homeScrollId.startsWith("#")
+    ? data.homeScrollId.substring(1)
+    : data.homeScrollId;
+
+  localStorage.setItem("scrollToSection", targetId);
+
+  // Navigate directly to the home page with specific URL hash
+  router.push(`/${data.homeScrollId}`);
+};
+
+const NavItem = ({ data, side = "bottom", color }) => {
   const ui = uiStore((state) => state);
   const [isOpen, setIsOpen] = useState(false);
   const path = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     setIsOpen(false);
@@ -137,38 +167,8 @@ const NavItem = ({ data, side = "bottom", color }: any) => {
   if (data.isScroll) {
     return (
       <a
-        href={data.route}
-        onClick={(e) => {
-          e.preventDefault();
-
-          // Remove the # symbol if it exists
-          const id = data.route.startsWith("#")
-            ? data.route.substring(1)
-            : data.route;
-          const element = document.getElementById(id);
-
-          if (!element) return;
-
-          // Get header
-          const headerElement = document.querySelector("header");
-          const headerHeight = headerElement
-            ? headerElement.getBoundingClientRect().height
-            : 80;
-
-          // Calculate position with fixed offset
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition =
-            elementPosition + window.pageYOffset - headerHeight - 20;
-
-          // Perform the scroll
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-
-          // Update URL hash for bookmarking (optional)
-          window.history.pushState(null, null, `#${id}`);
-        }}
+        href={path === "/" ? data.homeScrollId : data.route}
+        onClick={(e) => handleNavigation(e, path, data, router)}
         className="cursor-pointer"
       >
         {data.name}
@@ -232,7 +232,7 @@ const NavItem = ({ data, side = "bottom", color }: any) => {
         align="start"
       >
         <section className="flex flex-col w-full space-y-1">
-          {data.childs.map((route: any) => (
+          {data.childs.map((route) => (
             <div key={route.name}>
               {route?.childs?.length ? (
                 <React.Fragment>
@@ -242,7 +242,7 @@ const NavItem = ({ data, side = "bottom", color }: any) => {
                         {route.name}
                       </AccordionTrigger>
                       <AccordionContent className="pb-0 ml-4 mt-1">
-                        {route.childs.map((item: any, index: number) => (
+                        {route.childs.map((item, index) => (
                           <Link
                             key={item.name + index}
                             className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md"
@@ -270,17 +270,11 @@ const NavItem = ({ data, side = "bottom", color }: any) => {
     </Popover>
   );
 };
-interface NavItemMobileProps {
-  data: {
-    name: string;
-    route: string;
-    isScroll?: boolean;
-    childs: any[];
-  };
-  index: number;
-}
 
-const NavItemMobile: React.FC<NavItemMobileProps> = ({ data, index }) => {
+const NavItemMobile = ({ data, index }) => {
+  const path = usePathname();
+  const router = useRouter();
+
   // For scroll navigation in mobile
   if (data.isScroll) {
     return (
@@ -291,10 +285,15 @@ const NavItemMobile: React.FC<NavItemMobileProps> = ({ data, index }) => {
       >
         <AccordionTrigger className="text-center flex justify-center flex-none mx-auto relative">
           <a
-            href={data.route}
+            href={path === "/" ? data.homeScrollId : data.route}
             onClick={(e) => {
-              scrollToSection(e, data.route);
-              // Close drawer if needed - you might need to pass the drawer state setter here
+              if (path === "/") {
+                scrollToSection(e, data.homeScrollId);
+              } else {
+                e.preventDefault();
+                localStorage.setItem("scrollToSection", data.homeScrollId);
+                router.push("/");
+              }
             }}
             className="w-full cursor-pointer"
           >
@@ -340,13 +339,13 @@ const NavItemMobile: React.FC<NavItemMobileProps> = ({ data, index }) => {
       </AccordionTrigger>
       <AccordionContent>
         <section className="flex flex-col space-y-4 text-center">
-          {data.childs?.map((route: any) => (
+          {data.childs?.map((route) => (
             <section
               key={route.name}
               className="flex flex-col space-y-4 text-center"
             >
               {route.childs.length ? (
-                route.childs.map((child: any) => (
+                route.childs.map((child) => (
                   <Link
                     className="hover:text-green-light hover:underline"
                     key={child.name}
@@ -372,7 +371,7 @@ const NavItemMobile: React.FC<NavItemMobileProps> = ({ data, index }) => {
 };
 
 // Top Info Bar component
-const TopInfoBar: React.FC<{ isVisible: boolean }> = ({ isVisible }) => {
+const TopInfoBar = ({ isVisible }) => {
   return (
     <AnimatePresence>
       {isVisible && (
@@ -453,7 +452,7 @@ const TopInfoBar: React.FC<{ isVisible: boolean }> = ({ isVisible }) => {
   );
 };
 
-const Header: React.FC = () => {
+const Header = () => {
   const ui = uiStore((state) => state);
   const path = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -471,8 +470,10 @@ const Header: React.FC = () => {
         setIsScrolled(false);
       }
 
-      // Update active section based on scroll position
-      updateActiveSection();
+      // Only check active section on homepage
+      if (path === "/") {
+        updateActiveSection();
+      }
     };
 
     // Check which section is currently in view
@@ -481,10 +482,12 @@ const Header: React.FC = () => {
 
       // Find all section elements and determine which one is in view
       const sections = [
-        document.getElementById("home"),
+        document.getElementById("banner"),
         document.getElementById("about-us"),
+        document.getElementById("our-business"),
         document.getElementById("global-presence"),
         document.getElementById("our-partners"),
+        document.getElementById("project-reference"),
         document.getElementById("news"),
       ];
 
@@ -512,7 +515,7 @@ const Header: React.FC = () => {
     };
 
     // Listen for the custom event from HomeBanner
-    const handleSetHeaderColor = (event: CustomEvent) => {
+    const handleSetHeaderColor = (event) => {
       const { color } = event.detail;
       // Only update if needed based on scroll position
       if (!isScrolled && color === "white") {
@@ -523,22 +526,67 @@ const Header: React.FC = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    document.addEventListener(
-      "set-header-color",
-      handleSetHeaderColor as EventListener
-    );
+    document.addEventListener("set-header-color", handleSetHeaderColor);
 
     // Initial check
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener(
-        "set-header-color",
-        handleSetHeaderColor as EventListener
-      );
+      document.removeEventListener("set-header-color", handleSetHeaderColor);
     };
-  }, [isScrolled, ui]);
+  }, [isScrolled, ui, path]);
+
+  // Separate useEffect for handling stored scroll
+  useEffect(() => {
+    // Only run this once when component mounts and we're on homepage
+    if (path === "/") {
+      const storedSection = localStorage.getItem("scrollToSection");
+
+      if (storedSection) {
+        // Clear the storage first to prevent future unintended scrolls
+        localStorage.removeItem("scrollToSection");
+
+        // Temporarily disable scroll event listeners to prevent header interference
+        const originalScrollHandler = window.onscroll;
+        window.onscroll = null;
+
+        // Set a very short timeout to ensure the DOM is ready
+        setTimeout(() => {
+          const id = storedSection.startsWith("#")
+            ? storedSection.substring(1)
+            : storedSection;
+
+          const element = document.getElementById(id);
+
+          if (element) {
+            // Force UI state to accommodate scroll
+            ui.setHeaderColor("black"); // Force header to solid state
+            setIsScrolled(true); // Mark as scrolled to keep header solid
+
+            // Get dimensions with fixed header height
+            const headerHeight = 64; // Use fixed header height for solid mode
+
+            // Scroll directly to element in one go
+            const elementTop =
+              element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementTop - headerHeight - 20;
+
+            // Use immediate scroll without animation
+            window.scrollTo(0, offsetPosition);
+
+            // Set active section immediately
+            setActiveSection(id);
+
+            // Restore scroll handler after a delay
+            setTimeout(() => {
+              window.onscroll = originalScrollHandler;
+            }, 100);
+          }
+        }, 50); // Very short delay
+      }
+    }
+  }, [path, ui]);
 
   useEffect(() => {
     // Check if the current path is the home page
@@ -559,19 +607,86 @@ const Header: React.FC = () => {
   const isTransparent = ui.headerColor === "white";
 
   return (
-    <motion.header
-      layout
+    // Remove the layout prop from the header to prevent unwanted animations
+    <header
       className={cn("fixed top-0 w-full z-50", {
         "text-white": isTransparent,
         "text-black bg-white shadow-sm": !isTransparent,
       })}
     >
       {/* Top Info Bar - only visible when header is transparent */}
-      <TopInfoBar isVisible={isTransparent} />
+      {/* Replace AnimatePresence with simpler conditional rendering */}
+      {isTransparent && (
+        <div className="w-full bg-black/50 text-white overflow-hidden relative z-20">
+          <div className="container py-2">
+            <div className="flex flex-wrap justify-between items-center">
+              <div className="flex items-center space-x-6">
+                <a
+                  href="https://maps.app.goo.gl/your-location"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+                >
+                  <MapPin size={14} />
+                  <span className="hidden sm:inline">
+                    Jl. M.T. Haryono, Jakarta 12950
+                  </span>
+                </a>
+
+                <a
+                  href="mailto:contact@tradisco.com"
+                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+                >
+                  <Mail size={14} />
+                  <span className="hidden sm:inline">contact@tradisco.com</span>
+                </a>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <a
+                  href="tel:+6221123456"
+                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+                >
+                  <Phone size={14} />
+                  <span className="hidden sm:inline">+62 21 1234 567</span>
+                </a>
+
+                <a
+                  href="https://wa.me/6281234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+                >
+                  <MessageCircle size={14} />
+                  <span className="hidden sm:inline">+62 812 3456 7890</span>
+                </a>
+
+                <div className="flex items-center space-x-3">
+                  <a
+                    href="https://instagram.com/tradisco"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-opacity-80 transition-colors"
+                  >
+                    <Instagram size={14} />
+                  </a>
+                  <a
+                    href="https://youtube.com/tradisco"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-opacity-80 transition-colors"
+                  >
+                    <Youtube size={14} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Header */}
-      <motion.div
-        layout
+      <div
         className={cn("transition-colors duration-300", {
           "bg-transparent": isTransparent,
           "bg-white": !isTransparent,
@@ -583,15 +698,13 @@ const Header: React.FC = () => {
         )}
 
         <div className="container relative z-10">
-          <motion.div
-            layout
-            className="flex justify-between items-center"
+          <div
+            className="flex justify-between items-center transition-all duration-300"
             style={{ height: isTransparent ? 80 : 64 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             {/* Home icon and Navigation */}
             <div className="flex items-center space-x-6">
-              <Link href="#home" className="text-current">
+              <Link href="/" className="text-current">
                 <svg
                   width="21"
                   height="20"
@@ -614,12 +727,14 @@ const Header: React.FC = () => {
                       className={cn("relative", {
                         "font-semibold":
                           route.isScroll &&
-                          activeSection === route.route.substring(1),
+                          path === "/" &&
+                          activeSection === route.homeScrollId?.substring(1),
                       })}
                     >
                       <NavItem data={route} color="currentColor" />
                       {route.isScroll &&
-                        activeSection === route.route.substring(1) && (
+                        path === "/" &&
+                        activeSection === route.homeScrollId?.substring(1) && (
                           <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-current"></div>
                         )}
                     </li>
@@ -630,15 +745,15 @@ const Header: React.FC = () => {
 
             {/* Logo on right side */}
             <Link href="/">
-              <motion.img
+              <img
                 className={cn("h-6 w-auto transition-all duration-300", {
                   "brightness-0 invert": isTransparent, // This makes the logo white when header is transparent
                 })}
                 src="/logo/logo.png" // Only need one logo file now
                 alt="tradisco-logo"
-                style={{ scale: isTransparent ? 1.55 : 1.2 }}
-                whileHover={{ scale: 1.55 }}
-                transition={{ duration: 0.2 }}
+                style={{
+                  transform: `scale(${isTransparent ? 1.55 : 1.2})`,
+                }}
               />
             </Link>
 
@@ -687,10 +802,10 @@ const Header: React.FC = () => {
                 </Accordion>
               </DrawerContent>
             </Drawer>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
-    </motion.header>
+      </div>
+    </header>
   );
 };
 

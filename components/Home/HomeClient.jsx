@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import HomeBanner from "@/components/HomeBanner";
 import GlobalPresenceSection from "@/components/Home/GlobalPresenceSection";
 import ScrollSection from "@/components/ScrollSection";
-import OurPartner from "@/components/OurPartner";
+import OurPartner from "@/components/Home/OurPartner";
 import HomeTimeline from "@/components/Home/HomeTimeline";
 import HomeProject from "@/components/Home/HomeProject";
 import HomeNews from "@/components/Home/HomeNews";
@@ -83,7 +83,7 @@ const HomeClient = ({ content }) => {
         <OurPartner data={content?.partners || []} />
       </ScrollSection>
 
-      <ScrollSection id="our-project" className="my-16">
+      <ScrollSection id="project-reference" className="my-16">
         <HomeProject />
       </ScrollSection>
 

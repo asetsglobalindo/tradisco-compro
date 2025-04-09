@@ -48,13 +48,14 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const data: ContentType = await getData(slug);
 
   return (
-    <section className="mt-16 container">
-      <h1 className="title-3 w-full mx-auto text-start">{data.title}</h1>
-      <p className="text-start font-medium mt-8">
-        <span className="text-green-light">{data.category_id.name}</span> /{" "}
-        {moment(data.created_at).format("YYYY-MM-DD")}
-      </p>
-      <section className="relative mt-8">
+    <section className="mt-24 container">
+      {/* Centering image section to match content width */}
+      <section className="relative mt-8 max-w-[800px] mx-auto">
+        <h1 className="title-3 w-full mx-auto text-start">{data.title}</h1>
+        <p className="text-start font-medium mt-8">
+          <span className="text-green-light">{data.category_id.name}</span> /{" "}
+          {moment(data.created_at).format("YYYY-MM-DD")}
+        </p>
         {data?.images.slice(0, 1).map((img) => (
           <picture key={img._id}>
             <source media="(min-width:650px)" srcSet={img?.images[0]?.url} />
