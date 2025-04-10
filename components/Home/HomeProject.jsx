@@ -85,9 +85,9 @@ const PROJECTS_DATA = {
     },
     {
       id: 2,
-      title: "Smart Site Monitoring Suite",
+      title: "ChatBox BrandMonitor AI Studio",
       description:
-        "Integrating drones and sensors for real-time project control",
+        "Premier studio solution for refined data-driven brand strategies",
       image: "/images/project-reference/digital2.jpg",
     },
     {
