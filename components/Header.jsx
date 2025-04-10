@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import {
   Popover,
   PopoverContent,
@@ -34,7 +34,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Hardcoded navigation data with section IDs
-const hardcodedNavItems = [
+const NAV_ITEMS = [
   {
     _id: "nav1",
     name: "Home",
@@ -91,14 +91,22 @@ const hardcodedNavItems = [
     isScroll: true,
     childs: [],
   },
-  {
-    _id: "nav6",
-    name: "Contact",
-    route: "/contact",
-    isScroll: false,
-    childs: [],
-  },
+  // {
+  //   _id: "nav6",
+  //   name: "Contact",
+  //   route: "/contact",
+  //   isScroll: false,
+  //   childs: [],
+  // },
 ];
+
+// Contact information constants
+const CONTACT_INFO = {
+  email: "team@tradisco.co.id",
+  phone: "+62 895-4046-02222",
+  whatsapp: "+62 895-4046-02222",
+  address: "Jl. M.T. Haryono, Jakarta 12950",
+};
 
 // Helper function for smooth scrolling with a more reliable approach
 const scrollToSection = (e, sectionId) => {
@@ -153,7 +161,8 @@ const handleNavigation = (e, path, data, router) => {
   router.push(`/${data.homeScrollId}`);
 };
 
-const NavItem = ({ data, side = "bottom", color }) => {
+// Memoized NavItem component for better performance
+const NavItem = memo(({ data, side = "bottom", color }) => {
   const ui = uiStore((state) => state);
   const [isOpen, setIsOpen] = useState(false);
   const path = usePathname();
@@ -186,7 +195,7 @@ const NavItem = ({ data, side = "bottom", color }) => {
             height="20"
             viewBox="0 0 21 20"
             fill="none"
-            xmlns="https://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M11.7281 0.953614C11.377 0.680505 10.9449 0.532227 10.5001 0.532227C10.0553 0.532227 9.62319 0.680505 9.2721 0.953614L0.888104 7.47361C0.136104 8.06061 0.550104 9.26561 1.5031 9.26561H2.5001V17.2656C2.5001 17.796 2.71082 18.3048 3.08589 18.6798C3.46096 19.0549 3.96967 19.2656 4.5001 19.2656H8.5001V13.2656C8.5001 12.7352 8.71082 12.2265 9.08589 11.8514C9.46096 11.4763 9.96967 11.2656 10.5001 11.2656C11.0305 11.2656 11.5392 11.4763 11.9143 11.8514C12.2894 12.2265 12.5001 12.7352 12.5001 13.2656V19.2656H16.5001C17.0305 19.2656 17.5392 19.0549 17.9143 18.6798C18.2894 18.3048 18.5001 17.796 18.5001 17.2656V9.26561H19.4971C20.4491 9.26561 20.8651 8.06061 20.1121 7.47461L11.7281 0.953614Z"
@@ -217,7 +226,7 @@ const NavItem = ({ data, side = "bottom", color }) => {
           height="5"
           viewBox="0 0 9 5"
           fill="none"
-          xmlns="https://www.w3.org/2000/svg"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M7.70665 0.430832H4.33207H1.29332C0.773319 0.430832 0.513319 1.05917 0.881653 1.4275L3.68749 4.23333C4.13707 4.68291 4.86832 4.68291 5.3179 4.23333L6.38499 3.16625L8.12374 1.4275C8.48665 1.05917 8.22665 0.430832 7.70665 0.430832Z"
@@ -235,26 +244,24 @@ const NavItem = ({ data, side = "bottom", color }) => {
           {data.childs.map((route) => (
             <div key={route.name}>
               {route?.childs?.length ? (
-                <React.Fragment>
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem className="border-none" value="item-1">
-                      <AccordionTrigger className="w-full no-underline hover:no-underline leading-none font-normal text-sm rounded-md hover:bg-green-light/40 px-2 py-1">
-                        {route.name}
-                      </AccordionTrigger>
-                      <AccordionContent className="pb-0 ml-4 mt-1">
-                        {route.childs.map((item, index) => (
-                          <Link
-                            key={item.name + index}
-                            className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md"
-                            href={item.route}
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </React.Fragment>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem className="border-none" value="item-1">
+                    <AccordionTrigger className="w-full no-underline hover:no-underline leading-none font-normal text-sm rounded-md hover:bg-green-light/40 px-2 py-1">
+                      {route.name}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-0 ml-4 mt-1">
+                      {route.childs.map((item, index) => (
+                        <Link
+                          key={item.name + index}
+                          className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md"
+                          href={item.route}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               ) : (
                 <Link
                   className="w-full block hover:bg-green-light/40 px-2 py-1 rounded-md"
@@ -269,9 +276,12 @@ const NavItem = ({ data, side = "bottom", color }) => {
       </PopoverContent>
     </Popover>
   );
-};
+});
 
-const NavItemMobile = ({ data, index }) => {
+NavItem.displayName = "NavItem";
+
+// Memoized NavItemMobile component for better performance
+const NavItemMobile = memo(({ data, index }) => {
   const path = usePathname();
   const router = useRouter();
 
@@ -323,12 +333,12 @@ const NavItemMobile = ({ data, index }) => {
 
         {data.childs?.length ? (
           <svg
-            className={"w-4 transition-all absolute -right-5"}
+            className="w-4 transition-all absolute -right-5"
             width="9"
             height="5"
             viewBox="0 0 9 5"
             fill="none"
-            xmlns="https://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M7.70665 0.430832H4.33207H1.29332C0.773319 0.430832 0.513319 1.05917 0.881653 1.4275L3.68749 4.23333C4.13707 4.68291 4.86832 4.68291 5.3179 4.23333L6.38499 3.16625L8.12374 1.4275C8.48665 1.05917 8.22665 0.430832 7.70665 0.430832Z"
@@ -368,100 +378,133 @@ const NavItemMobile = ({ data, index }) => {
       </AccordionContent>
     </AccordionItem>
   );
-};
+});
 
-// Top Info Bar component
-const TopInfoBar = ({ isVisible }) => {
+NavItemMobile.displayName = "NavItemMobile";
+
+// Extract TopInfoBar as a separate memoized component
+const TopInfoBar = memo(({ isVisible }) => {
+  if (!isVisible) return null;
+
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="w-full bg-black/50 text-white overflow-hidden relative z-20"
-        >
-          <div className="container py-2">
-            <div className="flex flex-wrap justify-between items-center">
-              <div className="flex items-center space-x-6">
-                <a
-                  href="https://maps.app.goo.gl/your-location"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <MapPin size={14} />
-                  <span className="hidden sm:inline">
-                    Jl. M.T. Haryono, Jakarta 12950
-                  </span>
-                </a>
+    <div className="w-full bg-black/50 text-white overflow-hidden relative z-20">
+      <div className="container py-2">
+        <div className="flex flex-wrap justify-between items-center">
+          <div className="flex items-center space-x-6">
+            <a
+              href="https://maps.app.goo.gl/your-location"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+            >
+              <MapPin size={14} />
+              <span className="hidden sm:inline">{CONTACT_INFO.address}</span>
+            </a>
 
-                <a
-                  href="mailto:team@tradisco.co.id"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <Mail size={14} />
-                  <span className="hidden sm:inline">team@tradisco.co.id</span>
-                </a>
-              </div>
+            <a
+              href={`mailto:${CONTACT_INFO.email}`}
+              className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+            >
+              <Mail size={14} />
+              <span className="hidden sm:inline">{CONTACT_INFO.email}</span>
+            </a>
+          </div>
 
-              <div className="flex items-center space-x-4">
-                <a
-                  href="tel:+62895404602222"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <Phone size={14} />
-                  <span className="hidden sm:inline">+62 895-4046-02222</span>
-                </a>
+          <div className="flex items-center space-x-4">
+            <a
+              href={`tel:${CONTACT_INFO.phone.replace(/\s+/g, "")}`}
+              className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+            >
+              <Phone size={14} />
+              <span className="hidden sm:inline">{CONTACT_INFO.phone}</span>
+            </a>
 
-                <a
-                  href="https://wa.me/62895404602222"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <MessageCircle size={14} />
-                  <span className="hidden sm:inline">+62 895-4046-02222</span>
-                </a>
+            <a
+              href="https://api.whatsapp.com/send?phone=62895404602222"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
+            >
+              <MessageCircle size={14} />
+              <span className="hidden sm:inline">{CONTACT_INFO.whatsapp}</span>
+            </a>
 
-                <div className="flex items-center space-x-3">
-                  <a
-                    href="https://instagram.com/tradisco"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-opacity-80 transition-colors"
-                  >
-                    <Instagram size={14} />
-                  </a>
-                  <a
-                    href="https://youtube.com/tradisco"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-opacity-80 transition-colors"
-                  >
-                    <Youtube size={14} />
-                  </a>
-                </div>
-              </div>
+            <div className="flex items-center space-x-3">
+              <a
+                href="https://instagram.com/tradisco"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-opacity-80 transition-colors"
+              >
+                <Instagram size={14} />
+              </a>
+              <a
+                href="https://youtube.com/tradisco"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-opacity-80 transition-colors"
+              >
+                <Youtube size={14} />
+              </a>
             </div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </div>
+      </div>
+    </div>
   );
-};
+});
 
+TopInfoBar.displayName = "TopInfoBar";
+
+// Main Header Component
 const Header = () => {
   const ui = uiStore((state) => state);
   const path = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const router = useRouter();
 
-  // Use hardcoded header data
-  const header = hardcodedNavItems;
+  // Memoized function to update active section
+  const updateActiveSection = useCallback(() => {
+    if (path !== "/") return;
 
+    const scrollPosition = window.scrollY + 150; // Offset for header
+
+    // Find all section elements and determine which one is in view
+    const sectionIds = [
+      "banner",
+      "about-us",
+      "our-business",
+      "global-presence",
+      "our-partners",
+      "project-reference",
+      "news",
+    ];
+
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (sections.length > 0) {
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        const sectionTop = section.offsetTop;
+
+        if (scrollPosition >= sectionTop) {
+          setActiveSection(section.id);
+          break;
+        }
+      }
+
+      // If we're at the top, no section is active
+      if (window.scrollY < 100) {
+        setActiveSection("");
+      }
+    }
+  }, [path]);
+
+  // Handle scroll events
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -473,44 +516,6 @@ const Header = () => {
       // Only check active section on homepage
       if (path === "/") {
         updateActiveSection();
-      }
-    };
-
-    // Check which section is currently in view
-    const updateActiveSection = () => {
-      const scrollPosition = window.scrollY + 150; // Offset for header
-
-      // Find all section elements and determine which one is in view
-      const sections = [
-        document.getElementById("banner"),
-        document.getElementById("about-us"),
-        document.getElementById("our-business"),
-        document.getElementById("global-presence"),
-        document.getElementById("our-partners"),
-        document.getElementById("project-reference"),
-        document.getElementById("news"),
-      ];
-
-      // Filter out null sections (in case some aren't on the page)
-      const validSections = sections.filter((section) => section !== null);
-
-      if (validSections.length > 0) {
-        for (let i = validSections.length - 1; i >= 0; i--) {
-          const section = validSections[i];
-          if (!section) continue;
-
-          const sectionTop = section.offsetTop;
-
-          if (scrollPosition >= sectionTop) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-
-        // If we're at the top, no section is active
-        if (window.scrollY < 100) {
-          setActiveSection("");
-        }
       }
     };
 
@@ -535,9 +540,9 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("set-header-color", handleSetHeaderColor);
     };
-  }, [isScrolled, ui, path]);
+  }, [isScrolled, ui, path, updateActiveSection]);
 
-  // Separate useEffect for handling stored scroll
+  // Handle stored scroll position for navigation between pages
   useEffect(() => {
     // Only run this once when component mounts and we're on homepage
     if (path === "/") {
@@ -588,6 +593,7 @@ const Header = () => {
     }
   }, [path, ui]);
 
+  // Update header color based on page and scroll
   useEffect(() => {
     // Check if the current path is the home page
     const isHomePage = path === "/";
@@ -607,7 +613,6 @@ const Header = () => {
   const isTransparent = ui.headerColor === "white";
 
   return (
-    // Remove the layout prop from the header to prevent unwanted animations
     <header
       className={cn("fixed top-0 w-full z-50", {
         "text-white": isTransparent,
@@ -615,75 +620,7 @@ const Header = () => {
       })}
     >
       {/* Top Info Bar - only visible when header is transparent */}
-      {/* Replace AnimatePresence with simpler conditional rendering */}
-      {isTransparent && (
-        <div className="w-full bg-black/50 text-white overflow-hidden relative z-20">
-          <div className="container py-2">
-            <div className="flex flex-wrap justify-between items-center">
-              <div className="flex items-center space-x-6">
-                <a
-                  href="https://maps.app.goo.gl/your-location"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <MapPin size={14} />
-                  <span className="hidden sm:inline">
-                    Jl. M.T. Haryono, Jakarta 12950
-                  </span>
-                </a>
-
-                <a
-                  href="mailto:contact@tradisco.com"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <Mail size={14} />
-                  <span className="hidden sm:inline">contact@tradisco.com</span>
-                </a>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <a
-                  href="tel:+6221123456"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <Phone size={14} />
-                  <span className="hidden sm:inline">+62 21 1234 567</span>
-                </a>
-
-                <a
-                  href="https://wa.me/6281234567890"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
-                >
-                  <MessageCircle size={14} />
-                  <span className="hidden sm:inline">+62 812 3456 7890</span>
-                </a>
-
-                <div className="flex items-center space-x-3">
-                  <a
-                    href="https://instagram.com/tradisco"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-opacity-80 transition-colors"
-                  >
-                    <Instagram size={14} />
-                  </a>
-                  <a
-                    href="https://youtube.com/tradisco"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-opacity-80 transition-colors"
-                  >
-                    <Youtube size={14} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <TopInfoBar isVisible={isTransparent} />
 
       {/* Main Header */}
       <div
@@ -710,7 +647,7 @@ const Header = () => {
                   height="20"
                   viewBox="0 0 21 20"
                   fill="none"
-                  xmlns="https://www.w3.org/2000/svg"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M11.7281 0.953614C11.377 0.680505 10.9449 0.532227 10.5001 0.532227C10.0553 0.532227 9.62319 0.680505 9.2721 0.953614L0.888104 7.47361C0.136104 8.06061 0.550104 9.26561 1.5031 9.26561H2.5001V17.2656C2.5001 17.796 2.71082 18.3048 3.08589 18.6798C3.46096 19.0549 3.96967 19.2656 4.5001 19.2656H8.5001V13.2656C8.5001 12.7352 8.71082 12.2265 9.08589 11.8514C9.46096 11.4763 9.96967 11.2656 10.5001 11.2656C11.0305 11.2656 11.5392 11.4763 11.9143 11.8514C12.2894 12.2265 12.5001 12.7352 12.5001 13.2656V19.2656H16.5001C17.0305 19.2656 17.5392 19.0549 17.9143 18.6798C18.2894 18.3048 18.5001 17.796 18.5001 17.2656V9.26561H19.4971C20.4491 9.26561 20.8651 8.06061 20.1121 7.47461L11.7281 0.953614Z"
@@ -721,9 +658,9 @@ const Header = () => {
 
               <nav className="hidden md:block">
                 <ul className="flex space-x-6">
-                  {header.slice(1).map((route) => (
+                  {NAV_ITEMS.slice(1).map((route) => (
                     <li
-                      key={route.name}
+                      key={route._id}
                       className={cn("relative", {
                         "font-semibold":
                           route.isScroll &&
@@ -774,7 +711,7 @@ const Header = () => {
                   height="14"
                   viewBox="0 0 18 14"
                   fill="none"
-                  xmlns="https://www.w3.org/2000/svg"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M1.41602 12.4166H16.5827M1.41602 6.99992H16.5827M1.41602 1.58325H16.5827"
@@ -789,14 +726,14 @@ const Header = () => {
                 <DrawerTitle className="hidden">Nav Mobile</DrawerTitle>
 
                 <section className="flex justify-between items-center">
-                  <img className="w-40" src={"/logo/logo.png"} alt="close" />
+                  <img className="w-40" src="/logo/logo.png" alt="logo" />
                   <DrawerClose>
                     <X />
                   </DrawerClose>
                 </section>
 
                 <Accordion className="mt-16" type="single" collapsible>
-                  {header?.map((route, index) => (
+                  {NAV_ITEMS.map((route, index) => (
                     <NavItemMobile key={route._id} index={index} data={route} />
                   ))}
                 </Accordion>
