@@ -402,17 +402,17 @@ const TopInfoBar = ({ isVisible }) => {
                   className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
                 >
                   <Mail size={14} />
-                  <span className="hidden sm:inline">contact@tradisco.com</span>
+                  <span className="hidden sm:inline">team@tradisco.co.id</span>
                 </a>
               </div>
 
               <div className="flex items-center space-x-4">
                 <a
-                  href="tel:+6221123456"
+                  href="tel:+62895404602222"
                   className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
                 >
                   <Phone size={14} />
-                  <span className="hidden sm:inline">+62 21 1234 567</span>
+                  <span className="hidden sm:inline">+62 895-4046-02222</span>
                 </a>
 
                 <a
