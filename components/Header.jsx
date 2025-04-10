@@ -398,7 +398,7 @@ const TopInfoBar = ({ isVisible }) => {
                 </a>
 
                 <a
-                  href="mailto:contact@tradisco.com"
+                  href="mailto:team@tradisco.co.id"
                   className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
                 >
                   <Mail size={14} />
@@ -416,13 +416,13 @@ const TopInfoBar = ({ isVisible }) => {
                 </a>
 
                 <a
-                  href="https://wa.me/6281234567890"
+                  href="https://wa.me/62895404602222"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
                 >
                   <MessageCircle size={14} />
-                  <span className="hidden sm:inline">+62 812 3456 7890</span>
+                  <span className="hidden sm:inline">+62 895-4046-02222</span>
                 </a>
 
                 <div className="flex items-center space-x-3">
