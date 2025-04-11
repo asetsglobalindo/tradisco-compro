@@ -343,7 +343,7 @@ const PROJECTS_DATA = {
           type: "video",
           url: "/videos/video-engineered.mp4",
           thumbnail: "/images/video-engineered.jpg",
-          caption: "Corporate communication enhancement demo",
+          caption: "Video patra malioboro",
         },
         {
           type: "image",
