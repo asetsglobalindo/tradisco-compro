@@ -85,7 +85,7 @@ const OrganizationChart = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-lg sm:text-5xl font-bold text-gray-900 mb-4">
             Our Group
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -133,9 +133,9 @@ const OrganizationChart = () => {
                 companyData.subsidiaries.length === 1
                   ? "2%"
                   : companyData.subsidiaries.length === 2
-                  ? "60%"
+                  ? "75%"
                   : companyData.subsidiaries.length === 3
-                  ? "80%"
+                  ? "85%"
                   : companyData.subsidiaries.length === 4
                   ? "90%"
                   : "95%",
@@ -144,17 +144,17 @@ const OrganizationChart = () => {
 
           {/* Subsidiary cards with centered vertical lines */}
           <div
-            className={`grid ${getGridColumns()} gap-8 mx-auto`}
+            className={`grid ${getGridColumns()} gap-x-6 gap-y-10 mx-auto px-6 sm:px-0`}
             style={{
               width:
                 companyData.subsidiaries.length === 1
-                  ? "25%"
-                  : companyData.subsidiaries.length === 2
-                  ? "65%"
-                  : companyData.subsidiaries.length === 3
-                  ? "85%"
-                  : companyData.subsidiaries.length === 4
                   ? "90%"
+                  : companyData.subsidiaries.length === 2
+                  ? "95%"
+                  : companyData.subsidiaries.length === 3
+                  ? "95%"
+                  : companyData.subsidiaries.length === 4
+                  ? "95%"
                   : "95%",
               maxWidth: "1400px",
             }}
