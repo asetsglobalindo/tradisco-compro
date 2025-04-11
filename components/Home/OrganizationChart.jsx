@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, ChevronRight } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { ExternalLink, ChevronRight } from "lucide-react";
 
 const OrganizationChart = () => {
   // Company structure data with added website URLs
@@ -8,22 +8,25 @@ const OrganizationChart = () => {
     parent: {
       name: "Tradisco Holding",
       logo: "/logo/logo.png",
-      description: "Parent company focusing on trading, digital services, and construction"
+      description:
+        "Parent company focusing on trading, digital services, and construction",
     },
     subsidiaries: [
       {
         name: "ChatBox",
         logo: "/images/chatbox.png",
-        description: "AI-powered conversation solutions for business automation and customer engagement",
-        website: "https://chatbox.tradisco.id/"
+        description:
+          "The ultimate all-in-one consultation platform for secure chat management, AI-powered customer engagement, and expert consultation across various sectors.",
+        website: "https://chatbox.tradisco.id/",
       },
       {
         name: "Asets",
         logo: "/images/asets.png",
-        description: "Digital payment platform and merchant service solutions",
-        website: "https://asets.co.id"
-      }
-    ]
+        description:
+          "Indonesia's first AI-powered e-commerce platform connecting MSMEs to strategic assets and financial institutions, providing essential tools for business growth.",
+        website: "https://asets.co.id",
+      },
+    ],
   };
 
   // Animation variants
@@ -33,9 +36,9 @@ const OrganizationChart = () => {
       opacity: 1,
       transition: {
         when: "beforeChildren",
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -43,8 +46,8 @@ const OrganizationChart = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   // Handle card click to open website in new tab
@@ -86,7 +89,8 @@ const OrganizationChart = () => {
             Our Group
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Group structure with subsidiaries focusing on diverse industry sectors
+            Group structure with subsidiaries focusing on diverse industry
+            sectors
           </p>
         </motion.div>
 
@@ -99,9 +103,7 @@ const OrganizationChart = () => {
             transition={{ duration: 0.5 }}
             className="max-w-md mx-auto relative mb-24"
           >
-            <div
-              className="bg-white rounded-2xl shadow-xl overflow-hidden border-b-4 border-blue-500"
-            >
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-b-4 border-blue-500">
               <div className="bg-gradient-to-r from-blue-600 to-blue-400 py-6 px-8 flex justify-center">
                 <img
                   src={companyData.parent.logo}
@@ -167,10 +169,11 @@ const OrganizationChart = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                  whileHover={{ 
+                  whileHover={{
                     y: -10,
-                    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                    transition: { duration: 0.3 }
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    transition: { duration: 0.3 },
                   }}
                   className="w-full h-80 bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transition-all duration-300 border-b-4 border-blue-400 group"
                   onClick={() => handleCardClick(company.website)}
@@ -192,8 +195,13 @@ const OrganizationChart = () => {
                       </p>
                     </div>
                     <div className="flex items-center justify-center text-blue-500 mt-4 transition-all duration-300 group-hover:text-blue-600">
-                      <ExternalLink size={16} className="mr-2 transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110" />
-                      <span className="text-sm font-medium transition-all duration-300 group-hover:underline">Visit Website</span>
+                      <ExternalLink
+                        size={16}
+                        className="mr-2 transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110"
+                      />
+                      <span className="text-sm font-medium transition-all duration-300 group-hover:underline">
+                        Visit Website
+                      </span>
                     </div>
                   </div>
                 </motion.div>
