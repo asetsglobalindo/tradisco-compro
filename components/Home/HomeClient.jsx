@@ -8,7 +8,7 @@ import OurPartner from "@/components/Home/OurPartner";
 import HomeTimeline from "@/components/Home/HomeTimeline";
 import HomeProject from "@/components/Home/HomeProject";
 import HomeNews from "@/components/Home/HomeNews";
-import ModernBusinessCarousel from "./ModernBusinessCarousel";
+import ModernBusinessCarousel from "./HomeBusiness";
 
 const HomeClient = ({ content }) => {
   // Implement the smooth scroll functionality directly in this component
