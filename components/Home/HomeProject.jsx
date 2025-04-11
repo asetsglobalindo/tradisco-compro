@@ -268,7 +268,7 @@ const getItemsPerPage = (width) => {
 };
 
 const HomeProject = () => {
-  const [activeTab, setActiveTab] = useState("trading");
+  const [activeTab, setActiveTab] = useState("digital");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [windowWidth, setWindowWidth] = useState(

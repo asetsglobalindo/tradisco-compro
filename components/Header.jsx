@@ -15,15 +15,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import {
-  X,
-  Phone,
-  Mail,
-  MapPin,
-  Instagram,
-  Youtube,
-  MessageCircle,
-} from "lucide-react";
+import { X, Phone, Mail, MapPin, Youtube, MessageCircle, InstagramIcon, LinkedinIcon } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -392,7 +384,7 @@ const TopInfoBar = memo(({ isVisible }) => {
         <div className="flex flex-wrap justify-between items-center">
           <div className="flex items-center space-x-6">
             <a
-              href="https://maps.app.goo.gl/your-location"
+              href="https://www.google.co.id/maps/place/Menara+Palma/@-6.2268668,106.8308398,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69f3f1da7a4369:0x2421b19a6801489c!8m2!3d-6.2268668!4d106.8334201!16s%2Fg%2F1thvk71t?entry=ttu&g_ep=EgoyMDI1MDQwOC4wIKXMDSoJLDEwMjExNDU1SAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 text-xs hover:text-opacity-80 transition-colors"
@@ -431,21 +423,29 @@ const TopInfoBar = memo(({ isVisible }) => {
 
             <div className="flex items-center space-x-3">
               <a
-                href="https://instagram.com/tradisco"
+                href="https://instagram.com/tradisco.id"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-opacity-80 transition-colors"
               >
-                <Instagram size={14} />
+                <InstagramIcon size={14} />
               </a>
               <a
+                href="https://www.linkedin.com/company/trading-digital-and-construction"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-opacity-80 transition-colors"
+              >
+                <LinkedinIcon size={14} />
+              </a>
+              {/* <a
                 href="https://youtube.com/tradisco"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-opacity-80 transition-colors"
               >
                 <Youtube size={14} />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

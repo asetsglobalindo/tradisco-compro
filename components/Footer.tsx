@@ -66,25 +66,18 @@ const Footer = () => {
                   <h3 className="font-medium">Follow Us :</h3>
                 </div>
                 <div className="flex space-x-4">
-                  <a href="#" target="_blank" className="hover:opacity-80">
+                  <a href="https://www.instagram.com/tradisco.id" target="_blank" className="hover:opacity-80">
                     <img
-                      className="w-8 h-8"
-                      src="/icons/youtube.png"
-                      alt="YouTube"
-                    />
-                  </a>
-                  <a href="#" target="_blank" className="hover:opacity-80">
-                    <img
-                      className="w-8 h-8"
-                      src="/icons/instagram.png"
+                      className="w-4 h-4"
+                      src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/instagram.svg"
                       alt="Instagram"
                     />
                   </a>
-                  <a href="#" target="_blank" className="hover:opacity-80">
+                  <a href="https://www.linkedin.com/company/trading-digital-and-construction" target="_blank" className="hover:opacity-80">
                     <img
-                      className="w-8 h-8"
-                      src="/icons/tiktok.png"
-                      alt="TikTok"
+                      className="w-4 h-4"
+                      src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/linkedin.svg"
+                      alt="LinkedIn"
                     />
                   </a>
                 </div>

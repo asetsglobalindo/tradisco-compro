@@ -110,7 +110,7 @@ const data = {
 };
 
 const ModernBusinessCarousel = () => {
-  const [activeTabTitle, setActiveTabTitle] = useState(data.tab[0].title);
+  const [activeTabTitle, setActiveTabTitle] = useState(data.tab[1].title);
   const [activeModal, setActiveModal] = useState(null);
   const [lang, setLang] = useState("id");
   const [isMobile, setIsMobile] = useState(false);

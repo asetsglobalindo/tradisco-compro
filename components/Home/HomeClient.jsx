@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import HomeBanner from "@/components/HomeBanner";
 import GlobalPresenceSection from "@/components/Home/GlobalPresenceSection";
 import ScrollSection from "@/components/ScrollSection";
+import OrganizationChart from "@/components/Home/OrganizationChart";
 import OurPartner from "@/components/Home/OurPartner";
 import HomeTimeline from "@/components/Home/HomeTimeline";
 import HomeProject from "@/components/Home/HomeProject";
@@ -69,6 +70,10 @@ const HomeClient = ({ content }) => {
 
       <ScrollSection id="about-us" className="my-16">
         <HomeTimeline />
+      </ScrollSection>
+
+      <ScrollSection id="our-business" className="my-16">
+        <OrganizationChart data={content || []} />
       </ScrollSection>
 
       <ScrollSection id="our-business" className="my-16">
