@@ -335,11 +335,6 @@ const PROJECTS_DATA = {
       isMultimedia: true,
       gallery: [
         {
-          type: "image",
-          url: "/images/project-reference/video-service-1.jpg",
-          caption: "AI-driven video analytics dashboard",
-        },
-        {
           type: "video",
           url: "/videos/video-engineered.mp4",
           thumbnail: "/images/video-engineered.jpg",
@@ -347,25 +342,8 @@ const PROJECTS_DATA = {
         },
         {
           type: "image",
-          url: "/images/project-reference/video-service-2.jpg",
+          url: "/images/project-reference/malioboro1.jpg",
           caption: "Audience engagement heat mapping",
-        },
-        {
-          type: "video",
-          url: "/videos/predictive-analytics.mp4",
-          thumbnail: "/images/project-reference/video-thumb-2.jpg",
-          caption: "Predictive content optimization engine",
-        },
-        {
-          type: "image",
-          url: "/images/project-reference/video-service-3.jpg",
-          caption: "Video performance metrics comparison",
-        },
-        {
-          type: "video",
-          url: "/videos/case-study-results.mp4",
-          thumbnail: "/images/project-reference/video-thumb-3.jpg",
-          caption: "Fortune 500 case study results",
         },
       ],
     },
