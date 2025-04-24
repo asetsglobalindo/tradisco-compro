@@ -335,33 +335,33 @@ const PROJECTS_DATA = {
       isMultimedia: true,
       gallery: [
         {
-          type: "video",
-          url: "/videos/video-engineered.mp4",
-          thumbnail: "/images/video-engineered.jpg",
-          caption: "Video patra malioboro",
-        },
-        {
           type: "image",
           url: "/images/project-reference/malioboro1.jpg",
           caption: "Audience engagement heat mapping",
         },
         {
           type: "video",
+          url: "/videos/video-engineered.mp4",
+          thumbnail: "/images/video-engineered-1.png",
+          caption: "Video patra malioboro",
+        },
+        {
+          type: "video",
           url: "/videos/video-engineered-2.mp4",
           thumbnail: "/images/video-engineered-2.png",
-          caption: "Video patra malioboro",
+          caption: "Behind the scene- Vision Lab Branding Studio",
         },
         {
           type: "video",
           url: "/videos/video-engineered-3.mp4",
           thumbnail: "/images/video-engineered-3.png",
-          caption: "Video patra malioboro",
+          caption: "Promotional Product Warehaus Workhshop",
         },
         {
           type: "video",
           url: "/videos/video-engineered-4.mp4",
           thumbnail: "/images/video-engineered-4.png",
-          caption: "Video patra malioboro",
+          caption: "Customer shoot - Industrial Client Kleemann",
         },
       ],
     },
