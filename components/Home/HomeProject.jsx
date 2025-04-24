@@ -345,6 +345,24 @@ const PROJECTS_DATA = {
           url: "/images/project-reference/malioboro1.jpg",
           caption: "Audience engagement heat mapping",
         },
+        {
+          type: "video",
+          url: "/videos/video-engineered-2.mp4",
+          thumbnail: "/images/video-engineered-2.png",
+          caption: "Video patra malioboro",
+        },
+        {
+          type: "video",
+          url: "/videos/video-engineered-3.mp4",
+          thumbnail: "/images/video-engineered-3.png",
+          caption: "Video patra malioboro",
+        },
+        {
+          type: "video",
+          url: "/videos/video-engineered-4.mp4",
+          thumbnail: "/images/video-engineered-4.png",
+          caption: "Video patra malioboro",
+        },
       ],
     },
     {
