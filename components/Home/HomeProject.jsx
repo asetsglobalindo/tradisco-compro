@@ -363,6 +363,18 @@ const PROJECTS_DATA = {
           thumbnail: "/images/video-engineered-4.png",
           caption: "Customer shoot - Industrial Client Kleemann",
         },
+        {
+          type: "video",
+          url: "/videos/chatbox-jumper.mp4",
+          thumbnail: "/images/chatbox-jumper.png",
+          caption: "Chatbox Jumper Broadcast Campaign Teaser",
+        },
+        {
+          type: "video",
+          url: "/videos/ramadhan.mp4",
+          thumbnail: "/images/ramadhan.png",
+          caption: "Ramadhan Reflection : The Spirit of Giving for Vidya Citra",
+        },
       ],
     },
     {
