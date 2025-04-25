@@ -43,7 +43,7 @@ const data = {
         },
         {
           title: "ChatBox",
-          description: "",
+          description: "ChatBox is the ultimate all-in-one consultation platform designed to streamline interactions, protect conversations, and maximize business growth. Whether you need secure chat management, latest powered customer engagement, or expert consultation in tech, entertainment, and beyond. ChatBox is your go-to solution.",
           slug: "chatbox",
           thumbnail: "/images/chatbox.png",
         },
