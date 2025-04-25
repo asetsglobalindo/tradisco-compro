@@ -371,6 +371,12 @@ const PROJECTS_DATA = {
         },
         {
           type: "video",
+          url: "/videos/api-journey.mp4",
+          thumbnail: "/images/api-journey.png",
+          caption: "API Journey for Enhance Communication - AWS",
+        },
+        {
+          type: "video",
           url: "/videos/ramadhan.mp4",
           thumbnail: "/images/ramadhan.png",
           caption: "Ramadhan Reflection : The Spirit of Giving for Vidya Citra",
