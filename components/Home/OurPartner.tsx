@@ -82,6 +82,24 @@ const OurPartner = ({ data }) => {
       logo: "/partner/12.png",
       url: "https://partner12.com",
     },
+    {
+      id: 13,
+      name: "Partner 12",
+      logo: "/partner/bumn.png",
+      url: "https://partner12.com",
+    },
+    {
+      id: 13,
+      name: "Partner 12",
+      logo: "/partner/bumnui.jpg",
+      url: "https://partner12.com",
+    },
+    {
+      id: 13,
+      name: "Partner 12",
+      logo: "/partner/ppi.png",
+      url: "https://partner12.com",
+    },
   ];
 
   return (
