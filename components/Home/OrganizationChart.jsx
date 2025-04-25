@@ -60,7 +60,7 @@ const companyData = {
       logo: "/images/tech-lads.png",
       description:
         "Platform empowering women in technology since 2014, providing digital literacy tools and partnering with world-class organizations to help women succeed in tech, expanded in 2022 to drive impactful tech solutions across Indonesia.",
-      website: "https://tech-lads.png",
+      website: "https://tech-lads.com",
       imageSize: { width: 100, height: 50 },
     },
   ],
