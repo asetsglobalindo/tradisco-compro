@@ -9,6 +9,12 @@ import HomeTimeline from "@/components/Home/HomeTimeline";
 import HomeProject from "@/components/Home/HomeProject";
 import HomeNews from "@/components/Home/HomeNews";
 import ModernBusinessCarousel from "./HomeBusiness";
+import dynamic from "next/dynamic";
+// Dynamically import the team section component to avoid server-side rendering issues with Framer Motion
+const ModernTeamSection = dynamic(
+  () => import("@/components/Home/ModernTeamSection"),
+  { ssr: false }
+);
 
 const HomeClient = ({ content }) => {
   // Implement the smooth scroll functionality directly in this component
@@ -78,6 +84,10 @@ const HomeClient = ({ content }) => {
 
       <ScrollSection id="our-business" className="my-16">
         <ModernBusinessCarousel data={content || []} />
+      </ScrollSection>
+
+      <ScrollSection id="team" className="my-16">
+        <ModernTeamSection />
       </ScrollSection>
 
       <ScrollSection id="global-presence" className="my-16">
