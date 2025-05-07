@@ -86,9 +86,9 @@ const HomeClient = ({ content }) => {
         <ModernBusinessCarousel data={content || []} />
       </ScrollSection>
 
-      <ScrollSection id="team" className="my-16">
+      {/* <ScrollSection id="team" className="my-16">
         <ModernTeamSection />
-      </ScrollSection>
+      </ScrollSection> */}
 
       <ScrollSection id="global-presence" className="my-16">
         <GlobalPresenceSection data={content?.global_presence || {}} />
