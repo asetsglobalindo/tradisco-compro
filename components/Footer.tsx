@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import JSCookie from "js-cookie";
 import { useQuery } from "react-query";
 import ApiService from "@/lib/ApiService";
@@ -34,6 +34,18 @@ const Footer = () => {
       console.log(error);
     }
   };
+
+  // Load DMCA Badge script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://images.dmca.com/Badges/DMCABadgeHelper.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const isTransparent = ui.headerColor === "white";
 
@@ -178,9 +190,25 @@ const Footer = () => {
 
           {/* Footer Bottom / Copyright */}
           <div className="pt-12 mt-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 mb-4 md:mb-0">
-              © 2024 Tradisco Global Inovasi. All rights reserved.
-            </p>
+            <div className="flex flex-col md:flex-row items-center">
+              <p className="text-gray-500 mb-4 md:mb-0 md:mr-4">
+                © 2024 Tradisco Global Inovasi. All rights reserved.
+              </p>
+              {/* DMCA Badge */}
+              <a
+                href="https://www.dmca.com/Protection/Status.aspx?ID=fbde0192-47be-4d4e-8705-e6c8746199bf&refurl=https://tradisco.id/"
+                title="DMCA.com Protection Status"
+                className="dmca-badge mb-4 md:mb-0"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=fbde0192-47be-4d4e-8705-e6c8746199bf"
+                  alt="DMCA.com Protection Status"
+                  className="h-6"
+                />
+              </a>
+            </div>
             <div className="flex space-x-6">
               <Link
                 href="/privacy-policy"
