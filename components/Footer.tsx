@@ -192,7 +192,7 @@ const Footer = () => {
           <div className="pt-12 mt-12 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center">
               <p className="text-gray-500 mb-4 md:mb-0 md:mr-4">
-                © 2024 Tradisco Global Inovasi. All rights reserved.
+                © 2024 PT Tradisco Global Inovasi. All rights reserved.
               </p>
               {/* DMCA Badge */}
               <a
