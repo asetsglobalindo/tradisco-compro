@@ -18,6 +18,7 @@ import {
   CheckCircle,
   AlertCircle,
   Search,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -186,6 +187,8 @@ const OrderPage: React.FC = () => {
     }
   };
 
+  console.log("ini env", process.env.NEXT_PUBLIC_API_URL);
+
   // Real-time validation
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -248,7 +251,7 @@ const OrderPage: React.FC = () => {
       }
 
       // Check file type
-      if (!(API_CONFIG.UPLOAD.ALLOWED_TYPES as string[]).includes(file.type)) {
+      if (!API_CONFIG.UPLOAD.ALLOWED_TYPES.includes(file.type)) {
         newErrors.push(`${file.name} has unsupported file type`);
         return;
       }
@@ -303,8 +306,45 @@ const OrderPage: React.FC = () => {
     setSubmitError("");
 
     try {
+      // Convert form data to API format based on documentation
+      const apiData = {
+        fullName: formData.fullName,
+        companyName: formData.companyName,
+        division: formData.division,
+        companyEmail: formData.companyEmail,
+        orderDescription: formData.orderDescription,
+      };
+
+      // Handle product type based on API documentation
+      if (formData.productType === "custom") {
+        apiData.productType = "custom";
+        apiData.customProduct = formData.customProduct;
+        if (formData.projectType) {
+          apiData.projectType = formData.projectType;
+        }
+        if (formData.projectName) {
+          apiData.projectName = formData.projectName;
+        }
+      } else if (formData.productType !== "") {
+        // For predefined products, use the new API format
+        const selectedProduct = products.find(
+          (p) => p.id.toString() === formData.productType
+        );
+        if (selectedProduct) {
+          apiData.productType = "predefined";
+          apiData.productName = selectedProduct.name;
+        }
+      }
+
       // Prepare form data for API submission
-      const formDataToSend = createFormData(formData, files);
+      const formDataToSend = createFormData(apiData, files);
+
+      // Debug: Log what we're sending
+      console.log("API Data:", apiData);
+      console.log(
+        "Form data being sent:",
+        Object.fromEntries(formDataToSend.entries())
+      );
 
       // Submit to API
       const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.ORDERS), {
@@ -500,14 +540,23 @@ const OrderPage: React.FC = () => {
             Fill out the form below to submit your order request. Our team will
             review and get back to you as soon as possible.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 flex gap-3 justify-center">
             <Link href="/order/track">
               <Button
                 variant="outline"
                 className="inline-flex items-center gap-2"
               >
                 <Search className="w-4 h-4" />
-                Track Existing Order
+                Track Single Order
+              </Button>
+            </Link>
+            <Link href="/order/search">
+              <Button
+                variant="outline"
+                className="inline-flex items-center gap-2"
+              >
+                <Package className="w-4 h-4" />
+                Search All Orders
               </Button>
             </Link>
           </div>

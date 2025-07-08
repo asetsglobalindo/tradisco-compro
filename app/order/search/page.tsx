@@ -36,6 +36,13 @@ interface SearchResult {
 
 interface SearchFormData {
   email: string;
+  limit: number;
+}
+
+interface SearchMeta {
+  total_found: number;
+  limit: number;
+  email: string;
 }
 
 interface SearchFormErrors {
@@ -45,30 +52,37 @@ interface SearchFormErrors {
 const OrderSearchPage: React.FC = () => {
   const [formData, setFormData] = useState<SearchFormData>({
     email: "",
+    limit: 20, // Default limit
   });
   const [errors, setErrors] = useState<SearchFormErrors>({});
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchError, setSearchError] = useState<string>("");
+  const [searchMeta, setSearchMeta] = useState<SearchMeta | null>(null);
 
   // Email validation regex
   const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const validateField = (field: keyof SearchFormData, value: string): string => {
+  const validateField = (field: keyof SearchFormData, value: string | number): string => {
     switch (field) {
       case "email":
-        if (!value.trim()) return "Email is required";
-        if (!emailRegex.test(value)) return "Please enter a valid email address";
+        if (!String(value).trim()) return "Email is required";
+        if (!emailRegex.test(String(value))) return "Please enter a valid email address";
+        return "";
+      case "limit":
+        const numValue = Number(value);
+        if (numValue < 1) return "Limit must be at least 1";
+        if (numValue > 50) return "Limit cannot exceed 50";
         return "";
       default:
         return "";
     }
   };
 
-  const handleInputChange = (field: keyof SearchFormData, value: string): void => {
+  const handleInputChange = (field: keyof SearchFormData, value: string | number): void => {
     setFormData((prev) => ({
       ...prev,
-      [field]: value,
+      [field]: field === 'limit' ? Number(value) : value,
     }));
 
     // Clear errors when user starts typing
@@ -85,6 +99,10 @@ const OrderSearchPage: React.FC = () => {
     // Validate email
     const emailError = validateField("email", formData.email);
     if (emailError) newErrors.email = emailError;
+    
+    // Validate limit
+    const limitError = validateField("limit", formData.limit);
+    if (limitError) newErrors.limit = limitError;
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -100,16 +118,25 @@ const OrderSearchPage: React.FC = () => {
     setSearchResults([]);
 
     try {
+      // 📋 Enhanced search with user-configurable limit
+      const searchPayload = {
+        email: formData.email,
+        limit: formData.limit
+      };
+
+      console.log('🔍 Enhanced search payload:', searchPayload);
+
       const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.ORDERS_SEARCH), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: formData.email }),
+        body: JSON.stringify(searchPayload),
       });
 
       const result = await handleApiResponse(response);
       setSearchResults(result.data || []);
+      setSearchMeta(result.meta || null);
       
     } catch (error) {
       console.error("Error searching orders:", error);
@@ -139,19 +166,33 @@ const OrderSearchPage: React.FC = () => {
             Search Your Orders
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Enter your email address to find all orders associated with your account.
-            View order status, pricing, and change information for each order.
+            Find all your orders quickly by searching with your email address. 
+            Perfect for viewing your order history and tracking multiple orders at once.
           </p>
+          <div className="mt-6 flex gap-3 justify-center">
+            <Link href="/order">
+              <Button variant="outline" className="inline-flex items-center gap-2">
+                <Package className="w-4 h-4" />
+                Create New Order
+              </Button>
+            </Link>
+            <Link href="/order/track">
+              <Button variant="outline" className="inline-flex items-center gap-2">
+                <Search className="w-4 h-4" />
+                Track Single Order
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <Card className="shadow-xl mb-8">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Search className="w-6 h-6" />
-              Search Orders by Email
+              Search Your Orders
             </CardTitle>
             <CardDescription>
-              Enter your email address to see all your orders (maximum 20 results)
+              Enter your email address to see all your orders (default 20 results, up to 50)
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -166,27 +207,55 @@ const OrderSearchPage: React.FC = () => {
             )}
 
             <form onSubmit={handleSearchOrders} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">
-                  Email Address <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email address"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  className={cn(
-                    "h-12",
-                    errors.email ? "border-red-500 focus:ring-red-500" : ""
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="email" className="text-sm font-medium">
+                    Email Address <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    className={cn(
+                      "h-12",
+                      errors.email ? "border-red-500 focus:ring-red-500" : ""
+                    )}
+                  />
+                  {errors.email && (
+                    <div className="flex items-center space-x-1 text-red-500 text-xs">
+                      <AlertCircle className="w-3 h-3" />
+                      <span>{errors.email}</span>
+                    </div>
                   )}
-                />
-                {errors.email && (
-                  <div className="flex items-center space-x-1 text-red-500 text-xs">
-                    <AlertCircle className="w-3 h-3" />
-                    <span>{errors.email}</span>
-                  </div>
-                )}
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="limit" className="text-sm font-medium">
+                    How many orders?
+                  </Label>
+                  <Input
+                    id="limit"
+                    type="number"
+                    min="1"
+                    max="50"
+                    placeholder="20"
+                    value={formData.limit}
+                    onChange={(e) => handleInputChange("limit", e.target.value)}
+                    className={cn(
+                      "h-12",
+                      errors.limit ? "border-red-500 focus:ring-red-500" : ""
+                    )}
+                  />
+                  {errors.limit && (
+                    <div className="flex items-center space-x-1 text-red-500 text-xs">
+                      <AlertCircle className="w-3 h-3" />
+                      <span>{errors.limit}</span>
+                    </div>
+                  )}
+                  <p className="text-xs text-gray-500">Show up to 50 orders</p>
+                </div>
               </div>
 
               <div className="flex justify-center">
@@ -215,15 +284,40 @@ const OrderSearchPage: React.FC = () => {
         {/* Search Results */}
         {searchResults.length > 0 && (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">
-                Search Results ({searchResults.length} orders found)
-              </h2>
-              <Link href="/order/track">
-                <Button variant="outline" size="sm">
-                  Track Specific Order
-                </Button>
-              </Link>
+            {/* Enhanced Results Header with Metadata */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  📋 Your Order History
+                </h2>
+                <Link href="/order/track">
+                  <Button variant="outline" size="sm">
+                    Track Specific Order
+                  </Button>
+                </Link>
+              </div>
+              
+              {searchMeta && (
+                <div className="flex flex-wrap gap-4 text-sm text-blue-700">
+                  <div className="flex items-center gap-1">
+                    <Mail className="w-4 h-4" />
+                    <span className="font-medium">{searchMeta.email}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Package className="w-4 h-4" />
+                    <span>{searchMeta.total_found} orders found</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Search className="w-4 h-4" />
+                    <span>Showing {Math.min(searchResults.length, searchMeta.limit)} results</span>
+                  </div>
+                  {searchMeta.total_found > searchMeta.limit && (
+                    <div className="text-orange-600 font-medium">
+                      ⚠️ {searchMeta.total_found - searchMeta.limit} more orders available
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -310,6 +404,55 @@ const OrderSearchPage: React.FC = () => {
                 </Card>
               ))}
             </div>
+            
+            {/* Load More Section */}
+            {searchMeta && searchMeta.total_found > searchMeta.limit && (
+              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                <p className="text-gray-600 mb-4">
+                  Showing {searchResults.length} of {searchMeta.total_found} orders from your history
+                </p>
+                <div className="flex justify-center gap-3">
+                  <Button 
+                    variant="outline"
+                    onClick={async () => {
+                      const newLimit = Math.min(searchMeta.total_found, searchMeta.limit + 20);
+                      handleInputChange('limit', newLimit);
+                      
+                      // Auto-submit with new limit
+                      setTimeout(() => {
+                        const form = document.querySelector('form');
+                        if (form) {
+                          form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                        }
+                      }, 100);
+                    }}
+                    disabled={isSearching}
+                  >
+                    {isSearching ? 'Loading...' : `Load More (+${Math.min(20, searchMeta.total_found - searchMeta.limit)})`}
+                  </Button>
+                  <Button 
+                    variant="secondary"
+                    onClick={async () => {
+                      handleInputChange('limit', searchMeta.total_found);
+                      
+                      // Auto-submit with new limit
+                      setTimeout(() => {
+                        const form = document.querySelector('form');
+                        if (form) {
+                          form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                        }
+                      }, 100);
+                    }}
+                    disabled={isSearching}
+                  >
+                    {isSearching ? 'Loading...' : `Show All (${searchMeta.total_found})`}
+                  </Button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Click "Load More" to see more of your orders, or "Show All" to see your complete history
+                </p>
+              </div>
+            )}
           </div>
         )}
 
@@ -351,9 +494,9 @@ const OrderSearchPage: React.FC = () => {
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="font-semibold mb-2">Easy Search</h3>
+              <h3 className="font-semibold mb-2">Quick Search</h3>
               <p className="text-sm text-gray-600">
-                Find all your orders with just your email address
+                Find all your orders instantly with just your email
               </p>
             </CardContent>
           </Card>
@@ -363,9 +506,9 @@ const OrderSearchPage: React.FC = () => {
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Package className="w-6 h-6 text-green-600" />
               </div>
-              <h3 className="font-semibold mb-2">Complete Information</h3>
+              <h3 className="font-semibold mb-2">Order History</h3>
               <p className="text-sm text-gray-600">
-                View status, pricing, and change information for each order
+                View all your orders with status, pricing, and progress tracking
               </p>
             </CardContent>
           </Card>
@@ -375,9 +518,9 @@ const OrderSearchPage: React.FC = () => {
               <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-6 h-6 text-purple-600" />
               </div>
-              <h3 className="font-semibold mb-2">Need Help?</h3>
+              <h3 className="font-semibold mb-2">Easy Navigation</h3>
               <p className="text-sm text-gray-600">
-                Contact our support team if you need assistance
+                Jump directly to order details or track specific orders
               </p>
             </CardContent>
           </Card>

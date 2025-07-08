@@ -23,7 +23,8 @@ import {
   Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { API_CONFIG, buildApiUrl, handleApiResponse } from "@/lib/api-config";
+import Link from "next/link";
+import { API_CONFIG, buildApiUrl, handleApiResponse, getOptimalTrackingEndpoint, logEndpointUsage } from "@/lib/api-config";
 import {
   StatusBadge,
   ChangeTypeBadge,
@@ -239,10 +240,11 @@ const OrderTrackingClient: React.FC = () => {
     setOrderStatus(null);
 
     try {
-      const endpoint =
-        viewMode === "status"
-          ? API_CONFIG.ENDPOINTS.ORDERS_STATUS(formData.identifier)
-          : API_CONFIG.ENDPOINTS.ORDERS_DETAILS(formData.identifier);
+      // 🎯 Use optimal endpoint selection
+      const endpoint = getOptimalTrackingEndpoint(formData.identifier, viewMode);
+      
+      // 📊 Log usage for analytics
+      logEndpointUsage(endpoint, formData.identifier);
 
       const response = await fetch(buildApiUrl(endpoint), {
         method: "GET",
@@ -317,6 +319,20 @@ const OrderTrackingClient: React.FC = () => {
             track your order status. Auto-detection will determine the tracking
             method.
           </p>
+          <div className="mt-6 flex gap-3 justify-center">
+            <Link href="/order">
+              <Button variant="outline" className="inline-flex items-center gap-2">
+                <Package className="w-4 h-4" />
+                Create New Order
+              </Button>
+            </Link>
+            <Link href="/order/search">
+              <Button variant="outline" className="inline-flex items-center gap-2">
+                <Search className="w-4 h-4" />
+                Search All Orders
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* View Mode Toggle */}
@@ -837,14 +853,11 @@ const OrderTrackingClient: React.FC = () => {
                       setSearchError("");
 
                       try {
-                        const endpoint =
-                          newMode === "status"
-                            ? API_CONFIG.ENDPOINTS.ORDERS_STATUS(
-                                formData.identifier
-                              )
-                            : API_CONFIG.ENDPOINTS.ORDERS_DETAILS(
-                                formData.identifier
-                              );
+                        // 🎯 Use optimal endpoint for view mode switching
+                        const endpoint = getOptimalTrackingEndpoint(formData.identifier, newMode);
+                        
+                        // 📊 Log usage for analytics
+                        logEndpointUsage(endpoint, formData.identifier);
 
                         const response = await fetch(buildApiUrl(endpoint), {
                           method: "GET",
