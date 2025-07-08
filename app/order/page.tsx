@@ -11,10 +11,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Upload, X, FileText, CheckCircle, AlertCircle, Search } from "lucide-react";
+import {
+  Upload,
+  X,
+  FileText,
+  CheckCircle,
+  AlertCircle,
+  Search,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { API_CONFIG, buildApiUrl, handleApiResponse, createFormData } from "@/lib/api-config";
+import {
+  API_CONFIG,
+  buildApiUrl,
+  handleApiResponse,
+  createFormData,
+} from "@/lib/api-config";
 
 // Types
 interface Product {
@@ -71,11 +83,13 @@ const OrderPage: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.PRODUCTS));
+        const response = await fetch(
+          buildApiUrl(API_CONFIG.ENDPOINTS.PRODUCTS)
+        );
         const result = await handleApiResponse(response);
         setProducts(result.data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
         // Fallback to mock data if API fails
         setProducts([
           { id: 1, name: "Trading Services", category: "Trading" },
@@ -225,12 +239,16 @@ const OrderPage: React.FC = () => {
     selectedFiles.forEach((file) => {
       // Check file size
       if (file.size > API_CONFIG.UPLOAD.MAX_SIZE) {
-        newErrors.push(`${file.name} exceeds ${API_CONFIG.UPLOAD.MAX_SIZE / 1024 / 1024}MB limit`);
+        newErrors.push(
+          `${file.name} exceeds ${
+            API_CONFIG.UPLOAD.MAX_SIZE / 1024 / 1024
+          }MB limit`
+        );
         return;
       }
 
       // Check file type
-      if (!API_CONFIG.UPLOAD.ALLOWED_TYPES.includes(file.type)) {
+      if (!(API_CONFIG.UPLOAD.ALLOWED_TYPES as string[]).includes(file.type)) {
         newErrors.push(`${file.name} has unsupported file type`);
         return;
       }
@@ -287,19 +305,19 @@ const OrderPage: React.FC = () => {
     try {
       // Prepare form data for API submission
       const formDataToSend = createFormData(formData, files);
-      
+
       // Submit to API
       const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.ORDERS), {
-        method: 'POST',
+        method: "POST",
         body: formDataToSend,
       });
-      
+
       const result = await handleApiResponse(response);
-      
+
       // Store order number for tracking
       setOrderNumber(result.data.order_number);
-      localStorage.setItem('last_order_number', result.data.order_number);
-      
+      localStorage.setItem("last_order_number", result.data.order_number);
+
       // Reset form
       setFormData({
         fullName: "",
@@ -316,14 +334,14 @@ const OrderPage: React.FC = () => {
       setErrors({});
       setTouched({});
       setIsSubmitted(true);
-      
+
       // Reset success state after 10 seconds
       setTimeout(() => setIsSubmitted(false), 10000);
     } catch (error) {
       console.error("Error submitting order:", error);
       setSubmitError(
-        error instanceof Error 
-          ? error.message 
+        error instanceof Error
+          ? error.message
           : "An error occurred while submitting your order. Please try again."
       );
     } finally {
@@ -484,7 +502,10 @@ const OrderPage: React.FC = () => {
           </p>
           <div className="mt-4">
             <Link href="/order/track">
-              <Button variant="outline" className="inline-flex items-center gap-2">
+              <Button
+                variant="outline"
+                className="inline-flex items-center gap-2"
+              >
                 <Search className="w-4 h-4" />
                 Track Existing Order
               </Button>
@@ -569,7 +590,9 @@ const OrderPage: React.FC = () => {
               <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
                 <div className="flex items-center space-x-2">
                   <AlertCircle className="w-5 h-5 text-red-500" />
-                  <p className="text-red-700 font-medium">Error submitting order</p>
+                  <p className="text-red-700 font-medium">
+                    Error submitting order
+                  </p>
                 </div>
                 <p className="text-red-600 text-sm mt-1">{submitError}</p>
               </div>
