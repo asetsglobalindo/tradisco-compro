@@ -15,7 +15,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import { X, Phone, Mail, MapPin, Youtube, MessageCircle, InstagramIcon, LinkedinIcon } from "lucide-react";
+import {
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  Youtube,
+  MessageCircle,
+  InstagramIcon,
+  LinkedinIcon,
+} from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -83,13 +92,14 @@ const NAV_ITEMS = [
     isScroll: true,
     childs: [],
   },
-  // {
-  //   _id: "nav6",
-  //   name: "Contact",
-  //   route: "/contact",
-  //   isScroll: false,
-  //   childs: [],
-  // },
+  {
+    _id: "order",
+    name: "Order",
+    route: "/order",
+    // homeScrollId: "",
+    isScroll: false,
+    childs: [],
+  },
 ];
 
 // Contact information constants
