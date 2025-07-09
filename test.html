@@ -1,1 +1,702 @@
-<a href="//www.dmca.com/Protection/Status.aspx?ID=fbde0192-47be-4d4e-8705-e6c8746199bf" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=fbde0192-47be-4d4e-8705-e6c8746199bf"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Ultimate Consultation and Communication Platform · Chatbox</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+
+    <script type="module" src="http://[::1]:5173/@vite/client" data-navigate-track="reload"></script>
+    <link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" data-navigate-track="reload" />
+    <script type="module" src="http://[::1]:5173/resources/js/app.js" data-navigate-track="reload"></script>
+    <style>
+        :root.dark {
+            color-scheme: dark;
+        }
+    </style>
+
+    <script>
+        window.Chatbox = {
+        applyAppearance(appearance) {
+
+            let applyDark = () => document.documentElement.classList.add('dark');
+            let applyLight = () => document.documentElement.classList.remove('dark');
+
+            if (appearance === 'system') {
+
+                let media = window.matchMedia('(prefers-color-scheme: dark)');
+
+                window.localStorage.removeItem('chatbox.appearance');
+
+                media.matches ? applyDark() : applyLight();
+
+            } else if (appearance === 'dark') {
+
+                window.localStorage.setItem('chatbox.appearance', 'dark');
+
+                applyDark();
+
+            } else if (appearance === 'light') {
+
+                window.localStorage.setItem('chatbox.appearance', 'light');
+
+                applyLight();
+            }
+        }
+    };
+
+    window.Chatbox.applyAppearance(window.localStorage.getItem('chatbox.appearance') || 'system');
+    </script>
+
+    <script data-navigate-once>
+        document.addEventListener("alpine:init", () => {
+
+        let applyAppearance = window.Chatbox?.applyAppearance;
+
+        if (!applyAppearance) {
+            applyAppearance = () => {
+                window.Chatbox.appearance = null;
+                window.localStorage.removeItem("chatbox.appearance");
+            };
+        };
+
+        const chatboxState = Alpine.reactive({
+            appearance: window.localStorage.getItem("chatbox.appearance") || "system",
+            systemAppearanceChanged: 1,
+
+            get dark() {
+
+                const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                return this.appearance === "system" ? prefersDark : this.appearance === "dark";
+            },
+
+            set dark(value) {
+                const isCurrentlyDark = this.dark;
+                if (value !== isCurrentlyDark) {
+                    this.appearance = value ? "dark" : "light";
+                }
+            }
+        });
+
+        window.Chatbox = chatboxState;
+        Alpine.magic("chatbox", () => chatboxState);
+
+        Alpine.effect(() => {
+            applyAppearance(chatboxState.appearance);
+        });
+
+        document.addEventListener("livewire:navigated", () => {
+            applyAppearance(chatboxState.appearance);
+        });
+
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            chatboxState.systemAppearanceChanged++;
+            applyAppearance(chatboxState.appearance);
+        });
+    });
+    </script>
+
+    <!-- Livewire Styles -->
+    <style>
+        [wire\:loading][wire\:loading],
+        [wire\:loading\.delay][wire\:loading\.delay],
+        [wire\:loading\.inline-block][wire\:loading\.inline-block],
+        [wire\:loading\.inline][wire\:loading\.inline],
+        [wire\:loading\.block][wire\:loading\.block],
+        [wire\:loading\.flex][wire\:loading\.flex],
+        [wire\:loading\.table][wire\:loading\.table],
+        [wire\:loading\.grid][wire\:loading\.grid],
+        [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {
+            display: none;
+        }
+
+        [wire\:loading\.delay\.none][wire\:loading\.delay\.none],
+        [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest],
+        [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter],
+        [wire\:loading\.delay\.short][wire\:loading\.delay\.short],
+        [wire\:loading\.delay\.default][wire\:loading\.delay\.default],
+        [wire\:loading\.delay\.long][wire\:loading\.delay\.long],
+        [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer],
+        [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {
+            display: none;
+        }
+
+        [wire\:offline][wire\:offline] {
+            display: none;
+        }
+
+        [wire\:dirty]:not(textarea):not(input):not(select) {
+            display: none;
+        }
+
+        :root {
+            --livewire-progress-bar-color: #5245a9;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        [wire\:cloak] {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-800">
+
+    <header class="fixed w-full z-[45]">
+        <nav class="bg-white border-gray-200 py-3 dark:bg-gray-900 shadow-md" x-data="{ navOpen: false }">
+            <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
+
+                <a href="http://localhost:8000" wire:navigate>
+                    <img src="/images/logo/chatbox500.png" class="h-10">
+                </a>
+
+                <div class="flex items-center lg:order-2">
+                    <div x-data>
+                        <button type="button" class="cursor-pointer rounded-lg p-2 text-gray-800 dark:text-white bg-white hover:bg-gray-100 dark:bg-gray-900  dark:hover:bg-gray-800"
+        x-on:click="$chatbox.appearance=$chatbox.appearance==='light'?'dark':$chatbox.appearance==='dark'?'system':'light';localStorage.setItem('chatbox.appearance',$chatbox.appearance);">
+
+        <template x-if="$chatbox.appearance === 'light'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 16 16">
+    <path
+        d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+</svg>
+        </template>
+
+        <template x-if="$chatbox.appearance === 'dark'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 16 16">
+    <path
+        d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+</svg>
+        </template>
+
+        <template x-if="$chatbox.appearance === 'system'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 16 16">
+    <path
+        d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145" />
+</svg>
+        </template>
+
+    </button>
+                    </div>
+
+                    <a href="http://localhost:8000/login" wire:navigate
+                        class="px-2 sm:px-4 py-2 mr-1 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-semibold rounded-lg text-sm focus:outline-none">
+                        <span class="max-sm:hidden">Sign in</span>
+                        <span class="sm:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="block h-5 w-5 fill-current mr-1" viewBox="0 0 16 16">
+    <path fill-rule="evenodd"
+        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z" />
+    <path fill-rule="evenodd"
+        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+</svg>
+                        </span>
+                    </a>
+
+                    <button type="button" @click="navOpen=!navOpen" @click.outside="if(navOpen)navOpen=false"
+                    class="p-2 ml-1 rounded-lg lg:hidden focus:outline-none text-gray-700 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-700">
+
+                    <span class="sr-only">Open main menu</span>
+                    <svg x-show="navOpen" class="block w-5 h-5 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd"
+        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+        clip-rule="evenodd"></path>
+</svg>
+                    <svg x-show="!navOpen" class="block w-5 h-5 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd"
+        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+        clip-rule="evenodd"></path>
+</svg>
+                </button>
+                </div>
+
+                <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1"
+                    x-bind:class="{ 'hidden': !navOpen }">
+                    <ul class="flex flex-col mt-4 font-normal lg:flex-row lg:space-x-8 lg:mt-0">
+
+                        <li>
+                            <hr class="lg:hidden w-11/12 mx-auto border-gray-100 dark:border-gray-800">
+                            <a href="/about" wire:navigate
+                                class="block py-2 px-5 lg:p-0 rounded-md lg:hover:text-purple-700 text-gray-700 dark:text-gray-400 dark:hover:text-white  lg:dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 lg:hover:bg-transparent lg:dark:hover:bg-transparent">About</a>
+                        </li>
+                        <li>
+                            <hr class="lg:hidden w-11/12 mx-auto border-gray-100 dark:border-gray-800">
+                            <a href="/documentation" wire:navigate
+                                class="block py-2 px-5 lg:p-0 rounded-md lg:hover:text-purple-700 text-gray-700 dark:text-gray-400 dark:hover:text-white  lg:dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 lg:hover:bg-transparent lg:dark:hover:bg-transparent">Documentation</a>
+                        </li>
+                        <li>
+                            <hr class="lg:hidden w-11/12 mx-auto border-gray-100 dark:border-gray-800">
+                            <a href="/news" wire:navigate
+                                class="block py-2 px-5 lg:p-0 rounded-md lg:hover:text-purple-700 text-gray-700 dark:text-gray-400 dark:hover:text-white  lg:dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 lg:hover:bg-transparent lg:dark:hover:bg-transparent">News</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section id="hero" class="pt-16 pb-14">
+
+        <div class="max-w-screen-xl mx-auto grid lg:grid-cols-5 grid-cols-1">
+
+            <div class="lg:order-2 col-span-2 px-8 py-14">
+                <img src="/images/web/illustration.png" class="max-w-[500px] w-full mx-auto">
+            </div>
+
+            <div class="lg:order-1 col-span-3 flex justify-center">
+                <div class="min-w-full my-auto px-8">
+                    <h1 class="text-4xl font-semibold my-auto mb-4"
+                        x-data="TypingAnimation({ text: ['WhatsApp Business', 'SMS Advertising', 'Instagram Verified'], class: ['text-emerald-600', 'text-rose-700', 'text-indigo-600'], speed: 180 })">
+                        <span class="text-gray-800 dark:text-white">The Ultimate All-in-One </span>
+                        <span class="text-indigo-800 dark:text-indigo-200">Consultation </span>
+                        <br>
+                        <span class="text-gray-800 dark:text-white">and </span>
+                        <span class="text-indigo-800 dark:text-indigo-200">Communication </span>
+                        <span class="text-gray-800 dark:text-white">Platform </span>
+                        <br>
+                        <span class="text-gray-800 dark:text-white">for </span>
+                        <span class="dark:text-indigo-200" x-text="displayText" x-bind:class="displayClass"></span>
+                        <span class="border-r-2 border-gray-400 ml-0 animate-pulse"></span>
+                    </h1>
+                    <p class="font-normal text-gray-800 dark:text-gray-100">
+                        ChatBox is the ultimate all-in-one consultation platform designed to streamline interactions,
+                        protect conversations, and maximize business growth. Whether you need secure chat management,
+                        latest powered customer engagement, or expert consultation in tech, entertainment, and beyond.
+                        ChatBox is your go-to solution.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="pb-8 pt-6 bg-white dark:bg-gray-900/40">
+        <div class="max-w-screen-xl px-4 mx-auto">
+
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Stay in the Loop</h2>
+                <p class="text-base font-normal text-gray-800 dark:text-gray-300">
+                    Stay updated with the latest news and insights from Chatbox.
+                </p>
+            </div>
+
+            <div wire:snapshot="{&quot;data&quot;:{&quot;news&quot;:[[],{&quot;s&quot;:&quot;arr&quot;}]},&quot;memo&quot;:{&quot;id&quot;:&quot;j23fL9XoCYuhBhIlRsvt&quot;,&quot;name&quot;:&quot;sections.home-news-section&quot;,&quot;path&quot;:&quot;\/&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;lazyLoaded&quot;:false,&quot;lazyIsolated&quot;:true,&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;},&quot;checksum&quot;:&quot;223fa2d052fc159ad80f9f4f79fe4e6a94dcb509b8740f4ee7008a64254abe71&quot;}"
+                wire:effects="[]" wire:id="j23fL9XoCYuhBhIlRsvt"
+                x-intersect="$wire.__lazyLoad(&#039;eyJkYXRhIjp7ImZvck1vdW50IjpbW10seyJzIjoiYXJyIn1dfSwibWVtbyI6eyJpZCI6Inc4dEc0Y1FGWk9oRWJhc3AySmJqIiwibmFtZSI6Il9fbW91bnRQYXJhbXNDb250YWluZXIifSwiY2hlY2tzdW0iOiIwZTM0NWFjY2VmMzdjNzY2Njk5ZDg3YzI0NDNkZWUyYWUyNDc3ZWRhNjZiMzFmYTg1Yjg5M2E0MzBlMWMwMjY1In0=&#039;)">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 animate-pulse">
+                    <div class="rounded-lg p-4 h-72 bg-gray-200 dark:bg-gray-700">
+                        <div class="bg-gray-300 dark:bg-gray-500 h-6 w-28 rounded-lg"></div>
+                    </div>
+                    <div class="rounded-lg p-4 h-72 bg-gray-200 dark:bg-gray-700">
+                        <div class="bg-gray-300 dark:bg-gray-500 h-6 w-28 rounded-lg"></div>
+                    </div>
+                    <div class="rounded-lg p-4 h-72 bg-gray-200 dark:bg-gray-700">
+                        <div class="bg-gray-300 dark:bg-gray-500 h-6 w-28 rounded-lg"></div>
+                    </div>
+                    <div class="rounded-lg p-4 h-72 bg-gray-200 dark:bg-gray-700">
+                        <div class="bg-gray-300 dark:bg-gray-500 h-6 w-28 rounded-lg"></div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 animate-pulse">
+                    <div class="bg-gray-200 dark:bg-gray-700 rounded-3xl h-9 w-52 mx-auto"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="faq" class="pt-6">
+        <div class="max-w-screen-xl px-4 mx-auto">
+
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-semibold text-indigo-800 dark:text-indigo-300 mb-2">
+                    What You Need to Know
+                </h2>
+                <p class="text-base font-normal text-gray-800 dark:text-gray-300">
+                    Helpful answers for informed decisions.
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+
+
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">What is ChatBox Tradisco?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">ChatBox Tradisco is an all-in-one communication,
+                            marketing, and brand security platform. It combines WhatsApp Blast, SMS Blast, Instagram
+                            Automation, Location-Based Campaigns, and Security Management into a single smart system —
+                            helping businesses connect faster, sell smarter, and protect their brands effortlessly.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">How does ChatBox help my business grow faster?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">ChatBox automates customer interactions across
+                            WhatsApp, Instagram, and SMS. It helps you:<br>
+                    • Blast personalized promotions to thousands instantly<br>
+                    • Capture leads and manage loyalty programs automatically<br>
+                    • Secure your Instagram accounts from hacking risks<br>
+                    • Send hyper-targeted SMS based on real-time location<br>
+                    • Analyze campaign results with powerful dashboards<br><br>
+                    Result: More engagement, more trust, more sales.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">Can I use ChatBox for WhatsApp Blast legally?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">Absolutely! ChatBox is verified for WhatsApp API
+                            compliance. It allows businesses to send official broadcast campaigns while protecting
+                            customer privacy and ensuring high deliverability rates.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">What is SMS Blast with Location-Based Targeting?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">ChatBox lets you send SMS promotions to users within
+                            a specific radius (like 2km) of your business location. Perfect for cafés, shops,
+                            restaurants, clinics, and event promotions — you can target the right audience at the right
+                            time and boost foot traffic instantly.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">How does ChatBox help with Instagram Security and Recovery?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">ChatBox provides special support to:<br>
+                    • Recover hacked Instagram accounts<br>
+                    • Strengthen your account's security settings<br>
+                    • Monitor unauthorized login attempts<br>
+                    • Auto-respond to DMs and comments safely<br><br>
+                    Your brand remains active, protected, and responsive — even during account issues.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">Can ChatBox manage Instagram Auto DM and Campaigns?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">Yes! With ChatBox, you can:<br>
+                    • Auto-reply DMs, Comments, and Story Mentions<br>
+                    • Create interactive DM flows for promotions, bookings, or FAQs<br>
+                    • Turn your Instagram into a sales and loyalty machine with minimal effort<br><br>
+                    No more losing customers due to missed DMs or manual delays.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">Is ChatBox only for big businesses?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">Not at all! ChatBox is made for everyone — from
+                            small local businesses (UMKM) to national brands. You can start small with WhatsApp only,
+                            and scale up to SMS, Instagram, and even CRM integrations as your business grows.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">How secure is ChatBox?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">Extremely secure.<br>
+                    • End-to-End Encryption<br>
+                    • Official WhatsApp Business API Compliance<br>
+                    • Instagram Verified Automation<br>
+                    • Advanced User Authentication & Anti-Phishing Filters<br>
+                    • GDPR-Ready and Local Compliance Standards<br><br>
+                    Your customer data and brand assets are fully protected.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">How quickly can I launch my first campaign with ChatBox?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">Super fast!<br>
+                    • WhatsApp/Instagram/SMS account setup within 24-72 hours<br>
+                    • Ready-to-use templates for promotions and customer flows<br>
+                    • Dedicated Tradisco onboarding team to help you build your first campaign right away.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">What integrations are available with ChatBox?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">ChatBox integrates with:<br>
+                    • CRM systems (HubSpot, Salesforce, Zoho)<br>
+                    • E-commerce stores (Shopify, WooCommerce)<br>
+                    • ERP platforms<br>
+                    • Payment gateways<br>
+                    • Security monitoring tools<br><br>
+                    One system, unlimited synergy.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">What makes ChatBox different from other chatbots?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">• Multi-Channel Mastery (WA + IG + SMS + Website)<br>
+                    • Location-Based Advertising Expertise<br>
+                    • Instagram Account Protection Services<br>
+                    • Smart, Human-like AI Response<br>
+                    • Campaign Manager & Analytics Dashboard<br>
+                    • Hyper-Personalized User Journeys<br>
+                    • Built specifically for Indonesian businesses and global scalability<br><br>
+                    ChatBox is not just a chatbot. It's your digital brand partner.</p>
+                    </div>
+                </div>
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-md shadow-sm mb-4">
+                    <button @click="open = !open"
+                class="w-full flex items-center justify-between p-5 text-left focus:outline-none">
+                <span class="text-gray-900 dark:text-white font-medium">How can I start with ChatBox Tradisco?</span>
+                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 transition-transform duration-200"
+                    :class="{ 'transform rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                </svg>
+            </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-2" class="px-5 pb-5">
+                        <p class="text-gray-600 dark:text-gray-300">1. Contact us via website or WhatsApp.<br>
+                    2. Choose your campaign goal (sales, awareness, loyalty, security).<br>
+                    3. Get a customized plan from our expert team.<br>
+                    4. Launch your campaign within days, not weeks.<br>
+                    5. Track results, scale success.<br><br>
+                    🚀 Ready to automate, secure, and skyrocket your brand? Let's launch with ChatBox Tradisco!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="mt-auto bg-white py-8 dark:bg-gray-900">
+
+        <div class="mx-auto max-w-screen-xl px-4">
+
+            <div class="grid grid-cols-6 gap-8">
+
+                <div class="col-span-3 max-md:col-span-6">
+                    <img src="/images/logo/chatbox500.png" alt="ChatBox" class="mb-8 h-10">
+                    <div class="max-w-md">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">ChatBox is An Intelligence All in One
+                            Consultation Platform from Tech Entertainment to Chat Channel. Secured, Protected & Maximize
+                            your B2B Businesses.</p>
+                    </div>
+                </div>
+
+                <div class="col-span-1 pt-5 max-md:col-span-2">
+                    <h3 class="mb-6 text-sm font-semibold uppercase text-gray-400">SITEMAP</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li>
+                            <a href="/" wire:navigate class="text-gray-700 hover:text-indigo-600 dark:text-white">Home
+                                Page</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8000/about" wire:navigate
+                                class="text-gray-700 hover:text-indigo-600 dark:text-white">About</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8000/documentation" wire:navigate
+                                class="text-gray-700 hover:text-indigo-600 dark:text-white">Documentation</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8000/news" wire:navigate
+                                class="text-gray-700 hover:text-indigo-600 dark:text-white">News</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 pt-5 max-md:col-span-4">
+                    <h3 class="mb-6 text-sm font-semibold uppercase text-gray-400">CONTACT US</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li>
+                            <p class="text-sm text-gray-800 dark:text-white">Menara Palma 2nd Floor, Jl. H. R. Rasuna
+                                Said,
+                                DKI Jakarta 12950</p>
+                        </li>
+                        <li>
+                            <a href="mailto:team@tradisco.co.id"
+                                class="text-gray-800 hover:text-indigo-600 dark:text-white">team@tradisco.co.id</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 border-t border-gray-200 pt-6 text-center dark:border-gray-800">
+                <p class="text-xs font-normal text-gray-400 dark:text-gray-600">
+                    &copy; 2025 Chatbox Tradisco all rights reserved.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Livewire Scripts -->
+    <script src="/livewire/livewire.js?id=df3a17f2" data-csrf="E5KRt2ZR8ydRNcMEkkO4oaEuYA01GfWBQg6zOuh4"
+        data-update-uri="/livewire/update" data-navigate-once="true"></script>
+
+</body>
+
+</html>

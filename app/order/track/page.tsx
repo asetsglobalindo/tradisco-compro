@@ -70,7 +70,7 @@ interface OrderStatus {
 
   // Additional data
   status_history?: StatusHistoryItem[];
-  files?: FileInfo[];
+  google_drive_link?: string;
 }
 
 interface StatusHistoryItem {
@@ -80,12 +80,6 @@ interface StatusHistoryItem {
   changed_by?: number;
 }
 
-interface FileInfo {
-  id: string;
-  name: string;
-  size: string;
-  type: string;
-}
 
 interface SearchResult {
   order_number: string;
@@ -284,17 +278,8 @@ const OrderTrackingClient: React.FC = () => {
     }
   };
 
-  const formatFileSize = (sizeStr: string): string => {
-    // If it's already formatted (e.g., "1.5 MB"), return as is
-    if (sizeStr.includes(" ")) return sizeStr;
-
-    // Otherwise, assume it's bytes and format
-    const bytes = parseInt(sizeStr);
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  const isValidGoogleDriveLink = (link: string): boolean => {
+    return link.includes('drive.google.com') || link.includes('docs.google.com');
   };
 
   const formatDate = (dateString: string): string => {
@@ -746,33 +731,39 @@ const OrderTrackingClient: React.FC = () => {
                       </div>
                     )}
 
-                  {/* Files */}
-                  {orderStatus.files && orderStatus.files.length > 0 && (
+                  {/* Google Drive Link */}
+                  {orderStatus.google_drive_link && (
                     <div className="mt-6 p-4 bg-blue-50 rounded-lg">
                       <label className="text-sm font-medium text-blue-600 flex items-center gap-2">
                         <FileText className="w-4 h-4" />
-                        Uploaded Files ({orderStatus.files.length})
+                        Google Drive Link
                       </label>
-                      <div className="mt-2 space-y-2">
-                        {orderStatus.files.map((file) => (
-                          <div
-                            key={file.id}
-                            className="flex items-center justify-between p-3 bg-white rounded border hover:bg-gray-50 transition-colors"
-                          >
+                      <div className="mt-2">
+                        <div className="p-3 bg-white rounded border hover:bg-gray-50 transition-colors">
+                          <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-3">
                               <FileText className="w-5 h-5 text-gray-400" />
                               <div>
                                 <span className="text-sm font-medium text-gray-900">
-                                  {file.name}
+                                  Supporting Documents
                                 </span>
                                 <div className="text-xs text-gray-500">
-                                  {formatFileSize(file.size)} •{" "}
-                                  {file.type.toUpperCase()}
+                                  {isValidGoogleDriveLink(orderStatus.google_drive_link) 
+                                    ? "Valid Google Drive Link" 
+                                    : "External Link"}
                                 </div>
                               </div>
                             </div>
+                            <a
+                              href={orderStatus.google_drive_link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                            >
+                              Open Link
+                            </a>
                           </div>
-                        ))}
+                        </div>
                       </div>
                     </div>
                   )}

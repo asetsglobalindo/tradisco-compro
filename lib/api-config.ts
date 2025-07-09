@@ -22,18 +22,11 @@ export const API_CONFIG = {
   // Request configuration
   TIMEOUT: 30000, // 30 seconds
   
-  // File upload configuration
-  UPLOAD: {
-    MAX_SIZE: 10 * 1024 * 1024, // 10MB
-    ALLOWED_TYPES: [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'image/jpeg',
-      'image/jpg',
-      'image/png',
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  // Google Drive link validation
+  GOOGLE_DRIVE: {
+    ALLOWED_DOMAINS: [
+      'drive.google.com',
+      'docs.google.com',
     ],
   },
 } as const;
@@ -59,7 +52,7 @@ export const handleApiResponse = async (response: Response) => {
   return data;
 };
 
-// Helper function to create FormData for file uploads
+// Helper function to create FormData for API requests
 export const createFormData = (data: Record<string, any>, files: File[] = []): FormData => {
   const formData = new FormData();
   
@@ -70,7 +63,7 @@ export const createFormData = (data: Record<string, any>, files: File[] = []): F
     }
   });
   
-  // Add files
+  // Add files (if any - legacy support)
   files.forEach(file => {
     formData.append('files', file);
   });

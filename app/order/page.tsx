@@ -12,18 +12,15 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
-  Upload,
-  X,
-  FileText,
   CheckCircle,
   AlertCircle,
   Search,
   Package,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import {
-  API_CONFIG,
   buildApiUrl,
   handleApiResponse,
   createFormData,
@@ -46,6 +43,7 @@ interface FormData {
   projectType: string;
   projectName: string;
   orderDescription: string;
+  googleDriveLink: string;
 }
 
 interface FormErrors {
@@ -67,13 +65,13 @@ const OrderPage: React.FC = () => {
     projectType: "",
     projectName: "",
     orderDescription: "",
+    googleDriveLink: "",
   });
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(true);
   const [orderNumber, setOrderNumber] = useState<string>("");
 
-  const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -85,7 +83,7 @@ const OrderPage: React.FC = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          buildApiUrl(API_CONFIG.ENDPOINTS.PRODUCTS)
+          buildApiUrl('/api/v1/products')
         );
         const result = await handleApiResponse(response);
         setProducts(result.data);
@@ -182,6 +180,11 @@ const OrderPage: React.FC = () => {
           return "Order description must not exceed 2000 characters";
         return "";
 
+      case "googleDriveLink":
+        if (value.trim() && !value.includes("drive.google.com") && !value.includes("docs.google.com"))
+          return "Please provide a valid Google Drive or Google Docs link";
+        return "";
+
       default:
         return "";
     }
@@ -232,58 +235,6 @@ const OrderPage: React.FC = () => {
     }));
   };
 
-  const handleFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    const selectedFiles = Array.from(event.target.files || []);
-    const validFiles: File[] = [];
-    const newErrors: string[] = [];
-
-    selectedFiles.forEach((file) => {
-      // Check file size
-      if (file.size > API_CONFIG.UPLOAD.MAX_SIZE) {
-        newErrors.push(
-          `${file.name} exceeds ${
-            API_CONFIG.UPLOAD.MAX_SIZE / 1024 / 1024
-          }MB limit`
-        );
-        return;
-      }
-
-      // Check file type
-      if (!API_CONFIG.UPLOAD.ALLOWED_TYPES.includes(file.type)) {
-        newErrors.push(`${file.name} has unsupported file type`);
-        return;
-      }
-
-      validFiles.push(file);
-    });
-
-    if (newErrors.length > 0) {
-      setErrors((prev) => ({
-        ...prev,
-        files: newErrors.join(", "),
-      }));
-    } else {
-      setErrors((prev) => {
-        const { files, ...rest } = prev;
-        return rest;
-      });
-    }
-
-    setFiles((prev) => [...prev, ...validFiles]);
-  };
-
-  const removeFile = (index: number): void => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-    // Clear file errors when files are removed
-    if (files.length === 1) {
-      setErrors((prev) => {
-        const { files, ...rest } = prev;
-        return rest;
-      });
-    }
-  };
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -336,8 +287,13 @@ const OrderPage: React.FC = () => {
         }
       }
 
+      // Add Google Drive link if provided
+      if (formData.googleDriveLink.trim()) {
+        apiData.googleDriveLink = formData.googleDriveLink;
+      }
+
       // Prepare form data for API submission
-      const formDataToSend = createFormData(apiData, files);
+      const formDataToSend = createFormData(apiData, []);
 
       // Debug: Log what we're sending
       console.log("API Data:", apiData);
@@ -347,7 +303,7 @@ const OrderPage: React.FC = () => {
       );
 
       // Submit to API
-      const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.ORDERS), {
+      const response = await fetch(buildApiUrl('/api/v1/orders'), {
         method: "POST",
         body: formDataToSend,
       });
@@ -369,8 +325,8 @@ const OrderPage: React.FC = () => {
         projectType: "",
         projectName: "",
         orderDescription: "",
+        googleDriveLink: "",
       });
-      setFiles([]);
       setErrors({});
       setTouched({});
       setIsSubmitted(true);
@@ -617,11 +573,11 @@ const OrderPage: React.FC = () => {
           <Card className="text-center">
             <CardContent className="pt-6">
               <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Upload className="w-6 h-6 text-purple-600" />
+                <Package className="w-6 h-6 text-purple-600" />
               </div>
-              <h3 className="font-semibold mb-2">Secure Upload</h3>
+              <h3 className="font-semibold mb-2">Google Drive</h3>
               <p className="text-sm text-gray-600">
-                Your files are securely uploaded and encrypted
+                Share your files easily with Google Drive links
               </p>
             </CardContent>
           </Card>
@@ -954,80 +910,45 @@ const OrderPage: React.FC = () => {
                 )}
               </div>
 
-              {/* File Upload */}
+              {/* Google Drive Link */}
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Evidence Files</Label>
-                <div
+                <Label htmlFor="googleDriveLink" className="text-sm font-medium">
+                  Google Drive Link (Optional)
+                </Label>
+                <Input
+                  id="googleDriveLink"
+                  type="url"
+                  placeholder="https://drive.google.com/file/d/your-file-id/view or https://docs.google.com/document/d/your-doc-id"
+                  value={formData.googleDriveLink}
+                  onChange={(e) =>
+                    handleInputChange("googleDriveLink", e.target.value)
+                  }
+                  onBlur={() => handleBlur("googleDriveLink")}
                   className={cn(
-                    "border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors",
-                    errors.files ? "border-red-300 bg-red-50" : ""
+                    "h-12",
+                    errors.googleDriveLink && touched.googleDriveLink
+                      ? "border-red-500 focus:ring-red-500"
+                      : ""
                   )}
-                >
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="file-upload"
-                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx"
-                  />
-                  <label htmlFor="file-upload" className="cursor-pointer">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                    <p className="text-sm text-gray-600 mb-2">
-                      <span className="font-medium text-blue-600 hover:text-blue-500">
-                        Click to upload
-                      </span>{" "}
-                      or drag and drop
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      PDF, DOC, DOCX, JPG, PNG, XLS, XLSX (Max 10MB each)
-                    </p>
-                  </label>
-                </div>
-                {errors.files && (
+                />
+                {errors.googleDriveLink && touched.googleDriveLink && (
                   <div className="flex items-center space-x-1 text-red-500 text-xs">
                     <AlertCircle className="w-3 h-3" />
-                    <span>{errors.files}</span>
+                    <span>{errors.googleDriveLink}</span>
                   </div>
                 )}
-
-                {/* File List */}
-                {files.length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-700">
-                      Uploaded Files ({files.length}):
-                    </p>
-                    <div className="space-y-2 max-h-40 overflow-y-auto">
-                      {files.map((file, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                        >
-                          <div className="flex items-center space-x-3">
-                            <FileText className="h-5 w-5 text-gray-400 flex-shrink-0" />
-                            <div className="min-w-0 flex-1">
-                              <p className="text-sm font-medium text-gray-900 truncate">
-                                {file.name}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {(file.size / 1024 / 1024).toFixed(2)} MB
-                              </p>
-                            </div>
-                          </div>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeFile(index)}
-                            className="text-red-500 hover:text-red-700 hover:bg-red-50 flex-shrink-0"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-medium text-blue-900 mb-2">How to share Google Drive files:</h4>
+                  <ol className="text-sm text-blue-800 space-y-1">
+                    <li>1. Upload your files to Google Drive</li>
+                    <li>2. Right-click and select "Share" or "Get link"</li>
+                    <li>3. Change access to "Anyone with the link can view"</li>
+                    <li>4. Copy and paste the link above</li>
+                  </ol>
+                  <p className="text-xs text-blue-600 mt-2">
+                    <strong>Supported:</strong> Google Drive files, folders, Docs, Sheets, Slides
+                  </p>
+                </div>
               </div>
 
               {/* Submit Button */}
