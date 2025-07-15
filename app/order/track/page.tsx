@@ -35,7 +35,7 @@ import { Suspense } from "react";
 // Types
 interface OrderStatus {
   order_number: string;
-  status: "pending" | "processing" | "in_progress" | "completed" | "cancelled";
+  status: "pending" | "confirmation" | "processing" | "in_progress" | "completed" | "cancelled";
   status_label: string;
   status_color: string;
 
@@ -265,6 +265,8 @@ const OrderTrackingClient: React.FC = () => {
     switch (status) {
       case "pending":
         return <Clock className="w-5 h-5 text-yellow-500" />;
+      case "confirmation":
+        return <Clock className="w-5 h-5 text-orange-500" />;
       case "processing":
         return <Package className="w-5 h-5 text-blue-500" />;
       case "in_progress":

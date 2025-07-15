@@ -38,6 +38,18 @@ const DialogHeader: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => <div className="text-lg font-semibold">{children}</div>;
 
+const DialogDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn("text-sm text-gray-600 mt-2", className)}
+    {...props}
+  />
+));
+DialogDescription.displayName = "DialogDescription";
+
 export {
   Dialog,
   DialogTrigger,
@@ -45,4 +57,5 @@ export {
   DialogClose,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 };
