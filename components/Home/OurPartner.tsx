@@ -89,13 +89,13 @@ const OurPartner = ({ data }) => {
       url: "https://partner12.com",
     },
     {
-      id: 13,
+      id: 14,
       name: "Partner 12",
       logo: "/partner/bumnui.jpg",
       url: "https://partner12.com",
     },
     {
-      id: 13,
+      id: 15,
       name: "Partner 12",
       logo: "/partner/ppi.png",
       url: "https://partner12.com",

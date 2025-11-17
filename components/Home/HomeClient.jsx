@@ -71,7 +71,7 @@ const HomeClient = ({ content }) => {
   return (
     <>
       <ScrollSection id="banner" className="mb-16">
-        <HomeBanner data={content || []} />
+        <HomeBanner data={content} />
       </ScrollSection>
 
       <ScrollSection id="about-us" className="my-16">

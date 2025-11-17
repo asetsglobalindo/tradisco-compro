@@ -30,8 +30,20 @@ const Footer = () => {
       }
 
       return response.data.data?.footer as FooterType;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      // Handle specific error types gracefully
+      if (error.response?.status === 404) {
+        // 404 is expected if endpoint doesn't exist yet
+        // Footer will render with default content
+        return null;
+      } else if (error.response?.status === 503) {
+        // Service unavailable - return null, footer will still render
+        return null;
+      } else {
+        // Other errors - log but don't break the component
+        console.warn("Footer data unavailable, using default content:", error.message || error);
+        return null;
+      }
     }
   };
 

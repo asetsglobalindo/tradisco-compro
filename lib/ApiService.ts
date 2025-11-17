@@ -41,10 +41,12 @@ const API_URL_MAP = process.env.BASE_URL_MAP;
 
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 30000, // 30 seconds timeout
 });
 
 const apiMap = axios.create({
   baseURL: API_URL_MAP, // Instance baru untuk BASE_URL_MAP
+  timeout: 30000, // 30 seconds timeout
 }); 
 
 const ApiService: ApiServiceObject = {
@@ -139,6 +141,37 @@ api.interceptors.response.use(
     return res;
   },
   (error) => {
+    // Handle specific error cases
+    if (error.response) {
+      const status = error.response.status;
+      const statusText = error.response.statusText;
+      
+      // Log 503 errors with more context
+      if (status === 503) {
+        console.warn(
+          `API Service Unavailable (503): ${error.config?.url || 'Unknown endpoint'}. ` +
+          `The server is temporarily unavailable. Please try again later.`
+        );
+      } else if (status === 404) {
+        // 404 errors are often expected (endpoint might not exist yet)
+        // Log as warning instead of error to reduce noise
+        console.warn(
+          `API Endpoint Not Found (404): ${error.config?.url || 'Unknown endpoint'}. ` +
+          `The endpoint may not be available yet. Component will use default content.`
+        );
+      } else {
+        console.error(
+          `API Error (${status}): ${statusText} - ${error.config?.url || 'Unknown endpoint'}`
+        );
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error('API Request Error: No response received from server', error.config?.url);
+    } else {
+      // Error setting up the request
+      console.error('API Request Setup Error:', error.message);
+    }
+    
     return Promise.reject(error);
   }
 );

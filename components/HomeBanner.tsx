@@ -156,15 +156,68 @@ const HomeBanner: React.FC<HomeBannerProps> = ({ data }) => {
     setShowSuccessPopup(false);
   };
 
-  // Early return for loading state
-  if (!data?.banner?.length) {
-    return (
-      <section className="relative h-screen bg-gray-900 flex items-center justify-center">
-        <div className="container text-white text-center">
-          <h1 className="text-xl">Loading banner content...</h1>
-        </div>
-      </section>
-    );
+  // Default banner data if API returns empty array
+  const defaultBanner = {
+    _id: "default-banner",
+    title: "Tradisco Global Inovasi",
+    description: "Trading Digital And Construction",
+    button_name: "",
+    button_route: "",
+    images: [{ url: "/temp/banner-home.png" }],
+    images_mobile: [{ url: "/temp/banner-home.png" }],
+  };
+
+  // Normalize banner data - handle various formats
+  const normalizeBanner = (bannerData: any): any[] => {
+    if (!bannerData) return [];
+    
+    // If it's already an array
+    if (Array.isArray(bannerData)) {
+      // Filter out null/undefined and ensure each item has required structure
+      return bannerData
+        .filter((item) => item !== null && item !== undefined)
+        .map((item) => {
+          // Ensure images and images_mobile are arrays
+          return {
+            ...item,
+            images: Array.isArray(item.images) ? item.images : item.images ? [item.images] : [],
+            images_mobile: Array.isArray(item.images_mobile) 
+              ? item.images_mobile 
+              : item.images_mobile 
+              ? [item.images_mobile] 
+              : item.images || [],
+          };
+        });
+    }
+    
+    // If it's an object, try to convert to array
+    if (typeof bannerData === 'object') {
+      return [bannerData];
+    }
+    
+    return [];
+  };
+
+  // Get normalized banner data
+  const normalizedBanner = normalizeBanner(data?.banner);
+  
+  // Use default banner if no valid banner data from API
+  const bannerData = 
+    normalizedBanner.length > 0
+      ? normalizedBanner
+      : [defaultBanner];
+
+  // Log for debugging in development
+  if (process.env.NODE_ENV === 'development') {
+    if (normalizedBanner.length === 0) {
+      console.log("HomeBanner: Using default banner - No banner data from API", { 
+        hasData: !!data, 
+        hasBanner: !!data?.banner, 
+        bannerType: Array.isArray(data?.banner) ? 'array' : typeof data?.banner,
+        bannerLength: Array.isArray(data?.banner) ? data.banner.length : 'N/A',
+        rawBanner: data?.banner
+      });
+    }
   }
 
   // Helper function for pagination numbering
@@ -329,7 +382,7 @@ const HomeBanner: React.FC<HomeBannerProps> = ({ data }) => {
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
         className="h-full"
       >
-        {data.banner.map((banner) => (
+        {bannerData.map((banner) => (
           <SwiperSlide className="w-full h-full relative" key={banner._id}>
             {/* Image container with proper aspect ratio handling */}
             <div className="absolute inset-0 w-full h-full">
@@ -343,9 +396,18 @@ const HomeBanner: React.FC<HomeBannerProps> = ({ data }) => {
                 <img
                   className="w-full h-full object-cover object-top"
                   style={{ filter: "brightness(80%)" }}
-                  src={banner?.images_mobile[0]?.url}
+                  src={banner?.images_mobile[0]?.url || banner?.images[0]?.url || "/temp/banner-home.png"}
                   alt={banner?.title || "Banner image"}
                   loading="eager" // First image loads immediately
+                  onError={(e) => {
+                    // Fallback to gradient background if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement?.parentElement;
+                    if (parent) {
+                      parent.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    }
+                  }}
                 />
               </picture>
               {/* Additional overlay for better text visibility */}
@@ -412,8 +474,8 @@ const HomeBanner: React.FC<HomeBannerProps> = ({ data }) => {
 
       {/* Pagination section with improved accessibility */}
       <div className="absolute bottom-10 z-40 container left-1/2 -translate-x-1/2 text-white">
-        {data.banner[activeIndex]?.button_name && (
-          <p className="uppercase">{data.banner[activeIndex].button_name}</p>
+        {bannerData[activeIndex]?.button_name && (
+          <p className="uppercase">{bannerData[activeIndex].button_name}</p>
         )}
         <div
           className="banner-pagination flex gap-2 mt-4"
@@ -422,7 +484,7 @@ const HomeBanner: React.FC<HomeBannerProps> = ({ data }) => {
         ></div>
         <p className="mt-4" aria-live="polite">
           {formatPaginationNumber(activeIndex + 1)} /{" "}
-          {formatPaginationNumber(data.banner.length)}
+          {formatPaginationNumber(bannerData.length)}
         </p>
       </div>
     </section>
